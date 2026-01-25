@@ -1,0 +1,8 @@
+Soft Wall Tileset:
+	itch.io - https://adrian8w.itch.io/top-down-tileset
+	license - https://creativecommons.org/licenses/by/4.0/
+Wall Tileset:
+	itch.io - https://oliver-pixelsnpaint.itch.io/free-pixel-art-tileset
+	Modified!
+Font:
+	Google Fonts - https://fonts.google.com/specimen/Press+Start+2P?query=Press+Start+2
