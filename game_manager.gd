@@ -1,6 +1,6 @@
 extends Node
 
-var level = 0
+var level: int = 0
 
 var palletes = [
 	["blue", "brown"],

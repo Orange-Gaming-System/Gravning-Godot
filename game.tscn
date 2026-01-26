@@ -30,3 +30,9 @@ offset_right = 168.0
 offset_bottom = -8.0
 theme = ExtResource("3_feb5d")
 text = "SCORE: 5"
+
+[node name="game_clock" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.15
+
+[connection signal="timeout" from="game_clock" to="player" method="_on_game_clock_tick"]
