@@ -1,8 +1,8 @@
-extends Node
+class_name Level_Builder extends Node
 
-##Builds ground tiles from a 2D array of Vector2s.
-##The x component is the type. 0 = empty, 1 = dirt, 2 = wall, 3 = soft_wall
-##The y component is the color. This only applies when x > 0. 0 = color_1, 1 = color_2
+##Builds ground tiles from a 2D array of Vector2s.[br]
+##The x component is the type. 0 = empty, 1 = dirt, 2 = wall, 3 = soft_wall.[br]
+##The y component is the color. This only applies when x > 0. 0 = color_1, 1 = color_2.
 func build_ground(tiles: Array):
 	GameManager.tiles = tiles
 	var empty = []
@@ -36,12 +36,12 @@ func build_ground(tiles: Array):
 						0:
 							soft0.append(Vector2i(tile, row))
 	$"../game/ground_tiles".set_cells_terrain_connect(empty, 0, -1)
-	$"../game/ground_tiles".set_cells_terrain_connect(dirt0, 0, GameManager.dirt[GameManager.pallete[0]])
-	$"../game/ground_tiles".set_cells_terrain_connect(dirt1, 0, GameManager.dirt[GameManager.pallete[1]])
-	$"../game/ground_tiles".set_cells_terrain_connect(walls0, 0, GameManager.walls[GameManager.pallete[0]])
-	$"../game/ground_tiles".set_cells_terrain_connect(walls1, 0, GameManager.walls[GameManager.pallete[1]])
-	$"../game/ground_tiles".set_cells_terrain_connect(soft0, 0, GameManager.soft_walls[GameManager.pallete[0]])
-	$"../game/ground_tiles".set_cells_terrain_connect(soft1, 0, GameManager.soft_walls[GameManager.pallete[1]])
+	$"../game/ground_tiles".set_cells_terrain_connect(dirt0, 0, GameManager.dirt[GameManager.palette[0]])
+	$"../game/ground_tiles".set_cells_terrain_connect(dirt1, 0, GameManager.dirt[GameManager.palette[1]])
+	$"../game/ground_tiles".set_cells_terrain_connect(walls0, 0, GameManager.walls[GameManager.palette[0]])
+	$"../game/ground_tiles".set_cells_terrain_connect(walls1, 0, GameManager.walls[GameManager.palette[1]])
+	$"../game/ground_tiles".set_cells_terrain_connect(soft0, 0, GameManager.soft_walls[GameManager.palette[0]])
+	$"../game/ground_tiles".set_cells_terrain_connect(soft1, 0, GameManager.soft_walls[GameManager.palette[1]])
 
 func _ready():
 	build_ground([

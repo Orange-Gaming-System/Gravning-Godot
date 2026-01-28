@@ -1,14 +1,18 @@
-extends Node
+class_name grv_File_Loader extends Node
 
-var gamecached = false
+## Holds the length of the current game in levels.
 var levelcount: int = -1
+## Holds the title of the current game.
 var title = ""
+## Holds the byline of the current game (sort of a subtitle).
 var byline = ""
+## Holds the author (or creator) of the current game.
 var author = ""
+## Holds the paths to all the levels in the current game. Empty (null) elements are allowed, and will use the default level instead.
 var mappaths = []
 
-func cachegrvfile(path): # stores all the data about a game from the .grv file into variables for easy access.
-	gamecached = true # game is cached
+## Parses the .grv file found at [param path], converting it into a format that the rest of the game can understand.
+func parsegrvfile(path): # stores all the data about a game from the .grv file into variables for easy access.
 	var file = FileAccess.open(path, FileAccess.READ) # gets the .grv file
 	var filecontent = file.get_as_text() # loads the contents of the file
 	var game = filecontent.split("\n", false) # converts the file into an array, line by line
@@ -45,12 +49,12 @@ func cachegrvfile(path): # stores all the data about a game from the .grv file i
 				else:
 					mappaths[int(mapargs[0])-1] = "/".join([path.trim_suffix("/"), mapargs[1].trim_prefix("\"").trim_suffix("\"")]) # if this is a single map, store its path in the correct location in the array.
 
-func loadlevelfile(level: int):
+func _loadlevelfile(level: int):
 	var lvlpath = mappaths[level - 1]
 	@warning_ignore("unused_variable")
 	var lvlbytes = FileAccess.get_file_as_bytes(lvlpath)
 	#loadgrvmap(lvlbytes)
 
 func _ready():
-	cachegrvfile("/home/erik/Grv Levels/The Digging Dead/game.grv")
+	parsegrvfile("/home/erik/Grv Levels/The Digging Dead/game.grv")
 	return
