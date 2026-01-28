@@ -17,7 +17,8 @@ func cachegrvfile(path): # stores all the data about a game from the .grv file i
 	title = "Custom Game"
 	byline = ""
 	author = ""
-	mappaths = [].resize(75)
+	mappaths = []
+	mappaths.resize(levelcount)
 	# Loop through every line in the file.
 	for line in game:
 		# For every line, this loop splits it into commands and arguements.
