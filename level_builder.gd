@@ -43,6 +43,17 @@ func build_ground(tiles: Array):
 	$"../game/ground_tiles".set_cells_terrain_connect(soft0, 0, GameManager.soft_walls[GameManager.palette[0]])
 	$"../game/ground_tiles".set_cells_terrain_connect(soft1, 0, GameManager.soft_walls[GameManager.palette[1]])
 
+## Sets [member Game_Manager.move_types] based on the corresponding tile. Does not account for objects.
+func set_move_types():
+	var tiles = GameManager.tiles
+	var movetypes = []
+	for row in tiles.size():
+		var row_array = []
+		for tile in tiles[row].size():
+			row_array.append(GameManager.get_tile_type_move_type(tiles[row][tile]))
+		movetypes.append(row_array)
+	GameManager.move_types = movetypes
+
 func _ready():
 	build_ground([
 		[Vector2(0, 0), Vector2(0, 0)],
@@ -51,3 +62,4 @@ func _ready():
 		[Vector2(0, 0), Vector2(2, 1), Vector2(2, 0), Vector2(2, 0)],
 		[Vector2(0, 0), Vector2(2, 1), Vector2(2, 1), Vector2(2, 0)]
 	])
+	set_move_types()
