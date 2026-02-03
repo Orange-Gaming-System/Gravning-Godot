@@ -20,7 +20,7 @@ var gamescene: Node
 ## Holds the current color palette. See [constant palettes] for the list of color palettes.
 var palette: Array = palettes[5]
 
-## Holds the unparsed tile data for dirt, walls, and soft_walls. See [method LevelBuilder.build_ground] for how to interpret the information.
+## Holds the unparsed tile data for dirt, walls, and soft_walls. See [method Level_Builder.build_ground] for how to interpret the information.
 var tiles: Array
 
 ## Holds a [enum MOVE_TYPE] for each tile in the level.
@@ -74,6 +74,14 @@ func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
 		else:
 			return move_types[to.y][to.x]
 
-## Generates [member move_types] based on [member tiles]. Currently does nothing.
-func generate_move_types():
-	pass
+## Gets the [enum MOVE_TYPE] for a given tile type. See [method Level_Builder.build_ground] for how to interpret the [Vector2i].
+func get_tile_type_move_type(tile_type: Vector2i):
+	match tile_type.x:
+		0:
+			return MOVE_TYPE.EMPTY
+		1:
+			return MOVE_TYPE.DIG
+		2:
+			return MOVE_TYPE.BLOCKED
+		3:
+			return MOVE_TYPE.DIG
