@@ -26,6 +26,15 @@ var tiles: Array
 ## Holds a [enum MOVE_TYPE] for each tile in the level.
 var move_types: Array
 
+## The lower bound for x positions, in tiles.
+const min_x = 0
+## The upper bound for x positions, in tiles.
+const max_x = 39
+## The lower bound for y positions, in tiles.
+const min_y = 0
+## The upper bound for y positions, in tiles.
+const max_y = 21
+
 ## The terrains for each color of dirt.
 const dirt = {"blue": 14, "brown": 15, "red": 16, "gray": 17, "pink": 18, "green": 19, "cyan": 20}
 
@@ -56,9 +65,9 @@ func _ready():
 
 ## Takes two tile coordinates ([param to] and [param from]) and returns the [enum MOVE_TYPE] that corresponds to that tile [b]given the movement being attempted[b].[br][br]For example, if the player is moving into a rock that cannot be pushed, it will return MOVE_TYPE_BLOCKED, not MOVE_TYPE_ROCK.
 func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
-	if to.x < 0 or to.x > 39:
+	if to.x < min_x or to.x > max_x:
 		return MOVE_TYPE.BLOCKED
-	elif to.y < 0 or to.y > 21:
+	elif to.y < min_y or to.y > max_y:
 		return MOVE_TYPE.BLOCKED
 	else:
 		if move_types[to.y][to.x] == MOVE_TYPE.ROCK:
