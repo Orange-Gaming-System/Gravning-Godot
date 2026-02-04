@@ -1,3 +1,4 @@
+@icon("res://Node Icons/node/icon_brain.png")
 class_name Game_Manager extends Node
 
 ## Holds the current level number - 1. Should never be greater than or equal to [member grv_File_Loader.levelcount].

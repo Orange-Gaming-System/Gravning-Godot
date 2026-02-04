@@ -1,3 +1,4 @@
+@icon("res://Node Icons/node/icon_hammer.png")
 class_name Level_Builder extends Node
 
 enum TILE_TYPE {

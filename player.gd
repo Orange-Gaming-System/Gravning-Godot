@@ -1,18 +1,12 @@
 @icon("res://Node Icons/node_2D/icon_character.png")
-class_name Player extends GrvObj
+class_name Player extends MovingObj
 
 ## Holds the most recent input.
 var last_input: String = "_null"
 ## Holds whether or not the input held in [member last_input] was sent during the current tick.
 var input_from_tick: bool = false
 
-## Holds the current player position in tiles. Is floating point to avoid snappy movement.
-@export var board_pos: Vector2
 
-## Holds the board position of the player at the start of the tick.
-var start_pos: Vector2
-## Holds the board position the player is currently moving to.
-var goal_pos: Vector2
 
 ## The list of actions accepted by the player node.
 const accepted_actions: Array[StringName] = ["left", "right", "up", "down", "escape"]
@@ -22,10 +16,6 @@ func _ready():
 	%game_clock.start()
 	position = board_pos * 16
 	goal_pos = board_pos
-
-func _process(_delta):
-	board_pos = lerp(start_pos, goal_pos, %game_clock.time_ratio)
-	position = board_pos * 16
 
 # Input handler
 func _input(event):

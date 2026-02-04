@@ -1,3 +1,4 @@
+@icon("res://Node Icons/node/icon_file.png")
 class_name grv_File_Loader extends Node
 
 ## Holds the length of the current game in levels.
