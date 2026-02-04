@@ -54,8 +54,11 @@ func _on_game_clock_tick() -> void:
 			# get movement type at position.
 			var move_type = GameManager.get_movement_type(new_pos, board_pos)
 			# if our movement is blocked, don't move.
-			if move_type == GameManager.MOVE_TYPE.BLOCKED:
-				new_pos = board_pos
+			match move_type:
+				GameManager.MOVE_TYPE.DIG:
+					GameManager.dig(new_pos)
+				GameManager.MOVE_TYPE.BLOCKED:
+					new_pos = board_pos
 	start_pos = board_pos
 	goal_pos = new_pos
 	input_from_tick = false
