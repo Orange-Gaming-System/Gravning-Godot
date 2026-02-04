@@ -1,4 +1,5 @@
-extends CharacterBody2D
+@icon("res://Node Icons/node_2D/icon_character.png")
+class_name Player extends GrvObj
 
 ## Holds the most recent input.
 var last_input: String = "_null"

@@ -1,17 +1,13 @@
 [gd_scene format=4 uid="uid://cl76bxa8ulg8r"]
 
-[ext_resource type="PackedScene" uid="uid://cy701muo8w2nt" path="res://player.tscn" id="1_fgp2g"]
 [ext_resource type="TileSet" uid="uid://y82sa4eqkhtr" path="res://ground_tiles.tres" id="2_e2o6t"]
 [ext_resource type="Theme" uid="uid://c7jrhubx5eew8" path="res://grvtheme.tres" id="3_feb5d"]
+[ext_resource type="Texture2D" uid="uid://4p8bat4i1e8q" path="res://player.png" id="4_7jktm"]
 [ext_resource type="Script" uid="uid://c81ay70qsislf" path="res://game_clock.gd" id="4_fc0e3"]
+[ext_resource type="Script" uid="uid://c3efuicgsgvoh" path="res://player.gd" id="5_ryrav"]
+[ext_resource type="Script" uid="uid://c6173chbhxi0u" path="res://timedobj.gd" id="6_ryrav"]
 
 [node name="game" type="Node2D" unique_id=1465605954]
-
-[node name="player" parent="." unique_id=1774790769 instance=ExtResource("1_fgp2g")]
-unique_name_in_owner = true
-z_index = 1
-collision_layer = 4
-collision_mask = 7
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=146880771]
 position = Vector2(312, 176)
@@ -40,4 +36,12 @@ unique_name_in_owner = true
 wait_time = 0.15
 script = ExtResource("4_fc0e3")
 
-[connection signal="timeout" from="game_clock" to="player" method="_on_game_clock_tick"]
+[node name="player" type="Sprite2D" parent="." unique_id=10058090]
+unique_name_in_owner = true
+texture = ExtResource("4_7jktm")
+script = ExtResource("5_ryrav")
+metadata/_custom_type_script = "uid://c3efuicgsgvoh"
+
+[node name="TimedObj" type="Sprite2D" parent="." unique_id=1821757325]
+script = ExtResource("6_ryrav")
+metadata/_custom_type_script = "uid://c6173chbhxi0u"
