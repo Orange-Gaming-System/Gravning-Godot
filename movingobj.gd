@@ -1,4 +1,3 @@
-@icon("res://Node Icons/node_2D/icon_follower.png")
 class_name MovingObj extends GrvObj
 
 ## Holds the board position of the object at the start of the tick.
