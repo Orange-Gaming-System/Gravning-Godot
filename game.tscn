@@ -6,6 +6,17 @@
 [ext_resource type="Script" uid="uid://c81ay70qsislf" path="res://game_clock.gd" id="4_fc0e3"]
 [ext_resource type="Script" uid="uid://c3efuicgsgvoh" path="res://player.gd" id="5_ryrav"]
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_7jktm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_7jktm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="game" type="Node2D" unique_id=1465605954]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=146880771]
@@ -35,8 +46,8 @@ unique_name_in_owner = true
 wait_time = 0.15
 script = ExtResource("4_fc0e3")
 
-[node name="player" type="Sprite2D" parent="." unique_id=10058090]
+[node name="player" type="AnimatedSprite2D" parent="." unique_id=1029550226]
 unique_name_in_owner = true
-texture = ExtResource("4_7jktm")
+sprite_frames = SubResource("SpriteFrames_7jktm")
 script = ExtResource("5_ryrav")
 metadata/_custom_type_script = "uid://c3efuicgsgvoh"
