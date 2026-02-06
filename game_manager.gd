@@ -86,19 +86,19 @@ func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
 
 func dig(pos: Vector2i):
 	var tile = tiles[pos.y][pos.x]
-	if tile.x == LevelBuilder.TILE_TYPE.DIRT or tile.x == LevelBuilder.TILE_TYPE.SOFT_WALL:
-		tiles[pos.y][pos.x] = Vector2i(LevelBuilder.TILE_TYPE.EMPTY, tile.y)
+	if tile.type == Tile.TYPE.DIRT or tile.type == Tile.TYPE.SOFT_WALL:
+		tiles[pos.y][pos.x] = Tile.new(Tile.TYPE.EMPTY, tile.color)
 		gamescene.get_node("ground_tiles").set_cells_terrain_connect([pos], 0, -1)
 		move_types[pos.y][pos.x] = MOVE_TYPE.EMPTY
 
-## Gets the [enum MOVE_TYPE] for a given tile type. See [method Level_Builder.build_ground] for how to interpret the [Vector2i].
-func get_tile_type_move_type(tile_type: Vector2i):
-	match tile_type.x:
-		0:
+## Gets the [enum MOVE_TYPE] for a given [Tile].
+func get_tile_type_move_type(tile_type: Tile):
+	match tile_type.type:
+		Tile.TYPE.EMPTY:
 			return MOVE_TYPE.EMPTY
-		1:
+		Tile.TYPE.DIRT:
 			return MOVE_TYPE.DIG
-		2:
+		Tile.TYPE.WALL:
 			return MOVE_TYPE.BLOCKED
-		3:
+		Tile.TYPE.SOFT_WALL:
 			return MOVE_TYPE.DIG

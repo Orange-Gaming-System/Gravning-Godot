@@ -51,3 +51,5 @@ unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_7jktm")
 script = ExtResource("5_ryrav")
 metadata/_custom_type_script = "uid://c3efuicgsgvoh"
+
+[connection signal="timeout" from="game_clock" to="player" method="_on_game_clock_tick"]
