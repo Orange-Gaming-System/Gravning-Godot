@@ -6,3 +6,5 @@ Wall Tileset:
 	Modified!
 Font:
 	Google Fonts - https://fonts.google.com/specimen/Press+Start+2P?query=Press+Start+2
+Cherry:
+	itch.io - https://alexkovacsart.itch.io/free-pixel-art-foods

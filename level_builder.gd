@@ -76,11 +76,11 @@ func _ready():
 	var map = Map.new()
 	map.tiles = [
 		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
+		[ent, swp, swp, swp, swp, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
+		[ent, swp, swp, swp, swp, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
+		[ent, swp, swp, swp, swp, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
+		[ent, swp, swp, swp, swp, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
+		[ent, swp, swp, swp, swp, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
 		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
 		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
 		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
