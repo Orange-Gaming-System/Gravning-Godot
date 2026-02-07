@@ -257,6 +257,8 @@ func placerandom(type : Item.Type) -> MapTile:
 	var t : MapTile = goodtile(MapTile.ok_tile(type))
 	if t:
 		t.changetype(type)
+		if Item.type_digs_tunnel(type):
+			t.dig()
 	return t
 
 # Generate the specialized the map for a specific level and add random items
@@ -278,6 +280,7 @@ func generate(hyperspace : bool):
 	else:
 		player = players[randi_range(0, players.size() - 1)]
 		player.changetype(Item.Type.PLAYER)
+		player.dig()
 
 	# Place random items.
 	for rnd in randitems:
@@ -307,8 +310,7 @@ func move_player(xy : Vector2i) -> MapTile:
 	if not to:
 		return null			# Out of bounds
 	player = to
-	@warning_ignore("int_as_enum_without_cast")
-	player.item.flags |= Item.Flags.TUNNEL
+	player.dig()
 	return player
 
 func thaw() -> MapTile:

@@ -56,8 +56,27 @@ static func is_hypertype(itemtype : Type) -> bool:
 func is_hyper() -> bool:
 	return is_hypertype(type)
 
+# When placed at game start, MUST have dirt below
 static func type_needs_dirt_below(itemtype : Type) -> bool:
 	return itemtype == Type.APPLE or itemtype == Type.ROCK
 
+# When placed at game start, MUST be in an already dug tunnel
+static func type_needs_tunnel(itemtype : Type) -> bool:
+	return itemtype == Type.GHOST
+
+# When placed at game start, DIG a tunnel
+static func type_digs_tunnel(itemtype : Type) -> bool:
+	return itemtype == Type.PLAYER or itemtype == Type.ROCK
+
 func is_dirt() -> bool:
 	return type == Type.EMPTY and !(flags & Flags.TUNNEL)
+
+func is_tunnel() -> bool:
+	return type == Type.EMPTY and (flags & Flags.TUNNEL)
+
+# Can the player move to a tile occupied by an object of this type?
+# It doesn't mean it is safe to do so!
+func player_can_eat() -> bool:
+	return type == Type.EMPTY or type == Type.CHERRY or type == Type.THAWED_CHERRY or \
+		type == Type.GHOST or type == Type.SOFTWALL or type == Type.DIAMOND or \
+		type == Type.AMMO or type == Type.BONUS or type == Type.MYSTERY or is_hyper()

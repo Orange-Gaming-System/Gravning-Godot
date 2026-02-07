@@ -40,6 +40,29 @@ func moveto(toxy : Vector2i) -> MapTile:
 	changetype(Item.Type.EMPTY)
 	return to
 
+# Indicate if it is valid to move this tile from the current location to another.
+# Returns the target tile if valid, or null if invalid.
+func can_move_to(toxy : Vector2i) -> MapTile:
+	if not map or oob():
+		return null
+	var to : MapTile = map.at(toxy)
+	if to.oob():
+		return null
+	var ok : bool = false
+	if item.type == Item.Type.PLAYER:
+		ok = to.player_can_eat()
+	elif item.type == Item.Type.GHOST:
+		ok = to.is_tunnel()
+	else:
+		ok = to.is_dirt()
+	return (to) if (ok) else null
+
+# Sets the tunnel flag. Does not change the item type.
+func dig() -> MapTile:
+	@warning_ignore("int_as_enum_without_cast")
+	item.flags |= Item.Flags.TUNNEL
+	return self
+
 # Getting an adjacent tile by relative coordinates
 func dv(v : Vector2i) -> MapTile:
 	return map.at(xy + v)
@@ -72,12 +95,17 @@ static func dirt_tile(t : MapTile) -> bool:
 static func dirt_2tiles(t : MapTile) -> bool:
 	return t.item.is_dirt() and t.below().item.is_dirt()
 
+static func tunnel_tile(t : MapTile) -> bool:
+	return t.item.is_tunnel()
+
 # Get the correct predicate for a certain tile type
 static func ok_tile(type : Item.Type) -> Callable:
 	if Item.type_needs_dirt_below(type):
 		return dirt_2tiles
 	elif type == Item.Type.PLAYER:
 		return empty_tile
+	elif Item.type_needs_tunnel(type):
+		return tunnel_tile
 	else:
 		return dirt_tile
 
