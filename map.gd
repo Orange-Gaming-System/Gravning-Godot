@@ -8,8 +8,8 @@ class_name Map extends RefCounted
 @export var objs: Array
 
 func _init(path: String):
-	var grvmap =  GrvMap.new(FileAccess.get_file_as_bytes(path))
-	grvmap.generate(GameManager.level, false)
+	var grvmap =  GrvMap.new(FileAccess.get_file_as_bytes(path), GameManager.level)
+	grvmap.generate(false)
 	var empty_row = Array()
 	empty_row.resize(grvmap.size.x)
 	tiles = Array()

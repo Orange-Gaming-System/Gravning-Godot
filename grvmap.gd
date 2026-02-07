@@ -208,7 +208,7 @@ func _init(mapdata : PackedByteArray, _level : int):
 	body.seek(boardoffset)
 	for y in size.y:
 		for x in size.x:
-			var t : MapTile = MapTile.new(self, body.get_u8 as Item.Type, Vector2i(x, y))
+			var t : MapTile = MapTile.new(self, body.get_u8() as Item.Type, Vector2i(x, y))
 			t.item.flags = body.get_u8() as Item.Flags
 			var tp = body.get_u16()
 			t.prio = tp >> timerbits
