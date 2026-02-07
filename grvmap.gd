@@ -5,9 +5,9 @@ enum GameFlags {
 }
 
 var error			: Error
-var incompatflags	: int
-var rocompatflags	: int
-var compatflags		: int
+var incompatflags	: InCompatFlags	= InCompatFlags.NONE
+var rocompatflags	: RoCompatFlags = RoCompatFlags.NONE
+var compatflags		: CompatFlags   = CompatFlags.NONE
 var size			: Vector2i
 var randobjs		: int
 var baselevel		: int
@@ -17,74 +17,78 @@ var bombtimer		: int
 var doortimer		: int
 var level			: int
 var player			: MapTile
+var itemcount		: Array[int]
 
-var tile		: Array[MapTile]
-var shuf		: Array[MapTile]
-var nextshuf	: int
+var tile			: Array[MapTile]
+var shuf			: Array[MapTile]
+var nextshuf		: int
+
+var thawcount		: int
+var thawlist		: Array[MapTile]
 
 class RandVal extends RefCounted:
-	var rand	: Rand
-	var fval	: float
-	var ival	: int
-	func _init(_rand : Rand):
-		rand = _rand
-		if rand and rand.map:
-			if rand.map.level >= 0:
-				mkrandom(rand.map.level)
-			else:
-				rand.map.randvals.append(self)
-	const twototheminus31 : float = 1.0/(1 << 31);
+	var fval		: float
+	var ival		: int
+
 	static func frand(mult : float = 1.0) -> float:
 		# This is needed because fnrand() has inclusive
 		# behavior, which is not wanted here
-		return randi() * mult * twototheminus31
-	func mkrandom(level : int):
-		if level < rand.minlvl:
+		mult *= 1.0/(1 << 31)
+		return randi() * mult
+
+	func _init(rand : Rand):
+		if rand.level < rand.minlvl:
 			fval = 0.0
 		else:
-			fval = rand.valbase + (level - rand.minlvl - 1) * rand.vallvl
+			fval = rand.valbase + (rand.level - rand.minlvl - 1) * rand.vallvl
 			if rand.valrnd:
 				fval += frand(rand.valrnd)
-			if rand.valmax != 0.0 && fval > rand.valmax:
+			if rand.valmax > 0.0 and fval > rand.valmax:
 				fval = rand.valmax
 			if not fval >= 0.0:		# Written this way to catch NAN
 				fval = 0.0
 		ival = floori(fval)
 
-var randvals	: Array[RandVal]
-
 class Rand:
 	enum RandFlags {
-		NONE		= 0x00,
+		ITEM		= 0x00,
 		TIMER		= 0x01,
-		MULTI		= 0x02
+		MULTI		= 0x02,
+		THAW		= 0x04
 	}
 	var item	# Either an Item or a Tmr
-	var flags	: RandFlags	= RandFlags.NONE
+	var flags	: RandFlags	= RandFlags.ITEM
 	var minlvl	: int
 	var valmax	: float
 	var valbase	: float
 	var vallvl	: int
 	var valrnd	: float
 	var inst	: RandVal
-	var	map		: GrvMap
+	var level	: int
 
-	func _init(_flags : RandFlags = RandFlags.NONE, _map : GrvMap = null):
-		map = _map
+	func _init(_flags : RandFlags, _level : int):
 		flags = _flags
+		level = _level
 		if (!(flags & RandFlags.MULTI)):
 			inst = RandVal.new(self)
 
 	func instance():
 		if (inst):
+			# Single instance random
 			return inst
 		else:
 			# Multi instance random
 			return RandVal.new(self)
 
-	static func read(buf : StreamPeer, _map : GrvMap = null) -> Rand:
+	func ival():
+		return instance().ival
+
+	func fval():
+		return instance().fval
+
+	static func read(buf : StreamPeer, _level : int) -> Rand:
 		var rnd_item	= buf.get_u8()
-		var rnd			= Rand.new(buf.get_u8(), _map)
+		var rnd			= Rand.new(buf.get_u8(), _level)
 		rnd.item		= rnd_item
 		rnd.flags		= buf.get_u8()
 		rnd.minlvl		= buf.get_u16()
@@ -95,7 +99,7 @@ class Rand:
 		return rnd
 
 var timers		: Array[Rand]
-var randos		: Array[Rand]
+var randitems	: Array[Rand]
 
 enum File {
 	Magic		= 0x23216772760aff00,
@@ -107,9 +111,20 @@ enum Data {
 	MaxLen		= 0x100000,
 	HdrLen		= 64
 }
+enum InCompatFlags {
+	NONE		= 0,
+	FROZEN		= 1,
+	OKMask		= 0x00000001
+}
+enum RoCompatFlags {
+	NONE		= 0
+}
+enum CompatFlags {
+	NONE		= 0
+}
 
-func _init(mapdata : PackedByteArray):
-	level = -1
+func _init(mapdata : PackedByteArray, _level : int):
+	level = _level
 
 	if mapdata.size() < File.HdrLen or mapdata.size() > Data.MaxLen:
 		error = Error.ERR_FILE_CORRUPT
@@ -139,10 +154,10 @@ func _init(mapdata : PackedByteArray):
 		error = Error.ERR_FILE_UNRECOGNIZED
 		return
 
-	incompatflags	= body.get_u32()
-	rocompatflags	= body.get_u32()
-	compatflags		= body.get_u32()
-	if incompatflags != 0:
+	incompatflags	= body.get_u32() as InCompatFlags
+	rocompatflags	= body.get_u32() as RoCompatFlags
+	compatflags		= body.get_u32() as CompatFlags
+	if (incompatflags & ~InCompatFlags.OKMask):
 		error = Error.ERR_FILE_UNRECOGNIZED
 		return
 
@@ -169,27 +184,33 @@ func _init(mapdata : PackedByteArray):
 	doortimer       = body.get_u8()
 
 	# Read random items list
-	randos = []
+	randitems.clear()
+	randitems.resize(Item.Type.TypeCount)
+	timers.clear()
+	timers.resize(usedtimers)
+
 	body.seek(randoffset)
 	for i in randobjs:
-		randos.append(Rand.read(body, self))
+		var rnd : Rand = Rand.read(body, level)
+		if rnd.minlvl >= level:
+			if rnd.flags & Rand.RandFlags.TIMER:
+				if rnd.item < usedtimers:
+					timers[rnd.item] = rnd
+			elif rnd.flags & Rand.RandFlags.THAW:
+				if rnd.item == Item.Type.FROZEN_CHERRY:
+					thawcount = rnd.ival()
+			else:
+				randitems[rnd.item] = rnd
 
-	# Extract timers from random items list
-	timers = []
-	for rnd in randos:
-		if (rnd.flags & Rand.RandFlags.TIMER) and (rnd.item < usedtimers):
-			timers[rnd.item] = rnd
-
-	# Read board (fixed items) and generate location list
-	tile = []
+	# Read board (fixed items) and generate shuffled list
+	itemcount.clear()
+	itemcount.resize(Item.Type.TypeCount)
+	tile.clear()
 	body.seek(boardoffset)
 	for y in size.y:
 		for x in size.x:
-			var t = MapTile.new()
-			t.xy = Vector2i(x, y)
-			t.item = Item.new()
-			t.item.type = body.get_u8()
-			t.item.flags = body.get_u8()
+			var t : MapTile = MapTile.new(self, body.get_u8 as Item.Type, Vector2i(x, y))
+			t.item.flags = body.get_u8() as Item.Flags
 			var tp = body.get_u16()
 			t.prio = tp >> timerbits
 			tp &= timermask
@@ -203,28 +224,21 @@ func _init(mapdata : PackedByteArray):
 	error = Error.OK
 	return
 
-# Generate an out-of-bounds MapTile object
-func oobtile(xy : Vector2i) -> MapTile:
-	var t : MapTile = MapTile.new()
-	t.item			= Item.new()
-	t.xy			= xy
-	t.item.type		= Item.Type.OUT_OF_BOUNDS
-	t.item.flags	= Item.Flags.NONE
-	t.prio			= 0
-	t.tmr			= null
-	return t
+# Indicate if a specific coordinate is out of bounds
+func oob(xy : Vector2i) -> bool:
+	return xy.x < 0 or xy.x >= size.x or xy.y < 0 or xy.y >= size.y
 
-# Get the MapTile object at a specific coordinate
+# Get the MapTile object at a specific coordinate, possibly an OUT_OF_BOUNDS tile
 func at(xy : Vector2i) -> MapTile:
-	if xy.x >= 0 and xy.x < size.x and xy.y >= 0 and xy.y < size.y:
-		return tile[xy.x + (xy.y * size.x)]
+	if oob(xy):
+		return MapTile.new(self, Item.Type.OUT_OF_BOUNDS, xy)
 	else:
-		return oobtile(xy)
+		return tile[xy.x + (xy.y * size.x)]
 
 # Cycle through the board locations in a random order
 func randtile() -> MapTile:
 	var t : MapTile = shuf[nextshuf]
-	nextshuf = (nextshuf + 1) % shuf.size()
+	nextshuf =  wrapi(nextshuf + 1, 0, shuf.size())
 	return t
 
 # Cycle through the board locations in random order, until one is
@@ -239,60 +253,66 @@ func goodtile(is_good : Callable) -> MapTile:
 		here = randtile()
 	return here
 
-func below(t : MapTile) -> MapTile:
-	return at(t.xy + Vector2i(0,1))
-func above(t : MapTile) -> MapTile:
-	return at(t.xy + Vector2i(0,-1))
-
-func empty_tile(t : MapTile) -> bool:
-	return t.item.type == Item.Type.EMPTY
-
-func dirt_tile(t : MapTile) -> bool:
-	return t.item.is_dirt()
-
-func dirt_2tiles(t : MapTile) -> bool:
-	return t.item.is_dirt() and below(t).item.is_dirt()
+func placerandom(type : Item.Type) -> MapTile:
+	var t : MapTile = goodtile(MapTile.ok_tile(type))
+	if t:
+		t.changetype(type)
+	return t
 
 # Generate the specialized the map for a specific level and add random items
-func generate(_level : int, hyperspace : bool):
-	level = _level
-
-	# Now the level is defined, assign numeric values to all random instances
-	for rv in randvals:
-		rv.mkrandom(level)
-	randvals = []
-
-	# Select player position, if more than one given
-	var players : Array[MapTile] = []
+func generate(hyperspace : bool):
+	# Scan the tile array for:
+	# 1. possible player positions, if more than one given
+	# 2. frozen cherries (thaw list)
+	var players : Array[MapTile]
 	for t in tile:
 		if t.item.type == Item.Type.PLAYER:
 			players.append(t)
-			t.item.type = Item.Type.EMPTY
+			t.changetype(Item.Type.EMPTY)
+		elif t.item.type == Item.Type.FROZEN_CHERRY:
+			thawlist.append(t)
+
 	if players.size() == 0:
 		# No player position given, pick a random player start
-		players.append(goodtile(empty_tile))
-	player = players[randi_range(0, players.size() - 1)]
-	player.item.type = Item.Type.PLAYER
+		player = placerandom(Item.Type.PLAYER)
+	else:
+		player = players[randi_range(0, players.size() - 1)]
+		player.changetype(Item.Type.PLAYER)
 
-	# Place random items
-	for rnd in randos:
-		if (!(rnd.flags & Rand.RandFlags.TIMER)):
-			for i in rnd.instance().ival:
-				var t : MapTile
-				if rnd.item == Item.Type.APPLE:
-					t = goodtile(dirt_2tiles)
-				else:
-					t = goodtile(dirt_tile)
-				if not t:
-					return
-				t.item.type = rnd.item
-				if rnd.item == Item.Type.BOMB:
-					t.tmr = timers[bombtimer].instance()
+	# Place random items.
+	for rnd in randitems:
+		if not rnd:
+			continue
+		for i in rnd.ival():
+			var t : MapTile = placerandom(rnd.item)
+			if t and rnd.item == Item.Type.BOMB:
+				t.tmr = timers[bombtimer].instance()
 
 	# Place HYPER if applicable
 	if hyperspace:
 		for h in Item.Hypers:
-			var t : MapTile = goodtile(dirt_tile)
-			if not t:
-				return
-			t.item.type = h
+			placerandom(h)
+
+	# Randomize the thawlist and thaw the appropriate number of frozen cherries
+	# The frozen cherries do permit organizing into priority classes, so first
+	# randomize the list, then sort it by priority class
+	if thawlist.size():
+		thawlist.shuffle()
+		thawlist.sort_custom(MapTile.by_prio)
+		for i in thawcount:
+			thaw()
+
+func move_player(xy : Vector2i) -> MapTile:
+	var to : MapTile = player.moveto(xy)
+	if not to:
+		return null			# Out of bounds
+	player = to
+	@warning_ignore("int_as_enum_without_cast")
+	player.item.flags |= Item.Flags.TUNNEL
+	return player
+
+func thaw() -> MapTile:
+	if thawlist.size():
+		return thawlist.pop_back().change_type(Item.Type.THAWED_CHERRY)
+	else:
+		return null
