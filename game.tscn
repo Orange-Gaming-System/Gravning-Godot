@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://c3efuicgsgvoh" path="res://player.gd" id="5_ryrav"]
 [ext_resource type="SpriteFrames" uid="uid://bw8uphbhc0x0j" path="res://themes/default/objects/cherry.tres" id="6_eow3j"]
 [ext_resource type="Script" uid="uid://dlkf7ffsokujs" path="res://cherry.gd" id="7_j5wjh"]
+[ext_resource type="SpriteFrames" uid="uid://dix22ycfgnwiw" path="res://themes/default/objects/ammo.tres" id="8_vef74"]
+[ext_resource type="Script" uid="uid://cr4anie7ptcy5" path="res://ammo.gd" id="9_hve3p"]
 
 [node name="game" type="Node2D" unique_id=1465605954]
 
@@ -50,3 +52,9 @@ sprite_frames = ExtResource("6_eow3j")
 script = ExtResource("7_j5wjh")
 board_pos = Vector2(3, 4)
 metadata/_custom_type_script = "uid://dlkf7ffsokujs"
+
+[node name="Ammo" type="AnimatedSprite2D" parent="." unique_id=1478127310]
+sprite_frames = ExtResource("8_vef74")
+script = ExtResource("9_hve3p")
+board_pos = Vector2(2, 2)
+metadata/_custom_type_script = "uid://cr4anie7ptcy5"
