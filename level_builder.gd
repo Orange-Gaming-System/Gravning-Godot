@@ -1,6 +1,8 @@
 @icon("res://Node Icons/node/icon_hammer.png")
 class_name Level_Builder extends Node
 
+var obj_classes = {Item.Type.PLAYER: Player}
+
 ##Builds ground tiles from a 2D array of [Tile]s.
 func build_ground(tiles: Array):
 	GameManager.tiles = tiles
