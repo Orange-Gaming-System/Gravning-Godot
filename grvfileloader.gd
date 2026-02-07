@@ -56,7 +56,7 @@ func _loadlevelfile(level: int):
 	var lvlpath = mappaths[level]
 	@warning_ignore("unused_variable")
 	var lvlbytes = FileAccess.get_file_as_bytes(lvlpath)
-	#test = GrvMap.new(lvlbytes)
+	test = GrvMap.new(lvlbytes)
 
 func _ready():
 	parsegrvfile("/home/erik/Grv Levels/The Digging Dead/game.grv")
