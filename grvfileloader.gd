@@ -46,16 +46,19 @@ func parsegrvfile(path): # stores all the data about a game from the .grv file i
 					var maprange = mapargs[0].split("-", false, 1) # if it is a range, determine the top and bottom.
 					for map in int(maprange[1]) - int(maprange[0]) + 1: # for each map in the range, store them in their respective location in the array.
 						map += int(maprange[0])
-						mappaths[map-1] = "/".join([path.trim_suffix("/"), mapargs[1].trim_prefix("\"").trim_suffix("\"")])
+						mappaths[map-1] = "/".join([path.rsplit("/", true, 1)[0], mapargs[1].trim_prefix("\"").trim_suffix("\"")])
 				else:
-					mappaths[int(mapargs[0])-1] = "/".join([path.trim_suffix("/"), mapargs[1].trim_prefix("\"").trim_suffix("\"")]) # if this is a single map, store its path in the correct location in the array.
+					mappaths[int(mapargs[0])-1] = "/".join([path.rsplit("/", true, 1)[0], mapargs[1].trim_prefix("\"").trim_suffix("\"")]) # if this is a single map, store its path in the correct location in the array.
+
+var test
 
 func _loadlevelfile(level: int):
-	var lvlpath = mappaths[level - 1]
+	var lvlpath = mappaths[level]
 	@warning_ignore("unused_variable")
 	var lvlbytes = FileAccess.get_file_as_bytes(lvlpath)
-	#loadgrvmap(lvlbytes)
+	#test = GrvMap.new(lvlbytes)
 
 func _ready():
 	parsegrvfile("/home/erik/Grv Levels/The Digging Dead/game.grv")
+	_loadlevelfile(0)
 	return

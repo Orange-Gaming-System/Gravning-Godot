@@ -50,6 +50,5 @@ script = ExtResource("4_fc0e3")
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_7jktm")
 script = ExtResource("5_ryrav")
+board_pos = Vector2(5, 0)
 metadata/_custom_type_script = "uid://c3efuicgsgvoh"
-
-[connection signal="timeout" from="game_clock" to="player" method="_on_game_clock_tick"]

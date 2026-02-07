@@ -12,10 +12,9 @@ var input_from_tick: bool = false
 const accepted_actions: Array[StringName] = ["left", "right", "up", "down", "escape"]
 
 func _ready():
+	super._ready()
 	%game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
 	%game_clock.start()
-	position = board_pos * 16
-	goal_pos = board_pos
 
 # Input handler
 func _input(event):
@@ -25,7 +24,7 @@ func _input(event):
 				last_input = action
 				input_from_tick = true
 
-func _on_game_clock_tick() -> void:
+func _new_tick() -> void:
 	board_pos = goal_pos
 	var new_pos = board_pos
 	if input_from_tick or Input.is_action_pressed(last_input):
