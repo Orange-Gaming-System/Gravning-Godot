@@ -1,6 +1,6 @@
 class_name Item extends RefCounted
 enum Type {
-	OUT_OF_BOUNDS	= 0x00,
+	NONE			= 0x00,		# Invalid type
 	PLAYER			= 0x01,
 	GHOST			= 0x02,
 	ROCK			= 0x04,
@@ -11,6 +11,7 @@ enum Type {
 	SOFTWALL		= 0xb0,
 	WALL			= 0xb1,
 	CHERRY			= 0xeb,
+	FROZEN_CHERRY	= 0xef,
 	BOMB			= 0xe5,
 	AMMO			= 0xec,
 	BONUS			= 0xf9,
@@ -26,11 +27,14 @@ enum Type {
 	DOOR_UDR		= 0xcc,
 	DOOR_LR			= 0xcd,
 	DOOR_UDLR		= 0xce,
-	HYP_H			= 0x100,
-	HYP_Y			= 0x101,
-	HYP_P			= 0x102,
-	HYP_E			= 0x103,
-	HYP_R			= 0x104
+	OUT_OF_BOUNDS	= 0x100,
+	HYP_H			= 0x101,
+	HYP_Y			= 0x102,
+	HYP_P			= 0x103,
+	HYP_E			= 0x104,
+	HYP_R			= 0x105,
+	THAWED_CHERRY	= 0x106,
+	TypeCount					# One more than the highest enum value
 }
 enum Flags {
 	NONE		= 0x00,
@@ -52,5 +56,27 @@ static func is_hypertype(itemtype : Type) -> bool:
 func is_hyper() -> bool:
 	return is_hypertype(type)
 
+# When placed at game start, MUST have dirt below
+static func type_needs_dirt_below(itemtype : Type) -> bool:
+	return itemtype == Type.APPLE or itemtype == Type.ROCK
+
+# When placed at game start, MUST be in an already dug tunnel
+static func type_needs_tunnel(itemtype : Type) -> bool:
+	return itemtype == Type.GHOST
+
+# When placed at game start, DIG a tunnel
+static func type_digs_tunnel(itemtype : Type) -> bool:
+	return itemtype == Type.PLAYER or itemtype == Type.ROCK
+
 func is_dirt() -> bool:
 	return type == Type.EMPTY and !(flags & Flags.TUNNEL)
+
+func is_tunnel() -> bool:
+	return type == Type.EMPTY and (flags & Flags.TUNNEL)
+
+# Can the player move to a tile occupied by an object of this type?
+# It doesn't mean it is safe to do so!
+func player_can_eat() -> bool:
+	return type == Type.EMPTY or type == Type.CHERRY or type == Type.THAWED_CHERRY or \
+		type == Type.GHOST or type == Type.SOFTWALL or type == Type.DIAMOND or \
+		type == Type.AMMO or type == Type.BONUS or type == Type.MYSTERY or is_hyper()
