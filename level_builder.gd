@@ -90,45 +90,6 @@ func build_level(map: Map):
 	generate_objs(map.objs)
 
 func _ready():
-	var map = Map.new()
-	map.tiles = [
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, swp, swp, swp, swp, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, swp, swp, swp, swp, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, swp, swp, swp, swp, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, swp, swp, swp, swp, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, swp, swp, swp, swp, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
-		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent]
-	]
-	var test_obj = MapTile.new()
-	test_obj.xy = Vector2i(6, 2)
-	test_obj.item = Item.new()
-	test_obj.item.type = Item.Type.CHERRY
-	map.objs.append(test_obj)
-	test_obj = MapTile.new()
-	test_obj.xy = Vector2i(5, 0)
-	test_obj.item = Item.new()
-	test_obj.item.type = Item.Type.PLAYER
-	map.objs.append(test_obj)
-	test_obj = MapTile.new()
-	test_obj.xy = Vector2i(2, 2)
-	test_obj.item = Item.new()
-	test_obj.item.type = Item.Type.AMMO
-	map.objs.append(test_obj)
+	var map = Map.new("/home/erik/Grv Levels/gdtest.grvmap")
 	build_level(map)
 	

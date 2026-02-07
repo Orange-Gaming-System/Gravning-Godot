@@ -176,6 +176,7 @@ func _init(mapdata : PackedByteArray):
 
 	# Extract timers from random items list
 	timers = []
+	timers.resize(usedtimers)
 	for rnd in randos:
 		if (rnd.flags & Rand.RandFlags.TIMER) and (rnd.item < usedtimers):
 			timers[rnd.item] = rnd

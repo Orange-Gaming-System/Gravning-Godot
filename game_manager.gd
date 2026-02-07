@@ -23,7 +23,7 @@ var obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload
 var gamescene: Node
 
 ## Holds the current color palette. See [constant palettes] for the list of color palettes.
-var palette: Array = palettes[5]
+var palette: Array = palettes[0]
 
 ## Holds the unparsed tile data for dirt, walls, and soft_walls. See [method Level_Builder.build_ground] for how to interpret the information.
 var tiles: Array
