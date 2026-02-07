@@ -11,5 +11,6 @@ func _ready():
 	position = board_pos * 16
 	sprite_frames = GameManager.obj_frames[map_tile.item.type]
 
-func _init(pos: Vector2 = board_pos):
+func _init(pos: Vector2, tile: MapTile):
 	board_pos = pos
+	map_tile = tile

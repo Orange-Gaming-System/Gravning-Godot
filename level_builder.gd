@@ -62,14 +62,7 @@ func generate_objs(objs: Array):
 		if item.is_door():
 			pass
 		else:
-			spawn_obj(obj)
-
-## Spawns an object from a [MapTile]. The provided [MapTile] must not be a door, wall, soft wall, or empty.
-func spawn_obj(obj: MapTile):
-	var obj_node = obj_classes[obj.item.type].new(obj.xy)
-	obj_node.map_tile = obj
-	GameManager.gamescene.get_node("objects").add_child(obj_node)
-	GameManager.objs[obj] = obj_node
+			obj.spawn_obj()
 
 # Temporary Constants for test level.
 @warning_ignore("int_as_enum_without_cast")

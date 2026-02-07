@@ -4,6 +4,7 @@ var item		: Item
 var tmr			: GrvMap.RandVal
 var prio		: int
 var map			: GrvMap
+var node			: GrvObj
 
 func _init(_map : GrvMap = null, _type : Item.Type = Item.Type.NONE, _xy : Vector2i = Vector2i(-1, -1)):
 	map = _map
@@ -112,3 +113,14 @@ static func ok_tile(type : Item.Type) -> Callable:
 # Sorting functions
 static func by_prio(a : MapTile, b : MapTile) -> bool:
 	return a.item.prio < b.item.prio
+
+## Spawns an object from a [MapTile]. The provided [MapTile] must not be a door, wall, soft wall, or empty.
+func spawn_obj():
+	var obj_node = LevelBuilder.obj_classes[item.type].new(xy, self)
+	GameManager.gamescene.get_node("objects").add_child(obj_node)
+	node = obj_node
+
+func rmv_obj():
+	changetype(Item.Type.EMPTY)
+	node.queue_free()
+	node = null

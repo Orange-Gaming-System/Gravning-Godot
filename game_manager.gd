@@ -31,9 +31,6 @@ var tiles: Array
 ## Holds a [enum MOVE_TYPE] for each tile in the level.
 var move_types: Array
 
-## Contains all the objects in the level, with the format [MapTile]: [GrvObj].
-var objs: Dictionary[MapTile, GrvObj]
-
 ## The lower bound for x positions, in tiles.
 const min_x = 0
 ## The upper bound for x positions, in tiles.
@@ -98,14 +95,6 @@ func dig(pos: Vector2i):
 		tiles[pos.y][pos.x] = Tile.new(Tile.TYPE.EMPTY, tile.color)
 		gamescene.get_node("ground_tiles").set_cells_terrain_connect([pos], 0, -1)
 		move_types[pos.y][pos.x] = MOVE_TYPE.EMPTY
-
-## Remove the object referenced by the [MapTile] passed using [param obj].
-func remove_obj(obj: MapTile):
-	if objs.has(obj):
-		objs[obj].free()
-		objs[obj] = null
-	else:
-		print("Error: Can not remove nonexistant object!")
 
 ## Gets the [enum MOVE_TYPE] for a given [Tile].
 func get_tile_type_move_type(tile_type: Tile):
