@@ -65,8 +65,14 @@ var wwp = Tile.new(2, 0)
 @warning_ignore("int_as_enum_without_cast")
 var wws = Tile.new(2, 1)
 
+## Builds the level from [param map], which is a [Map].
+func build_level(map: Map):
+	build_ground(map.tiles)
+	set_move_types()
+
 func _ready():
-	build_ground([
+	var map = Map.new()
+	map.tiles = [
 		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
 		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
 		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
@@ -89,5 +95,5 @@ func _ready():
 		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
 		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
 		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent]
-		])
-	set_move_types()
+	]
+	build_level(map)
