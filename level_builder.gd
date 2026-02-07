@@ -1,7 +1,7 @@
 @icon("res://Node Icons/node/icon_hammer.png")
 class_name Level_Builder extends Node
 
-var obj_classes = {Item.Type.PLAYER: Player}
+var obj_classes = {Item.Type.PLAYER: Player, Item.Type.CHERRY: Cherry, Item.Type.AMMO: Ammo}
 
 ##Builds ground tiles from a 2D array of [Tile]s.
 func build_ground(tiles: Array):
@@ -55,6 +55,22 @@ func set_move_types():
 		movetypes.append(row_array)
 	GameManager.move_types = movetypes
 
+## Generates all object nodes from an array of [MapTile].
+func generate_objs(objs: Array):
+	for obj in objs:
+		var item = obj.item
+		if item.is_door():
+			pass
+		else:
+			spawn_obj(obj)
+
+## Spawns an object from a [MapTile]. The provided [MapTile] must not be a door, wall, soft wall, or empty.
+func spawn_obj(obj: MapTile):
+	var obj_node = obj_classes[obj.item.type].new(obj.xy)
+	obj_node.map_tile = obj
+	GameManager.gamescene.get_node("objects").add_child(obj_node)
+	GameManager.objs[obj] = obj_node
+
 # Temporary Constants for test level.
 @warning_ignore("int_as_enum_without_cast")
 var ent = Tile.new(0, 0)
@@ -71,6 +87,7 @@ var wws = Tile.new(2, 1)
 func build_level(map: Map):
 	build_ground(map.tiles)
 	set_move_types()
+	generate_objs(map.objs)
 
 func _ready():
 	var map = Map.new()
@@ -98,4 +115,20 @@ func _ready():
 		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent],
 		[ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent, ent]
 	]
+	var test_obj = MapTile.new()
+	test_obj.xy = Vector2i(6, 2)
+	test_obj.item = Item.new()
+	test_obj.item.type = Item.Type.CHERRY
+	map.objs.append(test_obj)
+	test_obj = MapTile.new()
+	test_obj.xy = Vector2i(5, 0)
+	test_obj.item = Item.new()
+	test_obj.item.type = Item.Type.PLAYER
+	map.objs.append(test_obj)
+	test_obj = MapTile.new()
+	test_obj.xy = Vector2i(2, 2)
+	test_obj.item = Item.new()
+	test_obj.item.type = Item.Type.AMMO
+	map.objs.append(test_obj)
 	build_level(map)
+	

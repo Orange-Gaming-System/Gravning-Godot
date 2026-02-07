@@ -15,6 +15,10 @@ const palettes = [
 	["gray", "red"]
 ]
 
+var game_clock: Timer
+
+var obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres")}
+
 ## Holds a reference to the game scene's root node.
 var gamescene: Node
 
@@ -26,6 +30,9 @@ var tiles: Array
 
 ## Holds a [enum MOVE_TYPE] for each tile in the level.
 var move_types: Array
+
+## Contains all the objects in the level, with the format [MapTile]: [GrvObj].
+var objs: Dictionary[MapTile, GrvObj]
 
 ## The lower bound for x positions, in tiles.
 const min_x = 0

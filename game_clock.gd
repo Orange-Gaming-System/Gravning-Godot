@@ -4,3 +4,6 @@ extends Timer
 var time_ratio: float:
 	get():
 		return 1-time_left/wait_time
+
+func _ready():
+	GameManager.game_clock = self

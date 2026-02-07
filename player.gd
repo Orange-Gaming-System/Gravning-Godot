@@ -13,8 +13,8 @@ const accepted_actions: Array[StringName] = ["left", "right", "up", "down", "esc
 
 func _ready():
 	super._ready()
-	%game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
-	%game_clock.start()
+	GameManager.game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
+	GameManager.game_clock.start()
 
 # Input handler
 func _input(event):
