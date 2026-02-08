@@ -15,6 +15,11 @@ const palettes = [
     ["gray", "red"]
 ]
 
+var score: int = 0:
+    set(value):
+        score = value
+        gamescene.get_node("UI/score").text = str(score)
+
 var game_clock: Timer
 
 const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres")}
@@ -69,6 +74,7 @@ func _ready():
     RenderingServer.set_default_clear_color(colors[palette[0]])
     preload("res://grvtheme.tres").set_color("font_color", "Label", text_colors[palette[0]])
     gamescene = $"../game"
+    score = 0
 
 ## Takes two tile coordinates ([param to] and [param from]) and returns the [enum MOVE_TYPE] that corresponds to that tile [b]given the movement being attempted[b].[br][br]For example, if the player is moving into a rock that cannot be pushed, it will return MOVE_TYPE_BLOCKED, not MOVE_TYPE_ROCK.
 func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
@@ -93,15 +99,15 @@ func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
 ## Dig the tile at [param pos].
 func dig(pos: Vector2i):
     var tile = tiles[pos.y][pos.x]
+    var mtile = grvmap.at(pos)
     if tile.type == Tile.TYPE.DIRT or tile.type == Tile.TYPE.SOFT_WALL:
         tiles[pos.y][pos.x] = Tile.new(Tile.TYPE.EMPTY, tile.color)
         gamescene.get_node("ground_tiles").set_cells_terrain_connect([pos], 0, -1)
         change_move_type(pos, MOVE_TYPE.EMPTY)
-        var mtile = grvmap.at(pos)
         mtile.dig()
-        if mtile.node:
-            if mtile.node is Collectible:
-                mtile.node.collect()
+    if mtile.node:
+        if mtile.node is Collectible:
+            mtile.node.collect()
             
 
 func change_move_type(pos: Vector2i, move_type: MOVE_TYPE):

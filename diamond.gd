@@ -12,3 +12,7 @@ func update_sprite():
         play("tunnel")
     else:
         play("dirt")
+
+func collect():
+    GameManager.score += int((GameManager.level * (80.0 + exp(randf() * 6.0))) + 100)
+    super.collect()

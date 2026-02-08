@@ -45,6 +45,8 @@ func _new_tick() -> void:
             var move_type = GameManager.get_movement_type(new_pos, board_pos)
             # if our movement is blocked, don't move.
             match move_type:
+                GameManager.MOVE_TYPE.EMPTY:
+                    GameManager.dig(new_pos)
                 GameManager.MOVE_TYPE.DIG:
                     GameManager.dig(new_pos)
                 GameManager.MOVE_TYPE.BLOCKED:
