@@ -1,2 +1,2 @@
 @icon("res://Node Icons/node_2D/icon_trophy.png")
-class_name Cherry extends Collectable
+class_name Cherry extends Collectible

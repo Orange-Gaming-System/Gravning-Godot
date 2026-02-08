@@ -100,7 +100,7 @@ func dig(pos: Vector2i):
         var mtile = grvmap.at(pos)
         mtile.dig()
         if mtile.node:
-            if mtile.node is Collectable:
+            if mtile.node is Collectible:
                 mtile.node.collect()
             
 

@@ -1,4 +1,4 @@
-class_name Collectable extends GrvObj
+class_name Collectible extends GrvObj
 
 
 func collect():
