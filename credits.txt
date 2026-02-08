@@ -1,18 +1,18 @@
 Soft Wall Tileset:
-	itch.io - https://adrian8w.itch.io/top-down-tileset
-	license - https://creativecommons.org/licenses/by/4.0/
+    itch.io - https://adrian8w.itch.io/top-down-tileset
+    license - https://creativecommons.org/licenses/by/4.0/
 Wall Tileset:
-	itch.io - https://oliver-pixelsnpaint.itch.io/free-pixel-art-tileset
-	Modified!
+    itch.io - https://oliver-pixelsnpaint.itch.io/free-pixel-art-tileset
+    Modified!
 Dirt (and BG?):
-	itch.io - https://xvideosman.itch.io/cave-tileset
+    itch.io - https://xvideosman.itch.io/cave-tileset
 Font:
-	Google Fonts - https://fonts.google.com/specimen/Press+Start+2P?query=Press+Start+2
+    Google Fonts - https://fonts.google.com/specimen/Press+Start+2P?query=Press+Start+2
 Cherry:
-	itch.io - https://alexkovacsart.itch.io/free-pixel-art-foods
+    itch.io - https://alexkovacsart.itch.io/free-pixel-art-foods
 Ammo:
-	https://absconditusartem.itch.io/ammunition
+    https://absconditusartem.itch.io/ammunition
 Apple:
-	https://keifoopx.itch.io/99fruitsandnuts
+    https://keifoopx.itch.io/99fruitsandnuts
 Diamond:
-	https://quillgrafit.itch.io/pixel-art-8x-gems
+    https://quillgrafit.itch.io/pixel-art-8x-gems

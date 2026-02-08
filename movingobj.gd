@@ -6,11 +6,11 @@ var start_pos: Vector2
 var goal_pos: Vector2
 
 func _process(_delta):
-	board_pos = lerp(start_pos, goal_pos, GameManager.game_clock.time_ratio)
-	position = board_pos * 16
+    board_pos = lerp(start_pos, goal_pos, GameManager.game_clock.time_ratio)
+    position = board_pos * 16
 
 func _ready():
-	super._ready()
-	GameManager.game_clock.timeout.connect(Callable(self, "_new_tick"))
-	start_pos = board_pos
-	goal_pos = board_pos
+    super._ready()
+    GameManager.game_clock.timeout.connect(Callable(self, "_new_tick"))
+    start_pos = board_pos
+    goal_pos = board_pos

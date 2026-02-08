@@ -8,9 +8,9 @@ class_name GrvObj extends AnimatedSprite2D
 var map_tile: MapTile
 
 func _ready():
-	position = board_pos * 16
-	sprite_frames = GameManager.obj_frames[map_tile.item.type]
+    position = board_pos * 16
+    sprite_frames = GameManager.obj_frames[map_tile.item.type]
 
 func _init(tile: MapTile):
-	board_pos = tile.xy
-	map_tile = tile
+    board_pos = tile.xy
+    map_tile = tile

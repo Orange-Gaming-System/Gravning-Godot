@@ -7,16 +7,16 @@ class_name Tile extends RefCounted
 
 ## Defines the four types of tiles (including empty space).
 enum TYPE {
-	EMPTY,
-	DIRT,
-	WALL,
-	SOFT_WALL
+    EMPTY,
+    DIRT,
+    WALL,
+    SOFT_WALL
 }
 
 ## Defines the two color types. The actual color can be accessed using [member Game_Manager.palette].
 enum COLOR {
-	PRIMARY,
-	SECONDARY
+    PRIMARY,
+    SECONDARY
 }
 
 ## Holds the type of tile. See [enum TYPE].
@@ -26,5 +26,5 @@ enum COLOR {
 @export var color: COLOR
 
 func _init(tile_type: TYPE, tile_color: COLOR):
-	type = tile_type
-	color = tile_color
+    type = tile_type
+    color = tile_color
