@@ -22,5 +22,7 @@ func _process(_delta):
             GameManager.change_move_type(board_pos, GameManager.MOVE_TYPE.EMPTY)
         else:
             GameManager.change_move_type(board_pos, GameManager.MOVE_TYPE.DIG)
+        map_tile.changetype(Item.Type.DIAMOND)
+        map_tile.node = diamond
         queue_free()
         

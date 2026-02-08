@@ -1,5 +1,5 @@
 @icon("res://Node Icons/node_2D/icon_gem.png")
-class_name Diamond extends GrvObj
+class_name Diamond extends Collectable
 
 func _ready():
     position = board_pos * 16

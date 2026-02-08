@@ -17,7 +17,7 @@ const palettes = [
 
 var game_clock: Timer
 
-var obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres")}
+const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres")}
 
 var grvmap: GrvMap
 
@@ -97,7 +97,12 @@ func dig(pos: Vector2i):
         tiles[pos.y][pos.x] = Tile.new(Tile.TYPE.EMPTY, tile.color)
         gamescene.get_node("ground_tiles").set_cells_terrain_connect([pos], 0, -1)
         change_move_type(pos, MOVE_TYPE.EMPTY)
-        grvmap.at(pos).dig()
+        var mtile = grvmap.at(pos)
+        mtile.dig()
+        if mtile.node:
+            if mtile.node is Collectable:
+                mtile.node.collect()
+            
 
 func change_move_type(pos: Vector2i, move_type: MOVE_TYPE):
     move_types[pos.y][pos.x] = move_type
