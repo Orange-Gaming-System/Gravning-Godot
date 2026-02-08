@@ -65,7 +65,7 @@ func generate_objs(objs: Array):
             obj.spawn_obj()
 
 func generate_outer_walls():
-    var rect = Rect2i(-18, -3, 75, 28)
+    var rect = Rect2i(-18, -4, 75, 30)
     # Ensure the rectangle is valid (positive width/height)
     var abs_rect = rect.abs() 
     

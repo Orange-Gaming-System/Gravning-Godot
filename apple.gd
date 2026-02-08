@@ -11,3 +11,4 @@ func _ready():
         map_tile.changetype(Item.Type.APPLE_DIAMOND)
         diamond = Diamond.new(map_tile)
         GameManager.gamescene.get_node("objects").add_child.call_deferred(diamond)
+    GameManager.change_move_type(board_pos, GameManager.MOVE_TYPE.BLOCKED)

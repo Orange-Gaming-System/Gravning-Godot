@@ -94,7 +94,10 @@ func dig(pos: Vector2i):
     if tile.type == Tile.TYPE.DIRT or tile.type == Tile.TYPE.SOFT_WALL:
         tiles[pos.y][pos.x] = Tile.new(Tile.TYPE.EMPTY, tile.color)
         gamescene.get_node("ground_tiles").set_cells_terrain_connect([pos], 0, -1)
-        move_types[pos.y][pos.x] = MOVE_TYPE.EMPTY
+        change_move_type(pos, MOVE_TYPE.EMPTY)
+
+func change_move_type(pos: Vector2i, move_type: MOVE_TYPE):
+    move_types[pos.y][pos.x] = move_type
 
 ## Gets the [enum MOVE_TYPE] for a given [Tile].
 func get_tile_type_move_type(tile_type: Tile):
