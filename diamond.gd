@@ -1,3 +1,4 @@
+@icon("res://Node Icons/node_2D/icon_gem.png")
 class_name Diamond extends GrvObj
 
 func _ready():
