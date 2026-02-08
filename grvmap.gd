@@ -40,7 +40,7 @@ class RandVal extends RefCounted:
 		if rand.level < rand.minlvl:
 			fval = 0.0
 		else:
-			fval = rand.valbase + (rand.level - rand.minlvl - 1) * rand.vallvl
+			fval = rand.valbase + (rand.level - rand.minlvl) * rand.vallvl
 			if rand.valrnd:
 				fval += frand(rand.valrnd)
 			if rand.valmax > 0.0 and fval > rand.valmax:
@@ -66,19 +66,13 @@ class Rand:
 	var inst	: RandVal
 	var level	: int
 
-	func _init(_flags : RandFlags, _level : int):
-		flags = _flags
-		level = _level
-		if (!(flags & RandFlags.MULTI)):
-			inst = RandVal.new(self)
-
 	func instance():
-		if (inst):
-			# Single instance random
-			return inst
-		else:
-			# Multi instance random
+		if (flags & RandFlags.MULTI):
 			return RandVal.new(self)
+		else:
+			if not inst:
+				inst = RandVal.new(self)
+			return inst
 
 	func ival():
 		return instance().ival
@@ -87,11 +81,11 @@ class Rand:
 		return instance().fval
 
 	static func read(buf : StreamPeer, _level : int) -> Rand:
-		var rnd_item	= buf.get_u8()
-		var rnd			= Rand.new(buf.get_u8(), _level)
-		rnd.item		= rnd_item
+		var	rnd			= Rand.new()
+		rnd.level		= _level
+		rnd.item		= buf.get_u8()
 		rnd.flags		= buf.get_u8()
-		rnd.minlvl		= buf.get_u16()
+		rnd.minlvl		= buf.get_u16()	- 1
 		rnd.valmax		= buf.get_32()
 		rnd.valbase		= buf.get_double()
 		rnd.vallvl		= buf.get_double()
@@ -173,9 +167,9 @@ func _init(mapdata : PackedByteArray, _level : int):
 	size.y          = body.get_u8()
 	randobjs        = body.get_u8()
 	var timerbits   = body.get_u8()
-	var timermask   = (1 << timerbits)-1
+	var timermask   = (1 << timerbits) - 1
 
-	baselevel       = body.get_u16()
+	baselevel       = body.get_u16() - 1
 	gameflags       = body.get_u16()
 	if (!(rocompatflags & 0x1)):
 		gameflags = 0
@@ -192,7 +186,7 @@ func _init(mapdata : PackedByteArray, _level : int):
 	body.seek(randoffset)
 	for i in randobjs:
 		var rnd : Rand = Rand.read(body, level)
-		if rnd.minlvl >= level:
+		if level >= rnd.minlvl:
 			if rnd.flags & Rand.RandFlags.TIMER:
 				if rnd.item < usedtimers:
 					timers[rnd.item] = rnd
