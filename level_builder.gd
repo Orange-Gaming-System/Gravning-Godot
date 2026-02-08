@@ -95,6 +95,6 @@ func build_level(map: Map):
 	generate_objs(map.objs)
 
 func _ready():
-	var map = Map.new("/home/erik/Grv Levels/gdtest2.grvmap")
+	var map = Map.new("res://test/gdtest.grvmap")
 	build_level(map)
 	
