@@ -116,7 +116,7 @@ static func by_prio(a : MapTile, b : MapTile) -> bool:
 
 ## Spawns an object from a [MapTile]. The provided [MapTile] must not be a door, wall, soft wall, or empty.
 func spawn_obj():
-	var obj_node = LevelBuilder.obj_classes[item.type].new(xy, self)
+	var obj_node = LevelBuilder.obj_classes[item.type].new(self)
 	GameManager.gamescene.get_node("objects").add_child(obj_node)
 	node = obj_node
 
