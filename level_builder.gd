@@ -64,6 +64,17 @@ func generate_objs(objs: Array):
 		else:
 			obj.spawn_obj()
 
+func generate_outer_walls():
+	var rect = Rect2i(-18, -3, 75, 28)
+	# Ensure the rectangle is valid (positive width/height)
+	var abs_rect = rect.abs() 
+	
+	var vector_list = []
+	for i in range(abs_rect.position.x, abs_rect.end.x):
+		for j in range(abs_rect.position.y, abs_rect.end.y):
+			vector_list.append(Vector2i(i, j))
+	$"../game/ground_tiles".set_cells_terrain_connect(vector_list, 0, GameManager.walls[GameManager.palette[0]])
+
 # Temporary Constants for test level.
 @warning_ignore("int_as_enum_without_cast")
 var ent = Tile.new(0, 0)
@@ -78,6 +89,7 @@ var wws = Tile.new(2, 1)
 
 ## Builds the level from [param map], which is a [Map].
 func build_level(map: Map):
+	generate_outer_walls()
 	build_ground(map.tiles)
 	set_move_types()
 	generate_objs(map.objs)
