@@ -3,7 +3,11 @@ class_name Apple extends GrvObj
 
 const diamond_chance = 0.3
 
-func _init(tile: MapTile):
-    super._init(tile)
+var diamond: Diamond = null
+
+func _ready():
+    super._ready()
     if randf() < diamond_chance:
-        tile.changetype(Item.Type.APPLE_DIAMOND)
+        map_tile.changetype(Item.Type.APPLE_DIAMOND)
+        diamond = Diamond.new(map_tile)
+        GameManager.gamescene.get_node("objects").add_child.call_deferred(diamond)
