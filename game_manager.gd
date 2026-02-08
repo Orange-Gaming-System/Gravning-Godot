@@ -17,7 +17,7 @@ const palettes = [
 
 var game_clock: Timer
 
-var obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres")}
+var obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres")}
 
 ## Holds a reference to the game scene's root node.
 var gamescene: Node
