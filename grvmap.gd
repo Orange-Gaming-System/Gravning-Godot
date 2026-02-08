@@ -4,31 +4,31 @@ enum GameFlags {
     ESCAPE = 0x01
 }
 
-var error			: Error
-var incompatflags	: InCompatFlags	= InCompatFlags.NONE
-var rocompatflags	: RoCompatFlags = RoCompatFlags.NONE
-var compatflags		: CompatFlags   = CompatFlags.NONE
-var size			: Vector2i
-var randobjs		: int
-var baselevel		: int
-var gameflags		: int
-var usedtimers		: int
-var bombtimer		: int
-var doortimer		: int
-var level			: int
-var player			: MapTile
-var itemcount		: Array[int]
+var error           : Error
+var incompatflags   : InCompatFlags = InCompatFlags.NONE
+var rocompatflags   : RoCompatFlags = RoCompatFlags.NONE
+var compatflags     : CompatFlags   = CompatFlags.NONE
+var size            : Vector2i
+var randobjs        : int
+var baselevel       : int
+var gameflags       : int
+var usedtimers      : int
+var bombtimer       : int
+var doortimer       : int
+var level           : int
+var player          : MapTile
+var itemcount       : Array[int]
 
-var tile			: Array[MapTile]
-var shuf			: Array[MapTile]
-var nextshuf		: int
+var tile            : Array[MapTile]
+var shuf            : Array[MapTile]
+var nextshuf        : int
 
-var thawcount		: int
-var thawlist		: Array[MapTile]
+var thawcount       : int
+var thawlist        : Array[MapTile]
 
 class RandVal extends RefCounted:
-    var fval		: float
-    var ival		: int
+    var fval        : float
+    var ival        : int
 
     static func frand(mult : float = 1.0) -> float:
         # This is needed because fnrand() has inclusive
@@ -45,26 +45,26 @@ class RandVal extends RefCounted:
                 fval += frand(rand.valrnd)
             if rand.valmax > 0.0 and fval > rand.valmax:
                 fval = rand.valmax
-            if not fval >= 0.0:		# Written this way to catch NAN
+            if not fval >= 0.0:     # Written this way to catch NAN
                 fval = 0.0
         ival = floori(fval)
 
 class Rand:
     enum RandFlags {
-        ITEM		= 0x00,
-        TIMER		= 0x01,
-        MULTI		= 0x02,
-        THAW		= 0x04
+        ITEM        = 0x00,
+        TIMER       = 0x01,
+        MULTI       = 0x02,
+        THAW        = 0x04
     }
-    var item	# Either an Item or a Tmr
-    var flags	: RandFlags	= RandFlags.ITEM
-    var minlvl	: int
-    var valmax	: float
-    var valbase	: float
-    var vallvl	: int
-    var valrnd	: float
-    var inst	: RandVal
-    var level	: int
+    var item    # Either an Item or a Tmr
+    var flags   : RandFlags = RandFlags.ITEM
+    var minlvl  : int
+    var valmax  : float
+    var valbase : float
+    var vallvl  : int
+    var valrnd  : float
+    var inst    : RandVal
+    var level   : int
 
     func instance():
         if (flags & RandFlags.MULTI):
@@ -81,40 +81,40 @@ class Rand:
         return instance().fval
 
     static func read(buf : StreamPeer, _level : int) -> Rand:
-        var	rnd			= Rand.new()
-        rnd.level		= _level
-        rnd.item		= buf.get_u8()
-        rnd.flags		= buf.get_u8()
-        rnd.minlvl		= buf.get_u16()	- 1
-        rnd.valmax		= buf.get_32()
-        rnd.valbase		= buf.get_double()
-        rnd.vallvl		= buf.get_double()
-        rnd.valrnd		= buf.get_double()
+        var rnd         = Rand.new()
+        rnd.level       = _level
+        rnd.item        = buf.get_u8()
+        rnd.flags       = buf.get_u8()
+        rnd.minlvl      = buf.get_u16() - 1
+        rnd.valmax      = buf.get_32()
+        rnd.valbase     = buf.get_double()
+        rnd.vallvl      = buf.get_double()
+        rnd.valrnd      = buf.get_double()
         return rnd
 
-var timers		: Array[Rand]
-var randitems	: Array[Rand]
+var timers      : Array[Rand]
+var randitems   : Array[Rand]
 
 enum File {
-    Magic		= 0x23216772760aff00,
-    HdrLen		= 16
+    Magic       = 0x23216772760aff00,
+    HdrLen      = 16
 }
 enum Data {
-    Magic		= 0x00fd0a7672672123,
-    Major		= 1,
-    MaxLen		= 0x100000,
-    HdrLen		= 64
+    Magic       = 0x00fd0a7672672123,
+    Major       = 1,
+    MaxLen      = 0x100000,
+    HdrLen      = 64
 }
 enum InCompatFlags {
-    NONE		= 0,
-    FROZEN		= 1,
-    OKMask		= 0x00000001
+    NONE        = 0,
+    FROZEN      = 1,
+    OKMask      = 0x00000001
 }
 enum RoCompatFlags {
-    NONE		= 0
+    NONE        = 0
 }
 enum CompatFlags {
-    NONE		= 0
+    NONE        = 0
 }
 
 func _init(mapdata : PackedByteArray, _level : int):
@@ -148,9 +148,9 @@ func _init(mapdata : PackedByteArray, _level : int):
         error = Error.ERR_FILE_UNRECOGNIZED
         return
 
-    incompatflags	= body.get_u32() as InCompatFlags
-    rocompatflags	= body.get_u32() as RoCompatFlags
-    compatflags		= body.get_u32() as CompatFlags
+    incompatflags   = body.get_u32() as InCompatFlags
+    rocompatflags   = body.get_u32() as RoCompatFlags
+    compatflags     = body.get_u32() as CompatFlags
     if (incompatflags & ~InCompatFlags.OKMask):
         error = Error.ERR_FILE_UNRECOGNIZED
         return
@@ -239,7 +239,7 @@ func randtile() -> MapTile:
 # Returns null if every spot on the board was tried unsuccessfully
 func goodtile(is_good : Callable) -> MapTile:
     var start : int = nextshuf
-    var here : MapTile	= randtile()
+    var here : MapTile  = randtile()
     while not is_good.call(here):
         if nextshuf == start:
             return null
@@ -301,7 +301,7 @@ func generate(hyperspace : bool):
 func move_player(xy : Vector2i) -> MapTile:
     var to : MapTile = player.moveto(xy)
     if not to:
-        return null			# Out of bounds
+        return null         # Out of bounds
     player = to
     player.dig()
     return player

@@ -1,8 +1,8 @@
 class_name GameTime extends Object
 
-static var epoch_tick	: int
-static var paused		: bool
-static var pause_tick	: int
+static var epoch_tick   : int
+static var paused       : bool
+static var pause_tick   : int
 
 static func start() -> float:
     epoch_tick = Time.get_ticks_usec()

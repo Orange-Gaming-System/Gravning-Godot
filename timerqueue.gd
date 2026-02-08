@@ -1,8 +1,8 @@
 class_name TimerQueue extends RefCounted
 
-class TimerItem	extends RefCounted:
-    var time	: float
-    var	prio	: int
+class TimerItem extends RefCounted:
+    var time    : float
+    var prio    : int
     static func after(a : TimerItem, b : TimerItem) -> bool:
         if a.time != b.time:
             return a.time > b.time
