@@ -1,17 +1,29 @@
 class_name GrvMap extends RefCounted
 
+enum InCompatFlags {
+    NONE        = 0,
+    FROZEN      = 1,
+    OKMask      = FROZEN
+}
+enum RoCompatFlags {
+    NONE        = 0,
+    GAMEFLAGS   = 1,
+}
+enum CompatFlags {
+    NONE        = 0,
+}
 enum GameFlags {
-    ESCAPE = 0x01
+    NONE        = 0,
+    ESCAPE      = 1,
 }
 
 var error           : Error
 var incompatflags   : InCompatFlags = InCompatFlags.NONE
 var rocompatflags   : RoCompatFlags = RoCompatFlags.NONE
 var compatflags     : CompatFlags   = CompatFlags.NONE
+var gameflags       : GameFlags     = GameFlags.NONE
 var size            : Vector2i
-var randobjs        : int
 var baselevel       : int
-var gameflags       : int
 var usedtimers      : int
 var bombtimer       : int
 var doortimer       : int
@@ -105,18 +117,6 @@ enum Data {
     MaxLen      = 0x100000,
     HdrLen      = 64
 }
-enum InCompatFlags {
-    NONE        = 0,
-    FROZEN      = 1,
-    OKMask      = 0x00000001
-}
-enum RoCompatFlags {
-    NONE        = 0
-}
-enum CompatFlags {
-    NONE        = 0
-}
-
 func _init(mapdata : PackedByteArray, _level : int):
     level = _level
 
@@ -165,14 +165,14 @@ func _init(mapdata : PackedByteArray, _level : int):
 
     size.x          = body.get_u8()
     size.y          = body.get_u8()
-    randobjs        = body.get_u8()
+    var randobjs    = body.get_u8()
     var timerbits   = body.get_u8()
     var timermask   = (1 << timerbits) - 1
 
     baselevel       = body.get_u16() - 1
-    gameflags       = body.get_u16()
-    if (!(rocompatflags & 0x1)):
-        gameflags = 0
+    gameflags       = body.get_u16() as GameFlags
+    if (!(rocompatflags & RoCompatFlags.GAMEFLAGS)):
+        gameflags = GameFlags.NONE
     usedtimers      = body.get_u8()
     bombtimer       = body.get_u8()
     doortimer       = body.get_u8()
@@ -183,10 +183,17 @@ func _init(mapdata : PackedByteArray, _level : int):
     timers.clear()
     timers.resize(usedtimers)
 
+    # The random entries list: for identical entries, the LAST one in the file
+    # which is permitted by the current level is the one that actually applies.
+    # Therefore, it is not legitimate to take any action during the reading of
+    # the list, since an entry may be overridden later.
+    #
+    # If an entry has a minlvl of 0 in the file, corresponding to a "level -1",
+    # that entry is invalid and should be skipped.
     body.seek(randoffset)
     for i in randobjs:
         var rnd : Rand = Rand.read(body, level)
-        if level >= rnd.minlvl:
+        if rnd.minlvl >= 0 and level >= rnd.minlvl:
             if rnd.flags & Rand.RandFlags.TIMER:
                 if rnd.item < usedtimers:
                     timers[rnd.item] = rnd
@@ -195,6 +202,7 @@ func _init(mapdata : PackedByteArray, _level : int):
                     thawcount = rnd.ival()
             else:
                 randitems[rnd.item] = rnd
+
     # Read board (fixed items) and generate shuffled list
     itemcount.clear()
     itemcount.resize(Item.Type.TypeCount)
