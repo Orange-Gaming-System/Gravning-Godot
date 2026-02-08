@@ -273,14 +273,16 @@ func generate(hyperspace : bool):
     # most easily handled by processing the list in order from highest to lowest
     # item number. The player (0x01) should NEVER be generated this way, and 0 is an invalid
     # item, so stop before Item.Type.PLAYER.
-    for type in range(randitems.size() - 1, -1, Item.Type.PLAYER):
+    # For some weird reason range() doesn't seem to work here (Godot 4.6, possibly an engine bug)
+    var type : int = randitems.size() - 1
+    while type > Item.Type.PLAYER:
         var rnd : Rand = randitems[type]
-        if not rnd:
-            continue
-        for n in rnd.ival():
-            var t : MapTile = placerandom(rnd.item)
-            if t and rnd.item == Item.Type.BOMB:
-                t.tmr = timers[bombtimer].instance()
+        if rnd:
+            for n in rnd.ival():
+                var t : MapTile = placerandom(rnd.item)
+                if t and rnd.item == Item.Type.BOMB:
+                    t.tmr = timers[bombtimer].instance()
+        type -= 1
 
     # No longer useful, free up the memory
     randitems.clear()
