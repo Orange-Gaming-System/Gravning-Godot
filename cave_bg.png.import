@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://e86nelqia0i1"
-path="res://.godot/imported/dirt_texture.png-4e65520671a29926a2883e7c98e45ed5.ctex"
+uid="uid://c23t7foj83xto"
+path="res://.godot/imported/cave_bg.png-41de5d742fba130e5db9c2bf24c903e1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://themes/default/dirt/dirt_texture.png"
-dest_files=["res://.godot/imported/dirt_texture.png-4e65520671a29926a2883e7c98e45ed5.ctex"]
+source_file="res://cave_bg.png"
+dest_files=["res://.godot/imported/cave_bg.png-41de5d742fba130e5db9c2bf24c903e1.ctex"]
 
 [params]
 
