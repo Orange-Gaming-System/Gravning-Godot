@@ -7,8 +7,10 @@ class_name Map extends RefCounted
 ## An array of [MapTile] which stores all objects (anything that isn't a Wall, Soft Wall, or Empty).
 @export var objs: Array
 
+var grvmap: GrvMap
+
 func _init(path: String):
-    var grvmap =  GrvMap.new(FileAccess.get_file_as_bytes(path), GameManager.level)
+    grvmap =  GrvMap.new(FileAccess.get_file_as_bytes(path), GameManager.level)
     grvmap.generate(false)
     var empty_row = Array()
     empty_row.resize(grvmap.size.x)

@@ -96,5 +96,6 @@ func build_level(map: Map):
 
 func _ready():
     var map = Map.new("res://test/gdtest.grvmap")
+    GameManager.grvmap = map.grvmap
     build_level(map)
     

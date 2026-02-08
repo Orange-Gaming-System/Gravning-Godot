@@ -3,7 +3,7 @@ class_name Apple extends GrvObj
 
 const diamond_chance = 0.3
 
-var diamond: Diamond = null
+var diamond: Diamond
 
 func _ready():
     super._ready()
@@ -12,3 +12,15 @@ func _ready():
         diamond = Diamond.new(map_tile)
         GameManager.gamescene.get_node("objects").add_child.call_deferred(diamond)
     GameManager.change_move_type(board_pos, GameManager.MOVE_TYPE.BLOCKED)
+
+func _process(_delta):
+    if map_tile.below().item.flags & Item.Flags.TUNNEL:
+        map_tile.changetype(Item.Type.DIAMOND)
+        if diamond:
+            diamond.update_sprite()
+        if map_tile.item.flags & Item.Flags.TUNNEL:
+            GameManager.change_move_type(board_pos, GameManager.MOVE_TYPE.EMPTY)
+        else:
+            GameManager.change_move_type(board_pos, GameManager.MOVE_TYPE.DIG)
+        queue_free()
+        
