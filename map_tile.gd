@@ -4,28 +4,39 @@ var item        : Item
 var tmr         : GrvMap.RandVal
 var prio        : int
 var map         : GrvMap
-var node            : GrvObj
+var node        : GrvObj
 
 func _init(_map : GrvMap = null, _type : Item.Type = Item.Type.NONE, _xy : Vector2i = Vector2i(-1, -1)):
     map = _map
     xy = _xy
     item = Item.new()
+    if map and map.oob(xy):
+        _type = Item.Type.OUT_OF_BOUNDS
+    elif _type == Item.Type.OUT_OF_BOUNDS:
+        _type = Item.Type.NONE
     item.type = _type
-    if map:
+    remember()
+
+func remember() -> void:
+    if map and not oob():
         map.itemcount[item.type] += 1
+        map.items[item.type][xy] = self
+
+func forget() -> void:
+    if map and not oob():
+        map.itemcount[item.type] -= 1
+        map.items[item.type].erase(xy)
 
 func _notification(what : int):
-    if what == NOTIFICATION_PREDELETE and map:
-        map.itemcount[item.type] -= 1
+    if what == NOTIFICATION_PREDELETE:
+        forget()
 
 # Change the type of a tile, updating the item count in the map
 func changetype(type : Item.Type) -> MapTile:
-    if map:
-        map.itemcount[item.type] -= 1
+    if type != item.type and not oob():
+        forget()
         item.type = type
-        map.itemcount[item.type] += 1
-    else:
-        item.type = type
+        remember()
     return self
 
 # Move a tile type to a different spot in the map, leaving an EMPTY tile
@@ -53,7 +64,7 @@ func can_move_to(toxy : Vector2i) -> MapTile:
     if item.type == Item.Type.PLAYER:
         ok = to.player_can_eat()
     elif item.type == Item.Type.GHOST:
-        ok = to.is_tunnel()
+        ok = to.is_tunnel() or to.item.type == Item.Type.PLAYER
     else:
         ok = to.is_dirt()
     return (to) if (ok) else null
@@ -93,26 +104,47 @@ static func empty_tile(t : MapTile) -> bool:
 static func dirt_tile(t : MapTile) -> bool:
     return t.item.is_dirt()
 
-static func dirt_2tiles(t : MapTile) -> bool:
+static func dirt_dirt_below_tile(t : MapTile) -> bool:
     return t.item.is_dirt() and t.below().item.is_dirt()
 
-static func tunnel_tile(t : MapTile) -> bool:
-    return t.item.is_tunnel()
+# A ghost must be placed in a tunnel, and not underneath a rock
+static func ghost_ok_tile(t : MapTile) -> bool:
+    return t.is_tunnel() and not t.above().item.type == Item.Type.ROCK
 
-# Get the correct predicate for a certain tile type
+# At the start of the game, don't place the player immediately next to a ghost
+func is_next_to_ghost() -> bool:
+    return  (above().item.type == Item.Type.GHOST or
+             below().item.type == Item.Type.GHOST or
+             left().item.type  == Item.Type.GHOST or
+             right().item.type == Item.Type.GHOST)
+
+# Get the correct predicate for a certain tile type. This does not support
+# Item.Type.PLAYER.
 static func ok_tile(type : Item.Type) -> Callable:
-    if Item.type_needs_dirt_below(type):
-        return dirt_2tiles
-    elif type == Item.Type.PLAYER:
-        return empty_tile
-    elif Item.type_needs_tunnel(type):
-        return tunnel_tile
+    if (type == Item.Type.APPLE or type == Item.Type.APPLE_DIAMOND or
+        type == Item.Type.ROCK):
+        return dirt_dirt_below_tile
+    elif type == Item.Type.GHOST:
+        return ghost_ok_tile
     else:
         return dirt_tile
 
 # Sorting functions
 static func by_prio(a : MapTile, b : MapTile) -> bool:
     return a.item.prio < b.item.prio
+
+func player_start_prio() -> int:
+    var sp : int = 0
+    if item.type != Item.Type.EMPTY:
+        sp += 0x4000000         # Really really bad
+    if is_next_to_ghost():
+        sp += 0x10000           # Avoid next to ghost
+    if not item.in_tunnel():
+        sp += 0x100             # Prefer an already dug tunnel
+    return sp
+
+static func by_player_start_prio(a : MapTile, b : MapTile) -> bool:
+    return a.player_start_prio() < b.player_start_prio()
 
 ## Spawns an object from a [MapTile]. The provided [MapTile] must not be a door, wall, soft wall, or empty.
 func spawn_obj():

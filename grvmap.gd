@@ -30,6 +30,7 @@ var doortimer       : int
 var level           : int
 var player          : MapTile
 var itemcount       : Array[int]
+var items           : Array[Dictionary]
 
 var tile            : Array[MapTile]
 var shuf            : Array[MapTile]
@@ -206,6 +207,10 @@ func _init(mapdata : PackedByteArray, _level : int):
     # Read board (fixed items) and generate shuffled list
     itemcount.clear()
     itemcount.resize(Item.Type.TypeCount)
+    items.clear()
+    for n in Item.Type.TypeCount:
+        items.append({})
+
     tile.clear()
     body.seek(boardoffset)
     for y in size.y:
@@ -262,11 +267,32 @@ func placerandom(type : Item.Type) -> MapTile:
             t.dig()
     return t
 
-# Generate the specialized the map for a specific level and add random items
+# Generate the specialized the map for a specific level and add random items.
 func generate(hyperspace : bool):
+    # Place random items. Ghosts (0x02) must be generated after rocks. Currently, this is
+    # most easily handled by processing the list in order from highest to lowest
+    # item number. The player (0x01) should NEVER be generated this way, and 0 is an invalid
+    # item, so stop before Item.Type.PLAYER.
+    for type in range(randitems.size() - 1, -1, Item.Type.PLAYER):
+        var rnd : Rand = randitems[type]
+        if not rnd:
+            continue
+        for n in rnd.ival():
+            var t : MapTile = placerandom(rnd.item)
+            if t and rnd.item == Item.Type.BOMB:
+                t.tmr = timers[bombtimer].instance()
+
+    # No longer useful, free up the memory
+    randitems.clear()
+
+    # Place HYPER if applicable
+    if hyperspace:
+        for h in Item.Hypers:
+            placerandom(h)
+
     # Scan the tile array for:
     # 1. possible player positions, if more than one given
-    # 2. frozen cherries (thaw list)
+    # 2. frozen cherries (thawlist)
     var players : Array[MapTile]
     for t in tile:
         if t.item.type == Item.Type.PLAYER:
@@ -276,26 +302,16 @@ func generate(hyperspace : bool):
             thawlist.append(t)
 
     if players.size() == 0:
-        # No player position given, pick a random player start
-        player = placerandom(Item.Type.PLAYER)
-    else:
-        player = players[randi_range(0, players.size() - 1)]
-        player.changetype(Item.Type.PLAYER)
-        player.dig()
+        # No player position given at all, treat all positions as possible
+        players = tile.duplicate()
 
-    # Place random items.
-    for rnd in randitems:
-        if not rnd:
-            continue
-        for i in rnd.ival():
-            var t : MapTile = placerandom(rnd.item)
-            if t and rnd.item == Item.Type.BOMB:
-                t.tmr = timers[bombtimer].instance()
-
-    # Place HYPER if applicable
-    if hyperspace:
-        for h in Item.Hypers:
-            placerandom(h)
+    # One or more player positions given, pick one of them at random that
+    # has the best (lowest) value of MapTile.player_start_prio
+    players.shuffle()
+    players.sort_custom(MapTile.by_player_start_prio)
+    player = players[0]
+    player.changetype(Item.Type.PLAYER)
+    player.dig()
 
     # Randomize the thawlist and thaw the appropriate number of frozen cherries
     # The frozen cherries do permit organizing into priority classes, so first
@@ -303,7 +319,7 @@ func generate(hyperspace : bool):
     if thawlist.size():
         thawlist.shuffle()
         thawlist.sort_custom(MapTile.by_prio)
-        for i in thawcount:
+        for n in thawcount:
             thaw()
 
 func move_player(xy : Vector2i) -> MapTile:
