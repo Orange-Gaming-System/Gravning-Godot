@@ -2,53 +2,102 @@
 class_name grv_File_Loader extends Node
 
 ## Holds the length of the current game in levels.
-var levelcount: int = -1
+var levelcount  : int = -1
 ## Holds the title of the current game.
-var title = ""
+var title       : String
 ## Holds the byline of the current game (sort of a subtitle).
-var byline = ""
+var byline      : String
 ## Holds the author (or creator) of the current game.
-var author = ""
+var author      : String
 ## Holds the paths to all the levels in the current game. Empty (null) elements are allowed, and will use the default level instead.
-var mappaths = []
+var mappaths    : PackedStringArray
+
+## Read a single line in a .grv file splitting it by tokens
+var _token_regex : RegEx = RegEx.create_from_string("([^\\s\'\"]\\S*|\"(?:[^\"]|\"\")*\"|'(?:[^']|'')*')")
+func read_line(file : FileAccess, strs : PackedStringArray) -> bool:
+    strs.clear()
+    var line : String = file.get_line()
+    if (file.eof_reached()):
+        return false
+    for m in _token_regex.search_all(line):
+        var s : String
+        s = m.get_string(1)
+        var c : String = (s[0]) if (s.length()) else ("")
+        if (s.length() < 1 or c == "#"):
+            break           # Empty or start of comment
+        elif (s.length() >= 2 and (c == "'" or c == "\"")):
+            s = s.substr(1, s.length()-2)
+            s.replace(c+c, c)
+        strs.append(s)
+    return true
 
 ## Parses the .grv file found at [param path], converting it into a format that the rest of the game can understand.
-func parsegrvfile(path): # stores all the data about a game from the .grv file into variables for easy access.
-    var file = FileAccess.open(path, FileAccess.READ) # gets the .grv file
-    var filecontent = file.get_as_text() # loads the contents of the file
-    var game = filecontent.split("\n", false) # converts the file into an array, line by line
+func parsegrvfile(path : String): # stores all the data about a game from the .grv file into variables for easy access.
+    var file : FileAccess = FileAccess.open(path, FileAccess.READ)
+    var dir : String = path.get_base_dir()                       # File location
     # Set all variables to their default value.
     levelcount = 75
     title = "Custom Game"
     byline = ""
     author = ""
-    mappaths = []
+    mappaths.clear()
     mappaths.resize(levelcount)
     # Loop through every line in the file.
-    for line in game:
-        # For every line, this loop splits it into commands and arguements.
-        var linedata = line.split(" ", true, 1)
+    var linedata : PackedStringArray
+    while read_line(file, linedata):
         # Check the command (forced lowercase to make the loop not case-sensitive) of this line, if it is not valid, ignore it.
+        if linedata.size() < 2:
+            continue
+
+        print(linedata)
+
         match linedata[0].to_lower():
-            "title": # For title, byline, and author, set the respective variable and remove all quotation marks.
-                title = linedata[1].trim_prefix("\"").trim_suffix("\"")
+            "title":
+                title = linedata[1]
             "byline":
-                byline = linedata[1].trim_prefix("\"").trim_suffix("\"")
+                byline = linedata[1]
             "author":
-                author = linedata[1].trim_prefix("\"").trim_suffix("\"")
+                author = linedata[1]
             "levels": # For levels, set the level count to the argument after converting it to an integer, and set the size of the mappaths array.
-                levelcount = int(linedata[1])
-                mappaths.resize(levelcount)
+                if (linedata[1].is_valid_int()):
+                    var lc : int = int(linedata[1])
+                    if (lc > 0 and lc < 65536):
+                        levelcount = lc
+                        mappaths.resize(levelcount)
             "map": # For the map command, this code stores all the paths for the maps.
-                var arg = linedata[1]
-                var mapargs = arg.split(" ", true, 1) # split the map into a map number and a map path.
-                if "-" in mapargs[0]: # checks if this is for 1 map or a range of maps.
-                    var maprange = mapargs[0].split("-", false, 1) # if it is a range, determine the top and bottom.
-                    for map in int(maprange[1]) - int(maprange[0]) + 1: # for each map in the range, store them in their respective location in the array.
-                        map += int(maprange[0])
-                        mappaths[map-1] = "/".join([path.rsplit("/", true, 1)[0], mapargs[1].trim_prefix("\"").trim_suffix("\"")])
-                else:
-                    mappaths[int(mapargs[0])-1] = "/".join([path.rsplit("/", true, 1)[0], mapargs[1].trim_prefix("\"").trim_suffix("\"")]) # if this is a single map, store its path in the correct location in the array.
+                if (linedata.size() < 3):
+                    continue
+
+                var lo : int = 0                # Inclusive, 0-based
+                var hi : int = levelcount       # Exclusive, 0-based
+                var nm : String = linedata[1]
+                var plus : bool = false
+                var maprange : PackedStringArray = nm.split("-", true, 1)
+                if maprange.size() == 1:
+                    maprange = nm.split("+", true, 1)
+                    plus = maprange.size() > 1
+                if maprange[0].is_valid_int():
+                    lo = int(maprange[0]) - 1
+                if maprange.size() == 1:
+                    hi = lo + 1
+                elif maprange[1].is_valid_int():
+                    hi = int(maprange[1])
+                    if plus:
+                        hi += lo + 1
+
+                if (lo < 0):
+                    lo = 0
+                if (hi > levelcount):
+                    hi = levelcount
+                if (lo >= hi):
+                    continue        # Empty range
+
+                var mappath : String = linedata[2]
+                if mappath.is_relative_path():
+                    mappath = dir.path_join(mappath)
+                for map in range(lo, hi):
+                    mappaths[map] = mappath
+    file.close()
 
 func get_level_path(level):
     if mappaths[level] == null:
