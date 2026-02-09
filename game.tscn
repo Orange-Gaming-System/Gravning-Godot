@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://cl76bxa8ulg8r"]
 
+[ext_resource type="Script" uid="uid://bug78d47rgrg2" path="res://gamescene.gd" id="1_7jktm"]
 [ext_resource type="TileSet" uid="uid://y82sa4eqkhtr" path="res://ground_tiles.tres" id="2_e2o6t"]
 [ext_resource type="Theme" uid="uid://c7jrhubx5eew8" path="res://grvtheme.tres" id="3_feb5d"]
 [ext_resource type="Texture2D" uid="uid://c23t7foj83xto" path="res://cave_bg.png" id="4_7jktm"]
 [ext_resource type="Script" uid="uid://c81ay70qsislf" path="res://game_clock.gd" id="4_fc0e3"]
 
 [node name="game" type="Node2D" unique_id=1465605954]
+script = ExtResource("1_7jktm")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=146880771]
 position = Vector2(312, 176)

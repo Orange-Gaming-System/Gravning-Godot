@@ -71,10 +71,7 @@ enum MOVE_TYPE {
 }
 
 func _ready():
-    RenderingServer.set_default_clear_color(colors[palette[0]])
-    preload("res://grvtheme.tres").set_color("font_color", "Label", text_colors[palette[0]])
     gamescene = $"../game"
-    score = 0
 
 ## Takes two tile coordinates ([param to] and [param from]) and returns the [enum MOVE_TYPE] that corresponds to that tile [b]given the movement being attempted[b].[br][br]For example, if the player is moving into a rock that cannot be pushed, it will return MOVE_TYPE_BLOCKED, not MOVE_TYPE_ROCK.
 func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
@@ -124,3 +121,19 @@ func get_tile_type_move_type(tile_type: Tile):
             return MOVE_TYPE.BLOCKED
         Tile.TYPE.SOFT_WALL:
             return MOVE_TYPE.DIG
+
+func load_next_level():
+    gamescene.queue_free()
+    gamescene = preload("res://game.tscn").instantiate()
+    level += 1
+    get_tree().get_root().add_child(gamescene)
+
+func load_level():
+    palette = palettes[level % 7]
+    RenderingServer.set_default_clear_color(colors[palette[0]])
+    preload("res://grvtheme.tres").set_color("font_color", "Label", text_colors[palette[0]])
+    score = score
+    var map = Map.new(grvFileLoader.get_level_path(level))
+    grvmap = map.grvmap
+    LevelBuilder.build_level(map)
+    

@@ -50,5 +50,10 @@ func parsegrvfile(path): # stores all the data about a game from the .grv file i
                 else:
                     mappaths[int(mapargs[0])-1] = "/".join([path.rsplit("/", true, 1)[0], mapargs[1].trim_prefix("\"").trim_suffix("\"")]) # if this is a single map, store its path in the correct location in the array.
 
+func get_level_path(level):
+    if mappaths[level] == null:
+        return get_level_path(level - 1)
+    return mappaths[level]
+
 func _ready():
     parsegrvfile("res://test/test.grv")

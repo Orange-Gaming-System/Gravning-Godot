@@ -36,13 +36,13 @@ func build_ground(tiles: Array):
                             soft1.append(Vector2i(tile, row))
                         0:
                             soft0.append(Vector2i(tile, row))
-    $"../game/ground_tiles".set_cells_terrain_connect(empty, 0, -1)
-    $"../game/ground_tiles".set_cells_terrain_connect(dirt0, 0, GameManager.dirt[GameManager.palette[0]])
-    $"../game/ground_tiles".set_cells_terrain_connect(dirt1, 0, GameManager.dirt[GameManager.palette[1]])
-    $"../game/ground_tiles".set_cells_terrain_connect(walls0, 0, GameManager.walls[GameManager.palette[0]])
-    $"../game/ground_tiles".set_cells_terrain_connect(walls1, 0, GameManager.walls[GameManager.palette[1]])
-    $"../game/ground_tiles".set_cells_terrain_connect(soft0, 0, GameManager.soft_walls[GameManager.palette[0]])
-    $"../game/ground_tiles".set_cells_terrain_connect(soft1, 0, GameManager.soft_walls[GameManager.palette[1]])
+    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(empty, 0, -1)
+    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(dirt0, 0, GameManager.dirt[GameManager.palette[0]])
+    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(dirt1, 0, GameManager.dirt[GameManager.palette[1]])
+    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(walls0, 0, GameManager.walls[GameManager.palette[0]])
+    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(walls1, 0, GameManager.walls[GameManager.palette[1]])
+    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(soft0, 0, GameManager.soft_walls[GameManager.palette[0]])
+    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(soft1, 0, GameManager.soft_walls[GameManager.palette[1]])
 
 ## Sets [member Game_Manager.move_types] based on the corresponding tile. Does not account for objects.
 func set_move_types():
@@ -73,7 +73,7 @@ func generate_outer_walls():
     for i in range(abs_rect.position.x, abs_rect.end.x):
         for j in range(abs_rect.position.y, abs_rect.end.y):
             vector_list.append(Vector2i(i, j))
-    $"../game/ground_tiles".set_cells_terrain_connect(vector_list, 0, GameManager.walls[GameManager.palette[0]])
+    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(vector_list, 0, GameManager.walls[GameManager.palette[0]])
 
 # Temporary Constants for test level.
 @warning_ignore("int_as_enum_without_cast")
@@ -93,9 +93,4 @@ func build_level(map: Map):
     build_ground(map.tiles)
     set_move_types()
     generate_objs(map.objs)
-
-func _ready():
-    var map = Map.new("res://test/gdtest.grvmap")
-    GameManager.grvmap = map.grvmap
-    build_level(map)
     
