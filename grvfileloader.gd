@@ -100,7 +100,7 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
     file.close()
 
 func get_level_path(level):
-    if mappaths[level] == null:
+    if mappaths[level] == "":
         return get_level_path(level - 1)
     return mappaths[level]
 
