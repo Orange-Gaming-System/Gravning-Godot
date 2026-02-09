@@ -93,7 +93,9 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
                     continue        # Empty range
 
                 var mappath : String = linedata[2]
-                if mappath.is_relative_path():
+                if mappath == "*":          # Syntax used by C version
+                    mappath = ""            # Revert to default
+                elif mappath.is_relative_path():
                     mappath = dir.path_join(mappath)
                 for map in range(lo, hi):
                     mappaths[map] = mappath
