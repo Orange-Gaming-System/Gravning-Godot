@@ -83,7 +83,7 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
                 elif maprange[1].is_valid_int():
                     hi = int(maprange[1])
                     if plus:
-                        hi += lo + 1
+                        hi += lo
 
                 if (lo < 0):
                     lo = 0
