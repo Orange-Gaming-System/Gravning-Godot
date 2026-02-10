@@ -322,8 +322,14 @@ func generate(hyperspace : bool = false) -> void:
         if rnd:
             for n in rnd.ival():
                 var t : MapTile = placerandom(rnd.item)
-                if t and rnd.item == Item.Type.BOMB:
-                    t.tmr = timers[bombtimer].instance()
+                if t:
+                    var whichtimer : int = usedtimers
+                    if rnd.item == Item.Type.BOMB:
+                        whichtimer = bombtimer
+                    elif rnd.item.is_door():
+                        whichtimer = doortimer
+                    if whichtimer < usedtimers:
+                        t.tmr = timers[whichtimer].instance()
         type -= 1
 
     # No longer useful, free up the memory

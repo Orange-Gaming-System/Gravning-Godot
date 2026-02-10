@@ -8,7 +8,7 @@ static func start() -> float:
     epoch_tick = Time.get_ticks_usec()
     pause_tick = epoch_tick
     return 0.0
-    
+
 static func now() -> float:
     var now_tick : int = pause_tick if (paused) else (Time.get_ticks_usec())
     return (now_tick - epoch_tick) * 1.0e-6
