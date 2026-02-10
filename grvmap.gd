@@ -17,11 +17,11 @@ enum GameFlags {
     ESCAPE      = 1,
 }
 
-var error           : Error
-var incompatflags   : InCompatFlags = InCompatFlags.NONE
-var rocompatflags   : RoCompatFlags = RoCompatFlags.NONE
-var compatflags     : CompatFlags   = CompatFlags.NONE
-var gameflags       : GameFlags     = GameFlags.NONE
+@export var error           : Error
+@export var incompatflags   : InCompatFlags = InCompatFlags.NONE
+@export var rocompatflags   : RoCompatFlags = RoCompatFlags.NONE
+@export var compatflags     : CompatFlags   = CompatFlags.NONE
+@export var gameflags       : GameFlags     = GameFlags.NONE
 var size            : Vector2i
 var baselevel       : int
 var usedtimers      : int
@@ -78,10 +78,11 @@ class Rand:
         ITEM        = 0x00,
         TIMER       = 0x01,
         MULTI       = 0x02,
+        MULTI_TIMER = 0x03,     # For the benefit of the editor, mostly
         THAW        = 0x04
     }
     var item    # Either an Item or a Tmr
-    var flags   : RandFlags = RandFlags.ITEM
+    @export var flags   : RandFlags = RandFlags.ITEM
     var minlvl  : int
     var valmax  : int
     var valbase : float

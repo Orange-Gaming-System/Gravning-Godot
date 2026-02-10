@@ -47,12 +47,13 @@ enum Type {
 enum Flags {
     NONE        = 0x00,
     BG2         = 0x01,         # Use alternate background tiles
-    TUNNEL      = 0x80          # Dug tunnel
+    TUNNEL      = 0x80,         # Dug tunnel
+    TUNNEL_BG2	= 0x81			# For the benefit of the editor
 }
 const Hypers : Array[Type] = [Type.HYP_H, Type.HYP_Y, Type.HYP_P, Type.HYP_E, Type.HYP_R]
 
-var type    : Type  = Type.EMPTY
-var flags   : Flags = Flags.NONE
+@export var type    : Type  = Type.EMPTY
+@export var flags   : Flags = Flags.NONE
 
 static func is_doortype(itemtype: Type) -> bool:
     return itemtype >= Type.DOOR_UDL and itemtype <= Type.DOOR_UDLR

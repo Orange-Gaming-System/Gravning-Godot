@@ -105,7 +105,7 @@ func dig(pos: Vector2i):
     if mtile.node:
         if mtile.node is Collectible:
             mtile.node.collect()
-            
+
 
 func change_move_type(pos: Vector2i, move_type: MOVE_TYPE):
     move_types[pos.y][pos.x] = move_type
@@ -136,4 +136,3 @@ func load_level():
     var map = Map.new(grvFileLoader.get_level_path(level))
     grvmap = map.grvmap
     LevelBuilder.build_level(map)
-    
