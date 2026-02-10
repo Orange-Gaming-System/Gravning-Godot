@@ -42,6 +42,9 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
     author = ""
     mappaths.clear()
     mappaths.resize(levelcount)
+
+    var next : int = 0      # For @ meaning continue after the last map number used
+
     # Loop through every line in the file.
     var linedata : PackedStringArray
     while read_line(file, linedata):
@@ -78,6 +81,8 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
                     plus = maprange.size() > 1
                 if maprange[0].is_valid_int():
                     lo = int(maprange[0]) - 1
+                elif maprange[0] == "@":
+                    lo = next
                 if maprange.size() == 1:
                     hi = lo + 1
                 elif maprange[1].is_valid_int():
@@ -93,10 +98,13 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
                     continue        # Empty range
 
                 var mappath : String = linedata[2]
-                if mappath.is_relative_path():
+                if mappath == "*":          # Syntax used by C version
+                    mappath = ""            # Revert to default
+                elif mappath.is_relative_path():
                     mappath = dir.path_join(mappath)
                 for map in range(lo, hi):
                     mappaths[map] = mappath
+                next = hi
     file.close()
 
 func get_level_path(level):
