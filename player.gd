@@ -1,5 +1,5 @@
 @icon("res://Node Icons/node_2D/icon_character.png")
-class_name Player extends MovingObj
+class_name Player extends Character
 
 ## Holds the most recent input.
 var last_input: String = "_null"
@@ -26,6 +26,7 @@ func _input(event):
 
 func _new_tick() -> void:
     board_pos = goal_pos
+    map_tile.map.move_player(board_pos)
     var new_pos = board_pos
     if input_from_tick or Input.is_action_pressed(last_input):
         if last_input != "escape":

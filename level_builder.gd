@@ -1,7 +1,7 @@
 @icon("res://Node Icons/node/icon_hammer.png")
 class_name Level_Builder extends Node
 
-var obj_classes = {Item.Type.PLAYER: Player, Item.Type.CHERRY: Cherry, Item.Type.AMMO: Ammo, Item.Type.APPLE: Apple, Item.Type.DIAMOND: Diamond}
+var obj_classes = {Item.Type.PLAYER: Player, Item.Type.CHERRY: Cherry, Item.Type.AMMO: Ammo, Item.Type.APPLE: Apple, Item.Type.DIAMOND: Diamond, Item.Type.GHOST: Ghost}
 
 ##Builds ground tiles from a 2D array of [Tile]s.
 func build_ground(tiles: Array):

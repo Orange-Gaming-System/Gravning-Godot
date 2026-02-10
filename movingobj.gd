@@ -14,3 +14,6 @@ func _ready():
     GameManager.game_clock.timeout.connect(Callable(self, "_new_tick"))
     start_pos = board_pos
     goal_pos = board_pos
+
+func _new_tick():
+    map_tile = map_tile.moveto(goal_pos)
