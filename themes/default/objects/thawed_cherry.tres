@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://duwxtirpp1e3i"]
+
+[ext_resource type="Texture2D" uid="uid://ckoxb4vjlx1v6" path="res://thawed_cherry.png" id="1_iax24"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_iax24")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

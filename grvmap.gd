@@ -334,6 +334,6 @@ func move_player(xy : Vector2i) -> MapTile:
 
 func thaw() -> MapTile:
     if thawlist.size():
-        return thawlist.pop_back().change_type(Item.Type.THAWED_CHERRY)
+        return thawlist.pop_back().changetype(Item.Type.THAWED_CHERRY)
     else:
         return null

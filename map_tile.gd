@@ -131,7 +131,7 @@ static func ok_tile(type : Item.Type) -> Callable:
 
 # Sorting functions
 static func by_prio(a : MapTile, b : MapTile) -> bool:
-    return a.item.prio < b.item.prio
+    return a.prio < b.prio
 
 func player_start_prio() -> int:
     var sp : int = 0

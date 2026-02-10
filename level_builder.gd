@@ -1,7 +1,7 @@
 @icon("res://Node Icons/node/icon_hammer.png")
 class_name Level_Builder extends Node
 
-var obj_classes = {Item.Type.PLAYER: Player, Item.Type.CHERRY: Cherry, Item.Type.AMMO: Ammo, Item.Type.APPLE: Apple, Item.Type.DIAMOND: Diamond, Item.Type.GHOST: Ghost}
+var obj_classes = {Item.Type.PLAYER: Player, Item.Type.CHERRY: Cherry, Item.Type.AMMO: Ammo, Item.Type.APPLE: Apple, Item.Type.DIAMOND: Diamond, Item.Type.GHOST: Ghost, Item.Type.FROZEN_CHERRY: FrozenCherry, Item.Type.THAWED_CHERRY: ThawedCherry}
 
 ##Builds ground tiles from a 2D array of [Tile]s.
 func build_ground(tiles: Array):
@@ -44,17 +44,6 @@ func build_ground(tiles: Array):
     GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(soft0, 0, GameManager.soft_walls[GameManager.palette[0]])
     GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(soft1, 0, GameManager.soft_walls[GameManager.palette[1]])
 
-## Sets [member Game_Manager.move_types] based on the corresponding tile. Does not account for objects.
-func set_move_types():
-    var tiles = GameManager.tiles
-    var movetypes = []
-    for row in tiles.size():
-        var row_array = []
-        for tile in tiles[row].size():
-            row_array.append(GameManager.get_tile_type_move_type(tiles[row][tile]))
-        movetypes.append(row_array)
-    GameManager.move_types = movetypes
-
 ## Generates all object nodes from an array of [MapTile].
 func generate_objs(objs: Array):
     for obj in objs:
@@ -91,6 +80,5 @@ var wws = Tile.new(2, 1)
 func build_level(map: Map):
     generate_outer_walls()
     build_ground(map.tiles)
-    set_move_types()
     generate_objs(map.objs)
     

@@ -22,7 +22,7 @@ var score: int = 0:
 
 var game_clock: Timer
 
-const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres"), Item.Type.GHOST: preload("res://themes/default/objects/ghost.tres")}
+const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres"), Item.Type.GHOST: preload("res://themes/default/objects/ghost.tres"), Item.Type.FROZEN_CHERRY: preload("res://themes/default/objects/frozen_cherry.tres"), Item.Type.THAWED_CHERRY: preload("res://themes/default/objects/thawed_cherry.tres")}
 
 var grvmap: GrvMap
 
@@ -34,18 +34,6 @@ var palette: Array = palettes[0]
 
 ## Holds the unparsed tile data for dirt, walls, and soft_walls. See [method Level_Builder.build_ground] for how to interpret the information.
 var tiles: Array
-
-## Holds a [enum MOVE_TYPE] for each tile in the level.
-var move_types: Array
-
-## The lower bound for x positions, in tiles.
-const min_x = 0
-## The upper bound for x positions, in tiles.
-const max_x = 39
-## The lower bound for y positions, in tiles.
-const min_y = 0
-## The upper bound for y positions, in tiles.
-const max_y = 21
 
 ## The terrains for each color of dirt.
 const dirt = {"blue": 14, "brown": 15, "red": 16, "gray": 17, "pink": 18, "green": 19, "cyan": 20}
@@ -75,23 +63,26 @@ func _ready():
 
 ## Takes two tile coordinates ([param to] and [param from]) and returns the [enum MOVE_TYPE] that corresponds to that tile [b]given the movement being attempted[b].[br][br]For example, if the player is moving into a rock that cannot be pushed, it will return MOVE_TYPE_BLOCKED, not MOVE_TYPE_ROCK.
 func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
-    if to.x < min_x or to.x > max_x:
+    var mtile = grvmap.at(to)
+    if mtile.oob():
         return MOVE_TYPE.BLOCKED
-    elif to.y < min_y or to.y > max_y:
-        return MOVE_TYPE.BLOCKED
-    else:
-        if move_types[to.y][to.x] == MOVE_TYPE.ROCK:
-            var move_offset = to - from
-            if move_offset.y == 0:
-                var push = to + move_offset
-                if move_types[push.y][push.x] == MOVE_TYPE.EMPTY:
-                    return MOVE_TYPE.ROCK
-                else:
-                    return MOVE_TYPE.BLOCKED
+    if mtile.item.type == Item.Type.ROCK:
+        var move_offset = to - from
+        if move_offset.y != -1:
+            var push = to + move_offset
+            if grvmap.at(push).item.in_tunnel():
+                return MOVE_TYPE.ROCK
             else:
                 return MOVE_TYPE.BLOCKED
         else:
-            return move_types[to.y][to.x]
+            return MOVE_TYPE.BLOCKED
+    else:
+        if mtile.item.is_tunnel():
+            return MOVE_TYPE.EMPTY
+        if mtile.node is BlockingObj or mtile.item.type == Item.Type.WALL:
+            return MOVE_TYPE.BLOCKED
+        return MOVE_TYPE.DIG
+        
 
 ## Dig the tile at [param pos].
 func dig(pos: Vector2i):
@@ -102,15 +93,10 @@ func dig(pos: Vector2i):
             score -= (level + 1) * 5
         tiles[pos.y][pos.x] = Tile.new(Tile.TYPE.EMPTY, tile.color)
         gamescene.get_node("ground_tiles").set_cells_terrain_connect([pos], 0, -1)
-        change_move_type(pos, MOVE_TYPE.EMPTY)
         mtile.dig()
     if mtile.node:
         if mtile.node is Collectible:
             mtile.node.collect()
-            
-
-func change_move_type(pos: Vector2i, move_type: MOVE_TYPE):
-    move_types[pos.y][pos.x] = move_type
 
 ## Gets the [enum MOVE_TYPE] for a given [Tile].
 func get_tile_type_move_type(tile_type: Tile):
