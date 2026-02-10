@@ -31,6 +31,7 @@ var level           : int
 var player          : MapTile
 var itemcount       : Array[int]
 var items           : Array[Dictionary]
+var startcherries   : int               # Need to know for early exit
 
 var tile            : Array[MapTile]
 var shuf            : Array[MapTile]
@@ -50,17 +51,27 @@ class RandVal extends RefCounted:
         return randi() * mult
 
     func _init(rand : Rand):
-        if rand.level < rand.minlvl:
-            fval = 0.0
-        else:
-            fval = rand.valbase + (rand.level - rand.minlvl) * rand.vallvl
+        var value : float = 0.0
+        # minlvl == -1 means disabled
+        if rand.minlvl >= 0 and rand.level >= rand.minlvl:
+            value = rand.valbase + (rand.level - rand.minlvl) * rand.vallvl
             if rand.valrnd:
-                fval += frand(rand.valrnd)
-            if rand.valmax > 0.0 and fval > rand.valmax:
-                fval = rand.valmax
-            if not fval >= 0.0:     # Written this way to catch NAN
-                fval = 0.0
-        ival = floori(fval)
+                value += frand(rand.valrnd)
+            if rand.valmax and fval > rand.valmax:
+                value = rand.valmax
+        setval(value + rand.addend)
+
+    ## Set the value of this random instance to [param value].
+    func setval(value : float) -> float:
+        if not value >= 0.0:    # Written this way to catch NAN
+            value = 0.0
+        fval = value
+        ival = floori(value)
+        return fval
+
+    ## Add [param delta] to the value of this random instance.
+    func add(delta : float) -> float:
+        return setval(fval + delta)
 
 class Rand:
     enum RandFlags {
@@ -72,14 +83,15 @@ class Rand:
     var item    # Either an Item or a Tmr
     var flags   : RandFlags = RandFlags.ITEM
     var minlvl  : int
-    var valmax  : float
+    var valmax  : int
     var valbase : float
     var vallvl  : int
     var valrnd  : float
+    var addend  : float
     var inst    : RandVal
     var level   : int
 
-    func instance():
+    func instance() -> RandVal:
         if (flags & RandFlags.MULTI):
             return RandVal.new(self)
         else:
@@ -87,11 +99,28 @@ class Rand:
                 inst = RandVal.new(self)
             return inst
 
-    func ival():
+    func ival() -> int:
         return instance().ival
 
-    func fval():
+    func fval() -> float:
         return instance().fval
+
+    ## Add [param delta] to the value of this entry.[br]
+    ## For multi-random entries, this only affects future instances.
+    func add(delta : float) -> Rand:
+        addend += delta
+        if inst:
+            inst.add(delta)     # Update already instantiated value
+        return self
+
+    ## Force the value of this random entry to exactly [param value].[br]
+    ## For multi-random entries, this only affects future instances.
+    func force(value : float) -> Rand:
+        minlvl = -1             # Disable all other fields
+        addend = value
+        if inst:
+            inst.setval(value)  # Update already instantiated value
+        return self
 
     static func read(buf : StreamPeer, _level : int) -> Rand:
         var rnd         = Rand.new()
@@ -103,6 +132,7 @@ class Rand:
         rnd.valbase     = buf.get_double()
         rnd.vallvl      = buf.get_double()
         rnd.valrnd      = buf.get_double()
+        rnd.addend      = 0.0
         return rnd
 
 var timers      : Array[Rand]
@@ -267,13 +297,24 @@ func placerandom(type : Item.Type) -> MapTile:
             t.dig()
     return t
 
-# Generate the specialized the map for a specific level and add random items.
-func generate(hyperspace : bool):
-    # Place random items. Ghosts (0x02) must be generated after rocks. Currently, this is
-    # most easily handled by processing the list in order from highest to lowest
-    # item number. The player (0x01) should NEVER be generated this way, and 0 is an invalid
-    # item, so stop before Item.Type.PLAYER.
-    # For some weird reason range() doesn't seem to work here (Godot 4.6, possibly an engine bug)
+## Generate the specialized the map for a specific level and add random
+## items. It is permitted to tweak parameters between the constructor and
+## calling this function. Use [code]randitems[type].add(value)[/code] to
+## increase the number of random items; those values can be fractional.
+## [param hyperspace]: add [b]H Y P E R[/b][br]
+func generate(hyperspace : bool = false) -> void:
+    # Add common random items
+    if hyperspace:
+        for h in Item.Hypers:
+            randitems[h].add(1.0)
+
+    # Place random items. Ghosts (0x02) must be generated after
+    # rocks. Currently, this is most easily handled by processing the
+    # list in order from highest to lowest item number. The player
+    # (0x01) should NEVER be generated this way, and 0 is an invalid
+    # item, so stop before Item.Type.PLAYER.  For some weird reason
+    # range() doesn't seem to work here (Godot 4.6, possibly an engine
+    # bug)
     var type : int = randitems.size() - 1
     while type > Item.Type.PLAYER:
         var rnd : Rand = randitems[type]
@@ -286,11 +327,6 @@ func generate(hyperspace : bool):
 
     # No longer useful, free up the memory
     randitems.clear()
-
-    # Place HYPER if applicable
-    if hyperspace:
-        for h in Item.Hypers:
-            placerandom(h)
 
     # Scan the tile array for:
     # 1. possible player positions, if more than one given
@@ -324,6 +360,9 @@ func generate(hyperspace : bool):
         for n in thawcount:
             thaw()
 
+    # Remember the intial number of cherries
+    startcherries = cherries()
+
 func move_player(xy : Vector2i) -> MapTile:
     var to : MapTile = player.moveto(xy)
     if not to:
@@ -337,3 +376,11 @@ func thaw() -> MapTile:
         return thawlist.pop_back().change_type(Item.Type.THAWED_CHERRY)
     else:
         return null
+
+## The number of currently edible cherries on the board
+func edible_cherries() -> int:
+    return itemcount[Item.Type.CHERRY] + itemcount[Item.Type.FROZEN_CHERRY]
+
+## The total number of cherries on the board, including frozen
+func cherries() -> int:
+    return edible_cherries() + itemcount[Item.Type.FROZEN_CHERRY]
