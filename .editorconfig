@@ -2,6 +2,7 @@
 root = true
 
 ; Applies to all text files in the project
+[*]
 indent_style = space
 indent_size = 4
 end_of_line = lf
