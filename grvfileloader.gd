@@ -11,6 +11,11 @@ var byline      : String
 var author      : String
 ## Holds the paths to all the levels in the current game. Empty (null) elements are allowed, and will use the default level instead.
 var mappaths    : PackedStringArray
+## Holds the first level (0-based) where quick escape is allowed.
+var escape_lvl  : int = MAX_LEVELS
+
+## The maximum number of allowed levels + 1.
+const MAX_LEVELS: int = 65536
 
 ## Read a single line in a .grv file splitting it by tokens
 var _token_regex : RegEx = RegEx.create_from_string("([^\\s\'\"]\\S*|\"(?:[^\"]|\"\")*\"|'(?:[^']|'')*')")
@@ -42,6 +47,7 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
     author = ""
     mappaths.clear()
     mappaths.resize(levelcount)
+    escape_lvl = MAX_LEVELS
 
     var next : int = 0      # For @ meaning continue after the last map number used
 
@@ -64,9 +70,12 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
             "levels": # For levels, set the level count to the argument after converting it to an integer, and set the size of the mappaths array.
                 if (linedata[1].is_valid_int()):
                     var lc : int = int(linedata[1])
-                    if (lc > 0 and lc < 65536):
+                    if (lc > 0 and lc < MAX_LEVELS):
                         levelcount = lc
                         mappaths.resize(levelcount)
+            "escape":
+                if (linedata[1].is_valid_int()):
+                    escape_lvl = int(linedata[1]) - 1
             "map": # For the map command, this code stores all the paths for the maps.
                 if (linedata.size() < 3):
                     continue

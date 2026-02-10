@@ -2,5 +2,6 @@ title "Test"
 byline "Byline"
 author "Orange Gaming System"
 levels 3
+escape 1
 map 1 gdtest.grvmap
-map 2 gdtest2.grvmap
+map 2-3 gdtest2.grvmap

@@ -52,6 +52,12 @@ func _new_tick() -> void:
                     GameManager.dig(new_pos)
                 GameManager.MOVE_TYPE.BLOCKED:
                     new_pos = board_pos
+        else:
+            if GameManager.level >= grvFileLoader.escape_lvl:
+                map_tile = map_tile.map.goodtile(MapTile.empty_tile)
+                board_pos = map_tile.xy
+                new_pos = board_pos
+                GameManager.dig(board_pos)
     start_pos = board_pos
     goal_pos = new_pos
     input_from_tick = false

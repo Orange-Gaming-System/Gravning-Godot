@@ -98,6 +98,8 @@ func dig(pos: Vector2i):
     var tile = tiles[pos.y][pos.x]
     var mtile = grvmap.at(pos)
     if tile.type == Tile.TYPE.DIRT or tile.type == Tile.TYPE.SOFT_WALL:
+        if tile.type == Tile.TYPE.SOFT_WALL:
+            score -= (level + 1) * 5
         tiles[pos.y][pos.x] = Tile.new(Tile.TYPE.EMPTY, tile.color)
         gamescene.get_node("ground_tiles").set_cells_terrain_connect([pos], 0, -1)
         change_move_type(pos, MOVE_TYPE.EMPTY)
