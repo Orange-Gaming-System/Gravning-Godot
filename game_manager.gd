@@ -124,4 +124,3 @@ func load_level():
     var map = Map.new(grvFileLoader.get_level_path(level))
     grvmap = map.grvmap
     LevelBuilder.build_level(map)
-    

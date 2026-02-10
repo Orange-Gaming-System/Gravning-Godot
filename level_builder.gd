@@ -56,8 +56,8 @@ func generate_objs(objs: Array):
 func generate_outer_walls():
     var rect = Rect2i(-18, -4, 75, 30)
     # Ensure the rectangle is valid (positive width/height)
-    var abs_rect = rect.abs() 
-    
+    var abs_rect = rect.abs()
+
     var vector_list = []
     for i in range(abs_rect.position.x, abs_rect.end.x):
         for j in range(abs_rect.position.y, abs_rect.end.y):
@@ -81,4 +81,3 @@ func build_level(map: Map):
     generate_outer_walls()
     build_ground(map.tiles)
     generate_objs(map.objs)
-    
