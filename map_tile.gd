@@ -28,8 +28,9 @@ func forget() -> void:
         map.items[item.type].erase(xy)
 
 func _notification(what : int):
-    if what == NOTIFICATION_PREDELETE:
-        forget()
+    if self:
+        if what == NOTIFICATION_PREDELETE:
+            forget()
 
 # Change the type of a tile, updating the item count in the map
 func changetype(type : Item.Type) -> MapTile:

@@ -8,9 +8,7 @@ func sort_closer_player(a, b):
     var player_pos = map_tile.map.player.xy
     return a.distance_squared_to(player_pos) < b.distance_squared_to(player_pos)
 
-func _new_tick():
-    board_pos = goal_pos
-    start_pos = board_pos
+func original_ai() -> void:
     var possible_movements = [board_pos, board_pos, board_pos, board_pos]
     possible_movements[0].x += 1
     possible_movements[1].x -= 1
@@ -25,7 +23,42 @@ func _new_tick():
             if goal_tile.item.type == Item.Type.PLAYER or goal_tile.item.type == Item.Type.EMPTY:
                 chosen_movement = movement
                 break
-    goal_pos = chosen_movement
+        goal_pos = chosen_movement
+
+# Compare two numbers; return -1 if a < b, +1 if a > b, or 50% chance of each if a == b
+static func randcmp(a : int, b : int) -> int:
+    if a < b:
+        return -1;                  # Left/up
+    elif a > b:
+        return 1;                   # Down/right
+    else:
+        return 1 - (randi() & 2)    # Either 1 or -1
+
+func alternate_ai() -> void:
+    var map   : GrvMap = map_tile.map
+    var delta : Vector2i = map.player.xy - map_tile.xy
+    var xmov  : Vector2i = Vector2i(randcmp(delta.x, 0), 0)
+    var ymov  : Vector2i = Vector2i(0, randcmp(delta.y, 0))
+    var moves : Array[Vector2i]
+
+    if (randcmp(abs(delta.x), abs(delta.y)) > 0):
+        # x movement preferred
+        moves = [xmov, ymov, -ymov, -xmov]
+    else:
+        # y movement preferred
+        moves = [ymov, xmov, -xmov, -ymov]
+
+    for m in moves:
+        var to : MapTile = map_tile.dv(m)
+        if to.item.is_tunnel() or to.item.type == Item.Type.PLAYER:
+            goal_pos = Vector2(to.xy)
+            break
+    # Otherwise stay put...
+
+func _new_tick():
+    board_pos = goal_pos.round()
+    start_pos = board_pos
+    alternate_ai()
     super._new_tick()
 
 func _collided(area):

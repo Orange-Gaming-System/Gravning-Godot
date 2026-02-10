@@ -26,12 +26,12 @@ func _input(event):
 
 func _new_tick() -> void:
     board_pos = goal_pos
-    map_tile.map.move_player(board_pos)
+    map_tile = map_tile.map.move_player(board_pos)
     var new_pos = board_pos
     if input_from_tick or Input.is_action_pressed(last_input):
         if last_input != "escape":
             # code for standard movement.
-            
+
             # move new_pos in the input direction.
             match str(last_input):
                 "left":
