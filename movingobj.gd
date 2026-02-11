@@ -11,7 +11,6 @@ func _process(_delta):
 
 func _ready():
     super._ready()
-    GameManager.game_clock.timeout.connect(Callable(self, "_new_tick"))
     start_pos = board_pos
     goal_pos = board_pos
 

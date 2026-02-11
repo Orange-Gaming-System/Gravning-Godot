@@ -15,14 +15,18 @@ const palettes = [
     ["gray", "red"]
 ]
 
+## Holds the current score. Can be negative!
 var score: int = 0:
     set(value):
         score = value
         gamescene.get_node("UI/score").text = str(score)
 
+## Holds whether or not bonus dots will give score right now.
+var bonus: bool = false
+
 var game_clock: Timer
 
-const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres"), Item.Type.GHOST: preload("res://themes/default/objects/ghost.tres"), Item.Type.FROZEN_CHERRY: preload("res://themes/default/objects/frozen_cherry.tres"), Item.Type.THAWED_CHERRY: preload("res://themes/default/objects/thawed_cherry.tres")}
+const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres"), Item.Type.GHOST: preload("res://themes/default/objects/ghost.tres"), Item.Type.FROZEN_CHERRY: preload("res://themes/default/objects/frozen_cherry.tres"), Item.Type.THAWED_CHERRY: preload("res://themes/default/objects/thawed_cherry.tres"), Item.Type.BONUS: preload("res://themes/default/objects/bonus_coin.tres")}
 
 var grvmap: GrvMap
 
@@ -104,6 +108,24 @@ func load_level():
     RenderingServer.set_default_clear_color(colors[palette[0]])
     preload("res://grvtheme.tres").set_color("font_color", "Label", text_colors[palette[0]])
     score = score
+    game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
+    game_clock.connect("timeout", _new_tick)
     var map = Map.new(grvFileLoader.get_level_path(level))
     grvmap = map.grvmap
     LevelBuilder.build_level(map)
+    bonus_dot_off()
+    GameTime.start()
+    game_clock.start()
+
+func bonus_dot_on(_timeritem = null):
+    print("BONUS")
+    bonus = true
+    TimerItem.new(bonus_dot_off, GameTime.now() + 12)
+
+func bonus_dot_off(_timeritem = null):
+    print("No bonus")
+    bonus = false
+    TimerItem.new(bonus_dot_on, GameTime.now() + 120)
+    
+func _new_tick():
+    TimerItem.poll(GameTime.now())

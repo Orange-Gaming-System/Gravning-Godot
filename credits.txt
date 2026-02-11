@@ -4,7 +4,7 @@ Soft Wall Tileset:
 Wall Tileset:
     itch.io - https://oliver-pixelsnpaint.itch.io/free-pixel-art-tileset
     Modified!
-Dirt (and BG?):
+Dirt, BG, and Bonus Coin:
     itch.io - https://xvideosman.itch.io/cave-tileset
 Font:
     Google Fonts - https://fonts.google.com/specimen/Press+Start+2P?query=Press+Start+2

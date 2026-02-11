@@ -1,0 +1,72 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://cj5uqctw8edub"]
+
+[ext_resource type="Texture2D" uid="uid://7o244cqbcbby" path="res://bonus_coin.png" id="1_orypf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_orypf"]
+atlas = ExtResource("1_orypf")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nu88m"]
+atlas = ExtResource("1_orypf")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vjvj"]
+atlas = ExtResource("1_orypf")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8isp"]
+atlas = ExtResource("1_orypf")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3oey3"]
+atlas = ExtResource("1_orypf")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ptlra"]
+atlas = ExtResource("1_orypf")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nsnbc"]
+atlas = ExtResource("1_orypf")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cny2s"]
+atlas = ExtResource("1_orypf")
+region = Rect2(48, 16, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_orypf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nu88m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0vjvj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8isp")
+}],
+"loop": true,
+"name": &"gold",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3oey3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ptlra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nsnbc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cny2s")
+}],
+"loop": true,
+"name": &"silver",
+"speed": 4.0
+}]

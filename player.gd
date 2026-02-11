@@ -11,11 +11,6 @@ var input_from_tick: bool = false
 ## The list of actions accepted by the player node.
 const accepted_actions: Array[StringName] = ["left", "right", "up", "down", "escape"]
 
-func _ready():
-    super._ready()
-    GameManager.game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
-    GameManager.game_clock.start()
-
 # Input handler
 func _input(event):
     for action in accepted_actions:

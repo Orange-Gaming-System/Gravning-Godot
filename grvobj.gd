@@ -10,7 +10,11 @@ var map_tile: MapTile
 func _ready():
     position = board_pos * 16
     sprite_frames = GameManager.obj_frames[map_tile.item.type]
+    GameManager.game_clock.timeout.connect(_new_tick)
 
 func _init(tile: MapTile):
     board_pos = tile.xy
     map_tile = tile
+
+func _new_tick():
+    pass
