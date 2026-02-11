@@ -326,7 +326,7 @@ func generate(hyperspace : bool = false) -> void:
                     var whichtimer : int = usedtimers
                     if rnd.item == Item.Type.BOMB:
                         whichtimer = bombtimer
-                    elif rnd.item.is_door():
+                    elif Item.is_doortype(rnd.item):
                         whichtimer = doortimer
                     if whichtimer < usedtimers:
                         t.tmr = timers[whichtimer].instance()
