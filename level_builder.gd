@@ -5,7 +5,6 @@ var obj_classes = {Item.Type.PLAYER: Player, Item.Type.CHERRY: Cherry, Item.Type
 
 ##Builds ground tiles from a 2D array of [Tile]s.
 func build_ground(tiles: Array):
-    GameManager.tiles = tiles
     var empty = []
     var dirt0 = []
     var dirt1 = []

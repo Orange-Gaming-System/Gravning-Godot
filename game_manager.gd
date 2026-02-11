@@ -32,9 +32,6 @@ var gamescene: Node
 ## Holds the current color palette. See [constant palettes] for the list of color palettes.
 var palette: Array = palettes[0]
 
-## Holds the unparsed tile data for dirt, walls, and soft_walls. See [method Level_Builder.build_ground] for how to interpret the information.
-var tiles: Array
-
 ## The terrains for each color of dirt.
 const dirt = {"blue": 14, "brown": 15, "red": 16, "gray": 17, "pink": 18, "green": 19, "cyan": 20}
 
@@ -86,29 +83,15 @@ func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
 
 ## Dig the tile at [param pos].
 func dig(pos: Vector2i):
-    var tile = tiles[pos.y][pos.x]
     var mtile = grvmap.at(pos)
-    if tile.type == Tile.TYPE.DIRT or tile.type == Tile.TYPE.SOFT_WALL:
-        if tile.type == Tile.TYPE.SOFT_WALL:
+    if !mtile.item.in_tunnel():
+        if mtile.item.type == Item.Type.SOFTWALL:
             score -= (level + 1) * 5
-        tiles[pos.y][pos.x] = Tile.new(Tile.TYPE.EMPTY, tile.color)
         gamescene.get_node("ground_tiles").set_cells_terrain_connect([pos], 0, -1)
         mtile.dig()
     if mtile.node:
         if mtile.node is Collectible:
             mtile.node.collect()
-
-## Gets the [enum MOVE_TYPE] for a given [Tile].
-func get_tile_type_move_type(tile_type: Tile):
-    match tile_type.type:
-        Tile.TYPE.EMPTY:
-            return MOVE_TYPE.EMPTY
-        Tile.TYPE.DIRT:
-            return MOVE_TYPE.DIG
-        Tile.TYPE.WALL:
-            return MOVE_TYPE.BLOCKED
-        Tile.TYPE.SOFT_WALL:
-            return MOVE_TYPE.DIG
 
 func load_next_level():
     gamescene.queue_free()
