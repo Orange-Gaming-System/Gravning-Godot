@@ -3,23 +3,25 @@ class_name TimerItem extends RefCounted
 var time        : float
 var prio        : int
 var event       : Callable
-var disabled    : bool
 
-func _init(_event : Callable, _time : float, _prio : int = 0, _disabled : bool = false):
+func _init(_event : Callable, _time : float, _prio : int = 0):
     event = _event
     time = _time
     prio = _prio
-    disabled = _disabled
 
 # Return a true value to indicate that this event is the "real" event for
 # this run; return a false value to pop another entry off the queue.
 func trigger():
     return event.call(self)
 
+# Dummy trigger event
+static func _deleted_event(_tmr : TimerItem) -> bool:
+    return false
+
 ## Disable a pending timer event. The [method poll] function will remove it from
 ## the queue later without returning.
-func disable(off : bool = true):
-    disabled = off
+func disable() -> void:
+    event = _deleted_event
 
 # The corresponding sort/bsearch function
 static func run_after(a : TimerItem, b : TimerItem) -> bool:
@@ -37,8 +39,8 @@ class Queue extends RefCounted:
         queue.insert(queue.bsearch_custom(_tmr, _tmr.run_after, true), _tmr)
         return _tmr
 
-    func add(_event : Callable, _time : float, _prio : int = 0, _disabled : bool = false) -> TimerItem:
-        return enqueue(TimerItem.new(_event, _time, _prio, _disabled))
+    func add(_event : Callable, _time : float, _prio : int = 0) -> TimerItem:
+        return enqueue(TimerItem.new(_event, _time, _prio))
 
     func poll(now : float) -> TimerItem:
         var triggered : TimerItem = null
@@ -46,6 +48,6 @@ class Queue extends RefCounted:
             if queue.is_empty() or now < queue.back().time:
                 return null
             triggered = queue.pop_back()
-            if triggered.disabled or !triggered.trigger():
+            if !triggered.trigger():
                 triggered = null
         return triggered
