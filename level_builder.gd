@@ -46,11 +46,7 @@ func build_ground(tiles: Array):
 ## Generates all object nodes from an array of [MapTile].
 func generate_objs(objs: Array):
     for obj in objs:
-        var item = obj.item
-        if item.is_door():
-            pass
-        else:
-            obj.spawn_obj()
+        obj.spawn_obj()
 
 func generate_outer_walls():
     var rect = Rect2i(-18, -4, 75, 30)

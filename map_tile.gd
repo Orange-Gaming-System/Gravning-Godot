@@ -151,9 +151,14 @@ static func by_player_start_prio(a : MapTile, b : MapTile) -> bool:
 
 ## Spawns an object from a [MapTile]. The provided [MapTile] must not be a door, wall, soft wall, or empty.
 func spawn_obj():
-    var obj_node = LevelBuilder.obj_classes[item.type].new(self)
-    GameManager.gamescene.get_node("objects").add_child(obj_node)
-    node = obj_node
+    if !item.is_door():
+        var obj_node = LevelBuilder.obj_classes[item.type].new(self)
+        GameManager.gamescene.get_node("objects").add_child(obj_node)
+        node = obj_node
+    else:
+        var obj_node = Door.new(self)
+        GameManager.gamescene.get_node("objects").add_child(obj_node)
+        node = obj_node
 
 func rmv_obj():
     changetype(Item.Type.EMPTY)

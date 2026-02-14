@@ -27,5 +27,5 @@ func _init(path: String):
                 tiles[t.xy.y][t.xy.x] = Tile.new(Tile.TYPE.EMPTY, t.item.flags & Item.Flags.BG2 as Tile.COLOR)
             else:
                 tiles[t.xy.y][t.xy.x] = Tile.new(Tile.TYPE.DIRT, t.item.flags & Item.Flags.BG2 as Tile.COLOR)
-            if LevelBuilder.obj_classes.has(t.item.type):
+            if LevelBuilder.obj_classes.has(t.item.type) or t.item.is_door():
                 objs.append(t)

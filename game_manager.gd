@@ -73,14 +73,16 @@ func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
         var move_offset = to - from
         if move_offset.y != -1:
             var push = to + move_offset
-            if grvmap.at(push).item.in_tunnel():
+            if grvmap.at(push).item.is_tunnel():
                 return MOVE_TYPE.ROCK
             else:
                 return MOVE_TYPE.BLOCKED
         else:
             return MOVE_TYPE.BLOCKED
     else:
-        if mtile.item.is_tunnel():
+        if mtile.item.player_can_eat():
+            if mtile.item.is_dirt() or mtile.item.type == Item.Type.SOFTWALL:
+                return MOVE_TYPE.DIG
             return MOVE_TYPE.EMPTY
         if mtile.node is BlockingObj or mtile.item.type == Item.Type.WALL:
             return MOVE_TYPE.BLOCKED
@@ -120,15 +122,23 @@ func load_level():
     GameTime.start()
     game_clock.start()
 
-func bonus_dot_on(_timeritem = null):
+func bonus_dot_on(_timeritem = null) -> bool:
     print("BONUS")
     bonus = true
-    queue.add(bonus_dot_off, GameTime.now() + 12)
+    if grvmap.itemcount[Item.Type.BONUS]:
+        queue.add(bonus_dot_off, GameTime.now() + 12)
+        return true
+    else:
+        return false
 
-func bonus_dot_off(_timeritem = null):
+func bonus_dot_off(_timeritem = null) -> bool:
     print("No bonus")
     bonus = false
-    queue.add(bonus_dot_on, GameTime.now() + 120)
+    if grvmap.itemcount[Item.Type.BONUS]:
+        queue.add(bonus_dot_on, GameTime.now() + 120)
+        return true
+    else:
+        return false
     
 func _new_tick():
     queue.poll(GameTime.now())
