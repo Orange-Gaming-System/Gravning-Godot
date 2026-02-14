@@ -2,9 +2,10 @@
 class_name Door extends TimedObj
 
 func _ready():
-    GameManager.queue.add(event, map_tile.tmr.fval, map_tile.prio)
-    sprite_frames = preload("res://themes/default/objects/doors.tres")
-    position = board_pos * 16
+    super._ready()
+    if map_tile.item.visual == Item.Door.GONE:
+        push_warning("GONE-DOOR created at " + str(map_tile.xy) + ".")
+    animation = map_tile.item.visual_str()
 
 func event(_timeritem):
     map_tile.rmv_obj()

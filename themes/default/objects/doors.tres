@@ -2,17 +2,87 @@
 
 [ext_resource type="Texture2D" uid="uid://bksrpskwdxf70" path="res://themes/default/objects/textures/doors.png" id="1_ixfml"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_exk01"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixfml"]
 atlas = ExtResource("1_ixfml")
-region = Rect2(0, 96, 16, 16)
+region = Rect2(0, 48, 16, 16)
 
 [resource]
 animations = [{
+"frames": [],
+"loop": false,
+"name": &"D",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"DL",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"DLR",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"DR",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"L",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_exk01")
+"texture": SubResource("AtlasTexture_ixfml")
 }],
 "loop": false,
-"name": &"default",
+"name": &"LR",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"R",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"U",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"UD",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"UDL",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"UDLR",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"UDR",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"UL",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"ULR",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"UR",
 "speed": 5.0
 }]
