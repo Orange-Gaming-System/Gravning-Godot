@@ -14,7 +14,7 @@ func _init(_event : Callable, _time : float, _prio : int = 0, _disabled : bool =
 # Return a true value to indicate that this event is the "real" event for
 # this run; return a false value to pop another entry off the queue.
 func trigger():
-    event.call(self)
+    return event.call(self)
 
 ## Disable a pending timer event. The [method poll] function will remove it from
 ## the queue later without returning.
