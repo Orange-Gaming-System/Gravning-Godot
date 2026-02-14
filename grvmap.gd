@@ -123,6 +123,7 @@ class Rand:
             inst.setval(value)  # Update already instantiated value
         return self
 
+    ## Constructor for [class GrvMap.Rand] that reads from a [class StreamPeer]
     static func read(buf : StreamPeer, _level : int) -> Rand:
         var rnd         = Rand.new()
         rnd.level       = _level
@@ -133,6 +134,19 @@ class Rand:
         rnd.valbase     = buf.get_double()
         rnd.vallvl      = buf.get_double()
         rnd.valrnd      = buf.get_double()
+        rnd.addend      = 0.0
+        return rnd
+
+    ## Constructor for [class GrvMap.Rand] that will always give a fixed value
+    static func fixed(_value : float, _level : int, _item : Item.Type = Item.Type.NONE) -> Rand:
+        var rnd         = Rand.new()
+        rnd.level       = _level
+        rnd.item        = _item
+        rnd.minlvl      = 0
+        rnd.valmax      = _value
+        rnd.valbase     = _value
+        rnd.vallvl      = 0.0
+        rnd.valrnd      = 0.0
         rnd.addend      = 0.0
         return rnd
 
@@ -298,6 +312,16 @@ func placerandom(type : Item.Type) -> MapTile:
             t.dig()
     return t
 
+## Increase the number of random items, creating the Rand object if needed
+func addrandom(type : Item.Type, count : float = 1.0) -> Rand:
+    var rnd : Rand = randitems[type]
+    if !rnd:
+        rnd = Rand.fixed(count, level, type)
+        randitems[type] = rnd
+    else:
+        rnd.add(count)
+    return rnd
+
 ## Generate the specialized the map for a specific level and add random
 ## items. It is permitted to tweak parameters between the constructor and
 ## calling this function. Use [code]randitems[type].add(value)[/code] to
@@ -306,7 +330,7 @@ func placerandom(type : Item.Type) -> MapTile:
 func generate(hyperspace : bool = false) -> void:
     # Add common random items
     if hyperspace:
-        randitems[Item.Type.HYPER].add(5.0)
+        addrandom(Item.Type.HYPER, 5.0)
 
     # Place random items. Ghosts (0x02) must be generated after
     # rocks. Currently, this is most easily handled by processing the
@@ -327,7 +351,7 @@ func generate(hyperspace : bool = false) -> void:
                     if rnd.item == Item.Type.BOMB:
                         whichtimer = bombtimer
                     elif rnd.item == Item.Type.HYPER:
-                        t.visual = hyperviz
+                        t.item.visual = hyperviz
                         hyperviz += 1
                     elif rnd.item == Item.Type.DOOR:
                         whichtimer = doortimer
