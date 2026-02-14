@@ -2,7 +2,10 @@
 class_name Game_Manager extends Node
 
 ## Holds the current level number - 1. Should never be greater than or equal to [member grv_File_Loader.levelcount].
-var level: int = 0
+var level: int = 0:
+    set(value):
+        level = value
+        gamescene.get_node("UI/level").text = str(level + 1)
 
 ## Holds the number of levels the player has beaten since they died or HYPER appeared. If it is 4 or greater when loading a level, HYPER is spawned.
 var level_streak: int = 0
@@ -117,6 +120,9 @@ func load_level():
     preload("res://grvtheme.tres").set_color("font_color", "Label", text_colors[palette[0]])
     hyper = [false, false, false, false, false]
     score = score
+    level = level
+    for letter in Item.visuals[Item.Type.HYPER]:
+        gamescene.get_node("UI/hyper_" + letter).play(letter)
     game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
     game_clock.connect("timeout", _new_tick)
     queue = TimerItem.Queue.new()
