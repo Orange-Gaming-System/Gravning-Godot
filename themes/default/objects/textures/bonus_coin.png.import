@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://042pvekiobwy"
-path="res://.godot/imported/ammo.png-25a337dd55fba2517d680a6374ca2721.ctex"
+uid="uid://7o244cqbcbby"
+path="res://.godot/imported/bonus_coin.png-0c21edb5a515c2fd254b4ae89ccfd444.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ammo.png"
-dest_files=["res://.godot/imported/ammo.png-25a337dd55fba2517d680a6374ca2721.ctex"]
+source_file="res://themes/default/objects/textures/bonus_coin.png"
+dest_files=["res://.godot/imported/bonus_coin.png-0c21edb5a515c2fd254b4ae89ccfd444.ctex"]
 
 [params]
 

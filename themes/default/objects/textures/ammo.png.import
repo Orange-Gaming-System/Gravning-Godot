@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2b7thkmovet5"
-path="res://.godot/imported/frozen_cherry.png-7cac223253e482f773163cfd73a2cf9b.ctex"
+uid="uid://042pvekiobwy"
+path="res://.godot/imported/ammo.png-c5f49ec97baa4ddfa34e8fdb717acf0b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://frozen_cherry.png"
-dest_files=["res://.godot/imported/frozen_cherry.png-7cac223253e482f773163cfd73a2cf9b.ctex"]
+source_file="res://themes/default/objects/textures/ammo.png"
+dest_files=["res://.godot/imported/ammo.png-c5f49ec97baa4ddfa34e8fdb717acf0b.ctex"]
 
 [params]
 

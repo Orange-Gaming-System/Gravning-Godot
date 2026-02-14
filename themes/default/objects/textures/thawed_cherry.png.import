@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://828s0r6dt3pw"
-path="res://.godot/imported/fruit_cherry.png-d3c8c152cbdf77c791ec696b4a9840af.ctex"
+uid="uid://ckoxb4vjlx1v6"
+path="res://.godot/imported/thawed_cherry.png-998157635896ceb646fdd6b1d282ad01.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://fruit_cherry.png"
-dest_files=["res://.godot/imported/fruit_cherry.png-d3c8c152cbdf77c791ec696b4a9840af.ctex"]
+source_file="res://themes/default/objects/textures/thawed_cherry.png"
+dest_files=["res://.godot/imported/thawed_cherry.png-998157635896ceb646fdd6b1d282ad01.ctex"]
 
 [params]
 

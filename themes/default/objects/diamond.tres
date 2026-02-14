@@ -1,7 +1,7 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://3syp4rlp11uf"]
 
-[ext_resource type="Texture2D" uid="uid://du31nkr0jf7rp" path="res://diamond_dirt.png" id="1_m58hm"]
-[ext_resource type="Texture2D" uid="uid://b1kfxcbo6cw4x" path="res://diamond_tunnel.png" id="2_7hd7y"]
+[ext_resource type="Texture2D" uid="uid://du31nkr0jf7rp" path="res://themes/default/objects/textures/diamond_dirt.png" id="1_m58hm"]
+[ext_resource type="Texture2D" uid="uid://b1kfxcbo6cw4x" path="res://themes/default/objects/textures/diamond_tunnel.png" id="2_7hd7y"]
 
 [resource]
 animations = [{

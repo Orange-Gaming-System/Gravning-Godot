@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7o244cqbcbby"
-path="res://.godot/imported/bonus_coin.png-7cdcbaedad30e90202e97eb1a9f8e9ac.ctex"
+uid="uid://828s0r6dt3pw"
+path="res://.godot/imported/fruit_cherry.png-75b5f563ef7d9b1067f8b14336d1fd7a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://bonus_coin.png"
-dest_files=["res://.godot/imported/bonus_coin.png-7cdcbaedad30e90202e97eb1a9f8e9ac.ctex"]
+source_file="res://themes/default/objects/textures/fruit_cherry.png"
+dest_files=["res://.godot/imported/fruit_cherry.png-75b5f563ef7d9b1067f8b14336d1fd7a.ctex"]
 
 [params]
 

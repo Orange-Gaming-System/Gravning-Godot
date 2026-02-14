@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b1kfxcbo6cw4x"
-path="res://.godot/imported/diamond_tunnel.png-4b18940210474080d36a50d90b67d906.ctex"
+path="res://.godot/imported/diamond_tunnel.png-5c479b3ada68d7cc4da21520807d5137.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://diamond_tunnel.png"
-dest_files=["res://.godot/imported/diamond_tunnel.png-4b18940210474080d36a50d90b67d906.ctex"]
+source_file="res://themes/default/objects/textures/diamond_tunnel.png"
+dest_files=["res://.godot/imported/diamond_tunnel.png-5c479b3ada68d7cc4da21520807d5137.ctex"]
 
 [params]
 

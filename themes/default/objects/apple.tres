@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://bv6gunc0ruek1"]
 
-[ext_resource type="Texture2D" uid="uid://bonctjx8icbus" path="res://apple_red.png" id="1_e5rxt"]
+[ext_resource type="Texture2D" uid="uid://bonctjx8icbus" path="res://themes/default/objects/textures/apple_red.png" id="1_e5rxt"]
 
 [resource]
 animations = [{

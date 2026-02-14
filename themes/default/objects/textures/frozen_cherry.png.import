@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bonctjx8icbus"
-path="res://.godot/imported/apple_red.png-5968283cb79fc992f49eb2a0b02d4521.ctex"
+uid="uid://c2b7thkmovet5"
+path="res://.godot/imported/frozen_cherry.png-2dc10eb0988785c58e7febbd7471cbd0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://apple_red.png"
-dest_files=["res://.godot/imported/apple_red.png-5968283cb79fc992f49eb2a0b02d4521.ctex"]
+source_file="res://themes/default/objects/textures/frozen_cherry.png"
+dest_files=["res://.godot/imported/frozen_cherry.png-2dc10eb0988785c58e7febbd7471cbd0.ctex"]
 
 [params]
 

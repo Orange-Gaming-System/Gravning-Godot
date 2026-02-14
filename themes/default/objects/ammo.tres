@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://dix22ycfgnwiw"]
 
-[ext_resource type="Texture2D" uid="uid://042pvekiobwy" path="res://ammo.png" id="1_panki"]
+[ext_resource type="Texture2D" uid="uid://042pvekiobwy" path="res://themes/default/objects/textures/ammo.png" id="1_panki"]
 
 [resource]
 animations = [{

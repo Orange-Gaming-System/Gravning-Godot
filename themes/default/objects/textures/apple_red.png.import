@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://du31nkr0jf7rp"
-path="res://.godot/imported/diamond_dirt.png-50055f72218b4ec7a56c41848c1f5005.ctex"
+uid="uid://bonctjx8icbus"
+path="res://.godot/imported/apple_red.png-87df47a4b2711fe32c7b0f4ca2214a75.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://diamond_dirt.png"
-dest_files=["res://.godot/imported/diamond_dirt.png-50055f72218b4ec7a56c41848c1f5005.ctex"]
+source_file="res://themes/default/objects/textures/apple_red.png"
+dest_files=["res://.godot/imported/apple_red.png-87df47a4b2711fe32c7b0f4ca2214a75.ctex"]
 
 [params]
 

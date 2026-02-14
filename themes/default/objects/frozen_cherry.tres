@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://6gofdlob31kq"]
 
-[ext_resource type="Texture2D" uid="uid://c2b7thkmovet5" path="res://frozen_cherry.png" id="1_v0td8"]
+[ext_resource type="Texture2D" uid="uid://c2b7thkmovet5" path="res://themes/default/objects/textures/frozen_cherry.png" id="1_v0td8"]
 
 [resource]
 animations = [{
