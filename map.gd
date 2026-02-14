@@ -10,8 +10,11 @@ class_name Map extends RefCounted
 var grvmap: GrvMap
 
 func _init(path: String):
+    var spawn_hyper = GameManager.level_streak >= 4
+    if spawn_hyper:
+        GameManager.level_streak = 0
     grvmap =  GrvMap.new(FileAccess.get_file_as_bytes(path), GameManager.level)
-    grvmap.generate(true)
+    grvmap.generate(spawn_hyper)
     var empty_row = Array()
     empty_row.resize(grvmap.size.x)
     tiles = Array()

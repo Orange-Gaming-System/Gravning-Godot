@@ -4,16 +4,8 @@ class_name Game_Manager extends Node
 ## Holds the current level number - 1. Should never be greater than or equal to [member grv_File_Loader.levelcount].
 var level: int = 0
 
-## Holds the 7 color palettes used by the game.
-const palettes = [
-    ["blue", "brown"],
-    ["red", "gray"],
-    ["pink", "green"],
-    ["green", "pink"],
-    ["brown", "cyan"],
-    ["cyan", "blue"],
-    ["gray", "red"]
-]
+## Holds the number of levels the player has beaten since they died or HYPER appeared. If it is 4 or greater when loading a level, HYPER is spawned.
+var level_streak: int = 0
 
 ## Holds the current score. Can be negative!
 var score: int = 0:
@@ -24,9 +16,11 @@ var score: int = 0:
 ## Holds whether or not bonus dots will give score right now.
 var bonus: bool = false
 
+var hyper: Array[bool] = [false, false, false, false, false]
+
 var game_clock: Timer
 
-const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres"), Item.Type.GHOST: preload("res://themes/default/objects/ghost.tres"), Item.Type.FROZEN_CHERRY: preload("res://themes/default/objects/frozen_cherry.tres"), Item.Type.THAWED_CHERRY: preload("res://themes/default/objects/thawed_cherry.tres"), Item.Type.BONUS: preload("res://themes/default/objects/bonus_coin.tres"), Item.Type.DOOR: preload("res://themes/default/objects/doors.tres")}
+const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres"), Item.Type.GHOST: preload("res://themes/default/objects/ghost.tres"), Item.Type.FROZEN_CHERRY: preload("res://themes/default/objects/frozen_cherry.tres"), Item.Type.THAWED_CHERRY: preload("res://themes/default/objects/thawed_cherry.tres"), Item.Type.BONUS: preload("res://themes/default/objects/bonus_coin.tres"), Item.Type.DOOR: preload("res://themes/default/objects/doors.tres"), Item.Type.HYPER: preload("res://themes/default/objects/hyper.tres")}
 
 var grvmap: GrvMap
 
@@ -37,6 +31,17 @@ var gamescene: Node
 
 ## Holds the current color palette. See [constant palettes] for the list of color palettes.
 var palette: Array = palettes[0]
+
+## Holds the 7 color palettes used by the game.
+const palettes = [
+    ["blue", "brown"],
+    ["red", "gray"],
+    ["pink", "green"],
+    ["green", "pink"],
+    ["brown", "cyan"],
+    ["cyan", "blue"],
+    ["gray", "red"]
+]
 
 ## The terrains for each color of dirt.
 const dirt = {"blue": 14, "brown": 15, "red": 16, "gray": 17, "pink": 18, "green": 19, "cyan": 20}
@@ -103,12 +108,14 @@ func load_next_level():
     gamescene.queue_free()
     gamescene = preload("res://game.tscn").instantiate()
     level += 1
+    level_streak += 1
     get_tree().get_root().add_child.call_deferred(gamescene)
 
 func load_level():
     palette = palettes[level % 7]
     RenderingServer.set_default_clear_color(colors[palette[0]])
     preload("res://grvtheme.tres").set_color("font_color", "Label", text_colors[palette[0]])
+    hyper = [false, false, false, false, false]
     score = score
     game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
     game_clock.connect("timeout", _new_tick)

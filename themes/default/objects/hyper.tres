@@ -191,7 +191,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"E",
-"speed": 4.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -220,7 +220,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"H",
-"speed": 4.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -249,7 +249,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"P",
-"speed": 4.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -278,7 +278,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"R",
-"speed": 4.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -307,5 +307,5 @@ animations = [{
 }],
 "loop": true,
 "name": &"Y",
-"speed": 4.0
+"speed": 6.0
 }]

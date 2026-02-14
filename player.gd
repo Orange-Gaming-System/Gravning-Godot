@@ -11,6 +11,9 @@ var input_from_tick: bool = false
 ## The list of actions accepted by the player node.
 const accepted_actions: Array[StringName] = ["left", "right", "up", "down", "escape"]
 
+## The list of cheat actions and the corresponding action to execute.
+var cheats: Dictionary[StringName, Callable] = {"instant_win": GameManager.load_next_level}
+
 # Input handler
 func _input(event):
     for action in accepted_actions:
@@ -18,6 +21,10 @@ func _input(event):
             if Input.is_action_just_pressed(action):
                 last_input = action
                 input_from_tick = true
+    for cheat in cheats:
+        if event.is_action(cheat):
+            if Input.is_action_just_pressed(cheat):
+                cheats[cheat].call()
 
 func _new_tick() -> void:
     board_pos = goal_pos
