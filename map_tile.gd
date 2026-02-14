@@ -5,7 +5,7 @@ var tmr         : GrvMap.RandVal
 var prio        : int
 var map:
     get:
-        return map.get_ref()   
+        return map.get_ref()
 var node        : GrvObj
 
 func _init(_map : GrvMap = null, _type : Item.Type = Item.Type.NONE, _xy : Vector2i = Vector2i(-1, -1)):
@@ -16,6 +16,9 @@ func _init(_map : GrvMap = null, _type : Item.Type = Item.Type.NONE, _xy : Vecto
         _type = Item.Type.OUT_OF_BOUNDS
     elif _type == Item.Type.OUT_OF_BOUNDS:
         _type = Item.Type.NONE
+    elif Item.doorways.has(_type):
+        _type = Item.Type.DOOR
+        item.visual = Item.doorways[_type]
     item.type = _type
     remember()
 

@@ -306,8 +306,7 @@ func placerandom(type : Item.Type) -> MapTile:
 func generate(hyperspace : bool = false) -> void:
     # Add common random items
     if hyperspace:
-        for h in Item.Hypers:
-            randitems[h].add(1.0)
+        randitems[Item.Type.HYPER].add(5.0)
 
     # Place random items. Ghosts (0x02) must be generated after
     # rocks. Currently, this is most easily handled by processing the
@@ -316,6 +315,7 @@ func generate(hyperspace : bool = false) -> void:
     # item, so stop before Item.Type.PLAYER.  For some weird reason
     # range() doesn't seem to work here (Godot 4.6, possibly an engine
     # bug)
+    var hyperviz : int = 0
     var type : int = randitems.size() - 1
     while type > Item.Type.PLAYER:
         var rnd : Rand = randitems[type]
@@ -326,7 +326,10 @@ func generate(hyperspace : bool = false) -> void:
                     var whichtimer : int = usedtimers
                     if rnd.item == Item.Type.BOMB:
                         whichtimer = bombtimer
-                    elif Item.is_doortype(rnd.item):
+                    elif rnd.item == Item.Type.HYPER:
+                        t.visual = hyperviz
+                        hyperviz += 1
+                    elif rnd.item == Item.Type.DOOR:
                         whichtimer = doortimer
                     if whichtimer < usedtimers:
                         t.tmr = timers[whichtimer].instance()

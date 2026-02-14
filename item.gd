@@ -19,27 +19,13 @@ enum Type {
     AMMO                =  0xec,
     BONUS               =  0xf9,
     APPLE               =  0xfe,
-    DOOR_UDL            =  0xb9,
-    DOOR_UD             =  0xba,
-    DOOR_DL             =  0xbb,
-    DOOR_UL             =  0xbc,
-    DOOR_UR             =  0xc8,
-    DOOR_DR             =  0xc9,
-    DOOR_ULR            =  0xca,
-    DOOR_DLR            =  0xcb,
-    DOOR_UDR            =  0xcc,
-    DOOR_LR             =  0xcd,
-    DOOR_UDLR           =  0xce,
 
     # Item types only used internally
     OUT_OF_BOUNDS       = 0x100,
-    HYP_H               = 0x101,
-    HYP_Y               = 0x102,
-    HYP_P               = 0x103,
-    HYP_E               = 0x104,
-    HYP_R               = 0x105,
-    THAWED_CHERRY       = 0x106,
-    APPLE_DIAMOND       = 0x107,
+    HYPER               = 0x101,
+    THAWED_CHERRY       = 0x102,
+    APPLE_DIAMOND       = 0x103,
+    DOOR                = 0x104,
 
     # End sentinel
     TypeCount                   # One more than the highest enum value
@@ -50,18 +36,58 @@ enum Flags {
     TUNNEL      = 0x80,         # Dug tunnel
     TUNNEL_BG2	= 0x81			# For the benefit of the editor
 }
-const Hypers : Array[Type] = [Type.HYP_H, Type.HYP_Y, Type.HYP_P, Type.HYP_E, Type.HYP_R]
+
+# This enumeration is also a bitmap
+enum Door {
+    # GONE Door
+    GONE    = 0,
+    # More Door
+    R, L, LR,
+    D, DR, DL, DLR,
+    U, UR, UL, ULR,
+    UD, UDR, UDL, UDLR,
+}
+
+const doorways : Dictionary[int, int] = {
+    0xb9    : Door.UDL,
+    0xba    : Door.UD,
+    0xbb    : Door.DL,
+    0xbc    : Door.UL,
+    0xc8    : Door.UR,
+    0xc9    : Door.DR,
+    0xca    : Door.ULR,
+    0xcb    : Door.DLR,
+    0xcc    : Door.UDR,
+    0xcd    : Door.LR,
+    0xce    : Door.UDLR
+}
+
+const visuals : Dictionary[Type, Array] = {
+    Type.DOOR   : [ "", "R", "L", "LR", "D", "DR", "DL", "DLR",
+                    "U", "UR", "UL", "ULR", "UD", "UDR", "UDL", "UDLR" ],
+    Type.HYPER  : [ "H", "Y", "P", "E", "R"]
+}
 
 @export var type    : Type  = Type.EMPTY
+@export var visual  : int
 @export var flags   : Flags = Flags.NONE
 
+func visual_str() -> String:
+    if visuals.has(type):
+        var viz : Array = visuals[type]
+        if visual < viz.size():
+            return viz[visual]
+    return ""
+
+# Delete these functions eventually
 static func is_doortype(itemtype: Type) -> bool:
-    return itemtype >= Type.DOOR_UDL and itemtype <= Type.DOOR_UDLR
+    return itemtype == Type.DOOR
 func is_door() -> bool:
     return is_doortype(type)
 
+# Delete these functions eventually
 static func is_hypertype(itemtype : Type) -> bool:
-    return itemtype >= Type.HYP_H and itemtype <= Type.HYP_R
+    return itemtype == Type.HYPER
 func is_hyper() -> bool:
     return is_hypertype(type)
 
