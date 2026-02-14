@@ -80,9 +80,7 @@ func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
         else:
             return MOVE_TYPE.BLOCKED
     else:
-        if mtile.item.player_can_eat():
-            if mtile.item.is_dirt() or mtile.item.type == Item.Type.SOFTWALL:
-                return MOVE_TYPE.DIG
+        if mtile.item.is_tunnel():
             return MOVE_TYPE.EMPTY
         if mtile.node is BlockingObj or mtile.item.type == Item.Type.WALL:
             return MOVE_TYPE.BLOCKED
