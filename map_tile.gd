@@ -3,11 +3,13 @@ var xy          : Vector2i
 var item        : Item
 var tmr         : GrvMap.RandVal
 var prio        : int
-var map         : GrvMap
+var map:
+    get:
+        return map.get_ref()   
 var node        : GrvObj
 
 func _init(_map : GrvMap = null, _type : Item.Type = Item.Type.NONE, _xy : Vector2i = Vector2i(-1, -1)):
-    map = _map
+    map = weakref(_map)
     xy = _xy
     item = Item.new()
     if map and map.oob(xy):

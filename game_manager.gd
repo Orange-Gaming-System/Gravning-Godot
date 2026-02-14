@@ -30,6 +30,8 @@ const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: prelo
 
 var grvmap: GrvMap
 
+var queue: TimerItem.Queue
+
 ## Holds a reference to the game scene's root node.
 var gamescene: Node
 
@@ -101,7 +103,7 @@ func load_next_level():
     gamescene.queue_free()
     gamescene = preload("res://game.tscn").instantiate()
     level += 1
-    get_tree().get_root().add_child(gamescene)
+    get_tree().get_root().add_child.call_deferred(gamescene)
 
 func load_level():
     palette = palettes[level % 7]
@@ -110,6 +112,7 @@ func load_level():
     score = score
     game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
     game_clock.connect("timeout", _new_tick)
+    queue = TimerItem.Queue.new()
     var map = Map.new(grvFileLoader.get_level_path(level))
     grvmap = map.grvmap
     LevelBuilder.build_level(map)
@@ -120,12 +123,12 @@ func load_level():
 func bonus_dot_on(_timeritem = null):
     print("BONUS")
     bonus = true
-    TimerItem.new(bonus_dot_off, GameTime.now() + 12)
+    queue.add(bonus_dot_off, GameTime.now() + 12)
 
 func bonus_dot_off(_timeritem = null):
     print("No bonus")
     bonus = false
-    TimerItem.new(bonus_dot_on, GameTime.now() + 120)
+    queue.add(bonus_dot_on, GameTime.now() + 120)
     
 func _new_tick():
-    TimerItem.poll(GameTime.now())
+    queue.poll(GameTime.now())
