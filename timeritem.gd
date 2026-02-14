@@ -46,6 +46,6 @@ class Queue extends RefCounted:
             if queue.is_empty() or now < queue.back().time:
                 return null
             triggered = queue.pop_back()
-            if !triggered.trigger():
+            if triggered.disabled or !triggered.trigger():
                 triggered = null
         return triggered
