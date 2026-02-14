@@ -21,10 +21,7 @@ func _init(_event : Callable, _time : float, _prio : int = 0):
     time = _time
     prio = _prio
     disabled = false
-    if !queue.is_empty():
-        queue.insert(queue.bsearch_custom(queue, run_after, true), self)
-    else:
-        queue.append(self)
+    queue.insert(queue.bsearch_custom(self, run_after, true), self)
 
 static func clearall():
     queue.clear()
