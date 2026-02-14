@@ -11,7 +11,7 @@ var grvmap: GrvMap
 
 func _init(path: String):
     grvmap =  GrvMap.new(FileAccess.get_file_as_bytes(path), GameManager.level)
-    grvmap.generate(false)
+    grvmap.generate(true)
     var empty_row = Array()
     empty_row.resize(grvmap.size.x)
     tiles = Array()
