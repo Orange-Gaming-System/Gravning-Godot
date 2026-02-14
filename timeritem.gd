@@ -11,7 +11,9 @@ func _init(_event : Callable, _time : float, _prio : int = 0, _disabled : bool =
     prio = _prio
     disabled = _disabled
 
-func trigger() -> void:
+# Return a true value to indicate that this event is the "real" event for
+# this run; return a false value to pop another entry off the queue.
+func trigger():
     event.call(self)
 
 ## Disable a pending timer event. The [method poll] function will remove it from
@@ -40,9 +42,10 @@ class Queue extends RefCounted:
 
     func poll(now : float) -> TimerItem:
         var triggered : TimerItem = null
-        while triggered == null or triggered.disabled:
-            if (!queue.size()) or (now < queue.back().time):
+        while triggered == null:
+            if queue.is_empty() or now < queue.back().time:
                 return null
             triggered = queue.pop_back()
-        triggered.trigger()
+            if !triggered.trigger():
+                triggered = null
         return triggered
