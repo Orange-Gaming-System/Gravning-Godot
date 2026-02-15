@@ -15,21 +15,23 @@ light_source {
 camera {
        orthographic
        right		x*image_width/image_height
-       up		y
+       up		    y
        location		<0,0,-1000>
        look_at		<0,0,0>
 }
 
+#declare Thickness = 0.1;
+
 text {
-     ttf "../../PressStart2P-Regular.ttf", Text, 0.1, 0.0 // thickness, offset
+     ttf "../../PressStart2P-Regular.ttf", Text, Thickness, 0.0
 
      texture{ pigment{ color rgb<1,1,1> }
-	      //normal { bumps 0.5  scale 0.01 }
-	      finish { phong 0.1 }
+	      // normal { bumps 0.5  scale 0.01 }
+	      // finish { phong 0.1 }
      } // end of texture
 
       // To match the PNG coordinate system
-      translate<-X,-Y,0>
+      translate<-X,-Y,-Thickness/2>
       scale<1,1,1>*0.25*Scale
      rotate<0,Degrees,0>
 } // end of text object ---------------------------------------------
