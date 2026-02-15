@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://wj2dc3t1s443"
-path="res://.godot/imported/hyper.png-bd4b839b38b12ba9457788b936943a61.ctex"
+uid="uid://dw5qcd5wgrew"
+path="res://.godot/imported/HYPER.png-7da110d4ae26785db9eef98a9263bc26.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://themes/default/objects/textures/hyper.png"
-dest_files=["res://.godot/imported/hyper.png-bd4b839b38b12ba9457788b936943a61.ctex"]
+source_file="res://themes/default/objects/textures/HYPER.png"
+dest_files=["res://.godot/imported/HYPER.png-7da110d4ae26785db9eef98a9263bc26.ctex"]
 
 [params]
 
