@@ -16,3 +16,5 @@ Apple:
     https://keifoopx.itch.io/99fruitsandnuts
 Diamond:
     https://quillgrafit.itch.io/pixel-art-8x-gems
+Rock:
+    https://xenophero.itch.io/rock-sprites
