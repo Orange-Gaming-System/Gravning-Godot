@@ -28,7 +28,6 @@ func _input(event):
 
 func _new_tick() -> void:
     board_pos = goal_pos
-    map_tile = map_tile.map.move_player(board_pos)
     var new_pos = board_pos
     if input_from_tick or Input.is_action_pressed(last_input):
         if last_input != "escape":
@@ -64,4 +63,9 @@ func _new_tick() -> void:
                 GameManager.dig(board_pos)
     start_pos = board_pos
     goal_pos = new_pos
+    map_tile = map_tile.map.move_player(goal_pos)
     input_from_tick = false
+
+func hit_by_rock():
+    GameManager.has_lost_level = true
+    map_tile.rmv_obj()

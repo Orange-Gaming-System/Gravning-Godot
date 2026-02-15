@@ -10,6 +10,8 @@ var level: int = 0:
 ## Holds the number of levels the player has beaten since they died or HYPER appeared. If it is 4 or greater when loading a level, HYPER is spawned.
 var level_streak: int = 0
 
+var has_lost_level: bool = false
+
 ## Holds the current score. Can be negative!
 var score: int = 0:
     set(value):
@@ -72,6 +74,11 @@ enum MOVE_TYPE {
 func _ready():
     gamescene = $"../game"
 
+func lose_level():
+    level -= 1
+    level_streak = -1
+    load_next_level()
+
 ## Takes two tile coordinates ([param to] and [param from]) and returns the [enum MOVE_TYPE] that corresponds to that tile [b]given the movement being attempted[b].[br][br]For example, if the player is moving into a rock that cannot be pushed, it will return MOVE_TYPE_BLOCKED, not MOVE_TYPE_ROCK.
 func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
     var mtile = grvmap.at(to)
@@ -128,6 +135,7 @@ func load_level():
     hyper = [false, false, false, false, false]
     score = score
     level = level
+    has_lost_level = false
     for letter in Item.visuals[Item.Type.HYPER]:
         gamescene.get_node("UI/hyper_" + letter).play(letter)
     game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
@@ -160,3 +168,5 @@ func bonus_dot_off(_timeritem = null) -> bool:
     
 func _new_tick():
     queue.poll(GameTime.now())
+    if has_lost_level:
+        lose_level()

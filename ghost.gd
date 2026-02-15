@@ -63,4 +63,4 @@ func _new_tick():
 
 func _collided(area):
     if area.get_parent() is Player:
-        print("You lose!")
+        GameManager.lose_level()
