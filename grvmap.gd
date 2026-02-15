@@ -234,7 +234,7 @@ func _init(mapdata : PackedByteArray, _level : int):
     randitems.clear()
     randitems.resize(Item.Type.TypeCount)
     for i in Item.Type.TypeCount:
-        randitems[i] = Rand.zero()
+        randitems[i] = Rand.zero(i)
     timers.clear()
     timers.resize(usedtimers)
 
