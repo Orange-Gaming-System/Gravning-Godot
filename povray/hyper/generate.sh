@@ -22,7 +22,7 @@ for str in "${strs[@]}"; do
 #declare X = clock;
 #declare Y = clock;
 #declare Scale = 1.0;
-#include "test.inc"
+#include "text.inc"
 EOF
     povray -D +I"$str".bound.pov +w$boundsize +h$boundsize bound.ini
 
@@ -37,7 +37,7 @@ EOF
 #declare X = ($boundsize-${b0[0]}-2*${b0[2]})/(2*(${b1[2]}-${b0[2]}));
 #declare Y = ($boundsize-${b0[1]}-2*${b0[3]})/(2*(${b1[3]}-${b0[3]}));
 #declare Scale = $boundsize*7/8/((${b0[1]}+${b1[1]})/2);
-#include "test.inc"
+#include "text.inc"
 EOF
 
     if $centertest; then
