@@ -100,7 +100,7 @@ func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
         if mtile.node is BlockingObj or mtile.item.type == Item.Type.WALL:
             return MOVE_TYPE.BLOCKED
         return MOVE_TYPE.DIG
-        
+
 
 ## Push the rock in [param rock] to [param to], if possible. Returns whether or not the push was successful.
 func push_rock(rock: MapTile, to: Vector2i) -> bool:
@@ -165,7 +165,7 @@ func bonus_dot_off(_timeritem = null) -> bool:
         return true
     else:
         return false
-    
+
 func _new_tick():
     queue.poll(GameTime.now())
     if has_lost_level:

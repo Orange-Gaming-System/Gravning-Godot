@@ -20,4 +20,3 @@ func _process(_delta):
         map_tile.changetype(Item.Type.DIAMOND)
         map_tile.node = diamond
         queue_free()
-        

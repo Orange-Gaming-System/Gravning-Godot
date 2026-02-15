@@ -15,6 +15,3 @@ func is_valid_fall(to: Vector2i, from: Vector2i):
             return false
         return true
     return false
-            
-        
-    
