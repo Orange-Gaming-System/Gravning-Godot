@@ -33,12 +33,19 @@ var itemcount       : Array[int]
 var items           : Array[Dictionary]
 var startcherries   : int               # Need to know for early exit
 
+# The tile array is sorted in row-major order from the bottom up, to make
+# sure that falling objects are processed in the correct order when iterating
+# over the list.
 var tile            : Array[MapTile]
 var shuf            : Array[MapTile]
 var nextshuf        : int
 
 var thawcount       : int
 var thawlist        : Array[MapTile]
+
+# Internal function: converts a position vector to an index in the tile array
+func tileindex(xy : Vector2i) -> int:
+    return xy.x + (size.y - xy.y - 1)*size.x
 
 class RandVal extends RefCounted:
     var fval        : float
@@ -137,15 +144,15 @@ class Rand:
         rnd.addend      = 0.0
         return rnd
 
-    ## Constructor for [class GrvMap.Rand] that will always give a fixed value
-    static func fixed(_value : float, _level : int, _item : Item.Type = Item.Type.NONE) -> Rand:
+    ## Constructor for [class GrvMap.Rand] that will always give a zero value
+    static func zero(_item : Item.Type = Item.Type.NONE) -> Rand:
         var rnd         = Rand.new()
-        rnd.level       = _level
+        rnd.level       = -1
         rnd.item        = _item
         rnd.minlvl      = 0
-        rnd.valmax      = _value
-        rnd.valbase     = _value
-        rnd.vallvl      = 0.0
+        rnd.valmax      = 0
+        rnd.valbase     = 0.0
+        rnd.vallvl      = 0
         rnd.valrnd      = 0.0
         rnd.addend      = 0.0
         return rnd
@@ -226,6 +233,8 @@ func _init(mapdata : PackedByteArray, _level : int):
     # Read random items list
     randitems.clear()
     randitems.resize(Item.Type.TypeCount)
+    for i in Item.Type.TypeCount:
+        randitems[i] = Rand.zero()
     timers.clear()
     timers.resize(usedtimers)
 
@@ -257,6 +266,7 @@ func _init(mapdata : PackedByteArray, _level : int):
         items.append({})
 
     tile.clear()
+    tile.resize(size.x * size.y)
     body.seek(boardoffset)
     for y in size.y:
         for x in size.x:
@@ -267,7 +277,7 @@ func _init(mapdata : PackedByteArray, _level : int):
             tp &= timermask
             if t.prio and tp < usedtimers:
                 t.tmr = timers[tp & timermask].instance()
-            tile.append(t)
+            tile[tileindex(t.xy)] = t
     shuf = tile.duplicate()
     shuf.shuffle()
     nextshuf = 0
@@ -284,7 +294,7 @@ func at(xy : Vector2i) -> MapTile:
     if oob(xy):
         return MapTile.new(self, Item.Type.OUT_OF_BOUNDS, xy)
     else:
-        return tile[xy.x + (xy.y * size.x)]
+        return tile[tileindex(xy)]
 
 # Cycle through the board locations in a random order
 func randtile() -> MapTile:
@@ -312,15 +322,10 @@ func placerandom(type : Item.Type) -> MapTile:
             t.dig()
     return t
 
-## Increase the number of random items, creating the Rand object if needed
+## Increase the number of random items of type [param type] by [param count].
+## This needs to be called before [method generate] to have any effect.
 func addrandom(type : Item.Type, count : float = 1.0) -> Rand:
-    var rnd : Rand = randitems[type]
-    if !rnd:
-        rnd = Rand.fixed(count, level, type)
-        randitems[type] = rnd
-    else:
-        rnd.add(count)
-    return rnd
+    return randitems[type].add(count)
 
 ## Generate the specialized the map for a specific level and add random
 ## items. It is permitted to tweak parameters between the constructor and
@@ -343,23 +348,23 @@ func generate(hyperspace : bool = false) -> void:
     var type : int = randitems.size() - 1
     while type > Item.Type.PLAYER:
         var rnd : Rand = randitems[type]
-        if rnd:
-            for n in rnd.ival():
-                var t : MapTile = placerandom(rnd.item)
-                if t:
-                    var whichtimer : int = usedtimers
-                    if rnd.item == Item.Type.BOMB:
-                        whichtimer = bombtimer
-                    elif rnd.item == Item.Type.HYPER:
-                        t.item.visual = hyperviz
-                        hyperviz += 1
-                    elif rnd.item == Item.Type.DOOR:
-                        whichtimer = doortimer
-                    if whichtimer < usedtimers:
-                        t.tmr = timers[whichtimer].instance()
+        for n in rnd.ival():
+            var t : MapTile = placerandom(rnd.item)
+            if t:
+                var whichtimer : int = usedtimers
+                if rnd.item == Item.Type.BOMB:
+                    whichtimer = bombtimer
+                elif rnd.item == Item.Type.HYPER:
+                    t.item.visual = hyperviz
+                    hyperviz += 1
+                elif rnd.item == Item.Type.DOOR:
+                    whichtimer = doortimer
+                if whichtimer < usedtimers:
+                    t.tmr = timers[whichtimer].instance()
         type -= 1
 
-    # No longer useful, free up the memory
+    # No longer useful, free up the memory and make sure we error out
+    # if addrandom() is called after this point.
     randitems.clear()
 
     # Scan the tile array for:
