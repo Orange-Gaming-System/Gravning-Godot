@@ -16,6 +16,8 @@ func _init(_map : GrvMap = null, _type : Item.Type = Item.Type.NONE, _xy : Vecto
         _type = Item.Type.OUT_OF_BOUNDS
     elif _type == Item.Type.OUT_OF_BOUNDS:
         _type = Item.Type.NONE
+    elif _type == Item.Type.ROCK:
+        item.visual = randi_range(0, 7)
     elif Item.doorways.has(_type):
         item.visual = Item.doorways[_type]
         _type = Item.Type.DOOR
@@ -55,7 +57,11 @@ func moveto(toxy : Vector2i) -> MapTile:
     if to.oob():
         return null
     to.changetype(item.type)
-    changetype(Item.Type.EMPTY)
+    to.item.visual = item.visual
+    to.node = node
+    if toxy != xy:
+        changetype(Item.Type.EMPTY)
+        node = null
     return to
 
 # Indicate if it is valid to move this tile from the current location to another.

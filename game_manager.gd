@@ -23,7 +23,7 @@ var hyper: Array[bool] = [false, false, false, false, false]
 
 var game_clock: Timer
 
-const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres"), Item.Type.GHOST: preload("res://themes/default/objects/ghost.tres"), Item.Type.FROZEN_CHERRY: preload("res://themes/default/objects/frozen_cherry.tres"), Item.Type.THAWED_CHERRY: preload("res://themes/default/objects/thawed_cherry.tres"), Item.Type.BONUS: preload("res://themes/default/objects/bonus_coin.tres"), Item.Type.DOOR: preload("res://themes/default/objects/doors.tres"), Item.Type.HYPER: preload("res://themes/default/objects/hyper.tres")}
+const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres"), Item.Type.GHOST: preload("res://themes/default/objects/ghost.tres"), Item.Type.FROZEN_CHERRY: preload("res://themes/default/objects/frozen_cherry.tres"), Item.Type.THAWED_CHERRY: preload("res://themes/default/objects/thawed_cherry.tres"), Item.Type.BONUS: preload("res://themes/default/objects/bonus_coin.tres"), Item.Type.DOOR: preload("res://themes/default/objects/doors.tres"), Item.Type.HYPER: preload("res://themes/default/objects/hyper.tres"), Item.Type.ROCK: preload("res://themes/default/objects/rock.tres")}
 
 var grvmap: GrvMap
 
@@ -77,7 +77,7 @@ func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
     var mtile = grvmap.at(to)
     if mtile.oob():
         return MOVE_TYPE.BLOCKED
-    if mtile.item.type == Item.Type.ROCK:
+    if mtile.node is FallingObj:
         var move_offset = to - from
         if move_offset.y != -1:
             var push = to + move_offset
@@ -95,6 +95,14 @@ func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
         return MOVE_TYPE.DIG
         
 
+## Push the rock in [param rock] to [param to], if possible. Returns whether or not the push was successful.
+func push_rock(rock: MapTile, to: Vector2i) -> bool:
+    if get_movement_type(to, rock.xy):
+        return false
+    rock.node.start_pos = rock.xy
+    rock.node.goal_pos = to
+    return true
+
 ## Dig the tile at [param pos].
 func dig(pos: Vector2i):
     var mtile = grvmap.at(pos)
@@ -102,7 +110,6 @@ func dig(pos: Vector2i):
         if mtile.item.type == Item.Type.SOFTWALL:
             score -= (level + 1) * 5
         gamescene.get_node("ground_tiles").set_cells_terrain_connect([pos], 0, -1)
-        mtile.dig()
     if mtile.node:
         if mtile.node is Collectible:
             mtile.node.collect()

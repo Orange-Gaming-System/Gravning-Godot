@@ -18,3 +18,6 @@ func _init(tile: MapTile):
 
 func _new_tick():
     pass
+
+func hit_by_rock():
+    map_tile.rmv_obj()
