@@ -141,6 +141,7 @@ func push_rock(rock: MapTile, to: Vector2i) -> bool:
         return false
     rock.node.start_pos = rock.xy
     rock.node.goal_pos = to
+    remove_dirt(rock)
     return true
 
 ## Dig the tile at [param pos].

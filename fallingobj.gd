@@ -7,7 +7,7 @@ func _new_tick():
     board_pos = goal_pos
     var current_pos = board_pos
     var fall_pos = board_pos + Vector2.DOWN
-    if map_tile.map.at(fall_pos).item.is_tunnel():
+    if map_tile.map.at(fall_pos).item.is_tunnel() and map_tile.item.in_tunnel():
         while fall(current_pos, fall_pos):
             current_pos += Vector2.DOWN
             fall_pos += Vector2.DOWN

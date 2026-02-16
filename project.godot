@@ -30,7 +30,7 @@ window/stretch/aspect="expand"
 
 [editor]
 
-movie_writer/movie_file="movies/movie.png"
+movie_writer/movie_file="res://movies/movie.png"
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
 

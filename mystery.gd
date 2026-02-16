@@ -19,6 +19,13 @@ func collect():
             print("Treasure: Extra Life")
             break
         if myst < 150:
+            var score = (randi_range(0, 200) + 100) * GameManager.level
+            if score == 0:
+                score = randi_range(0, 200) + 100
+            GameManager.score += score
+            print("Treasure: " + str(score) + " points")
+            break
+        if myst < 350:
             var score = (randi_range(0, 800) + 400) * GameManager.level
             if score == 0:
                 score = randi_range(0, 800) + 400
@@ -40,7 +47,9 @@ func collect():
             print("Treasure: Ghost Freeze (WIP)")
             break
         if myst < 790:
-            print("Treasure: More Ammo (WIP)")
+            var ammo = randi_range(0, 3) + 2
+            GameManager.ammo += ammo
+            print("Treasure: " + str(ammo) + " extra shots")
             break
         if myst < 930:
             if map_tile.map.itemcount[Item.Type.BOMB] == 0:
