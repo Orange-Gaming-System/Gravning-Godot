@@ -11,11 +11,9 @@ func _ready():
     super._ready()
     play("default")
 
-func instant_detonate():
-    var new_time = GameTime.now() + 4
-    if timeritem.time > new_time:
-        timeritem.disable()
-        timeritem = GameManager.queue.add(event, new_time, map_tile.prio)
+func instant_detonate(new_time):
+    timeritem.disable()
+    timeritem = GameManager.queue.add(event, new_time, map_tile.prio)
 
 func event(_timeritem, smash = false):
     for index in bomb_pattern.size():

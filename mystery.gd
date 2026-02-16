@@ -46,7 +46,7 @@ func collect():
             if map_tile.map.itemcount[Item.Type.BOMB] == 0:
                 continue
             for bombpos in map_tile.map.items[Item.Type.BOMB]:
-                map_tile.map.items[Item.Type.BOMB][bombpos].node.instant_detonate()
+                map_tile.map.items[Item.Type.BOMB][bombpos].node.instant_detonate(GameTime.now() + 4)
             print("Treasure: Bomb detonation... OOPS!")
             break
         if myst < 1060:
