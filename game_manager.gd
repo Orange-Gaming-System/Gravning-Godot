@@ -27,6 +27,15 @@ var game_clock: Timer
 
 const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres"), Item.Type.GHOST: preload("res://themes/default/objects/ghost.tres"), Item.Type.FROZEN_CHERRY: preload("res://themes/default/objects/frozen_cherry.tres"), Item.Type.THAWED_CHERRY: preload("res://themes/default/objects/thawed_cherry.tres"), Item.Type.BONUS: preload("res://themes/default/objects/bonus_coin.tres"), Item.Type.DOOR: preload("res://themes/default/objects/doors.tres"), Item.Type.HYPER: preload("res://themes/default/objects/hyper.tres"), Item.Type.ROCK: preload("res://themes/default/objects/rock.tres"), Item.Type.BOMB: preload("res://themes/default/objects/bomb.tres")}
 
+const bomb_actions: Dictionary[Item.Type, BombAction] = {Item.Type.CHERRY: BombAction.COLLECT, Item.Type.AMMO: BombAction.DESTROY, Item.Type.PLAYER: BombAction.OTHER, Item.Type.APPLE: BombAction.NONE, Item.Type.DIAMOND: BombAction.DESTROY, Item.Type.GHOST: BombAction.DESTROY, Item.Type.FROZEN_CHERRY: BombAction.NONE, Item.Type.THAWED_CHERRY: BombAction.COLLECT, Item.Type.BONUS: BombAction.OTHER, Item.Type.DOOR: BombAction.NONE, Item.Type.HYPER: BombAction.NONE, Item.Type.ROCK: BombAction.NONE, Item.Type.BOMB: BombAction.NONE, Item.Type.WALL: BombAction.DESTROY, Item.Type.SOFTWALL: BombAction.DESTROY, Item.Type.EMPTY: BombAction.NONE, Item.Type.MYSTERY: BombAction.DESTROY, Item.Type.CLUSTER: BombAction.NONE}
+
+enum BombAction {
+    NONE,
+    COLLECT,
+    DESTROY,
+    OTHER
+}
+
 var grvmap: GrvMap
 
 var queue: TimerItem.Queue
@@ -122,6 +131,28 @@ func dig(pos: Vector2i):
         if mtile.node is Collectible:
             mtile.node.collect()
 
+func remove_dirt(mtile: MapTile):
+    gamescene.get_node("ground_tiles").set_cells_terrain_connect([mtile.xy], 0, -1)
+    mtile.dig()
+
+func bomb_tile(pos: Vector2i):
+    var mtile = grvmap.at(pos)
+    if mtile.oob():
+        return
+    remove_dirt(mtile)
+    match bomb_actions[mtile.item.type]:
+        BombAction.NONE:
+            pass
+        BombAction.COLLECT:
+            mtile.node.collect()
+        BombAction.DESTROY:
+            mtile.changetype(Item.Type.EMPTY)
+            if mtile.node:
+                mtile.rmv_obj()
+        BombAction.OTHER:
+            mtile.node.bombed()
+
+
 func load_next_level():
     gamescene.queue_free()
     gamescene = preload("res://game.tscn").instantiate()
@@ -168,6 +199,6 @@ func bonus_dot_off(_timeritem = null) -> bool:
         return false
 
 func _new_tick():
-    queue.poll(GameTime.now())
     if has_lost_level:
         lose_level()
+    queue.poll(GameTime.now())

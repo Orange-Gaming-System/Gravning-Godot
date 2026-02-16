@@ -69,3 +69,7 @@ func _new_tick() -> void:
 func hit_by_rock():
     GameManager.has_lost_level = true
     map_tile.rmv_obj()
+
+func bombed():
+    GameManager.has_lost_level = true
+    map_tile.rmv_obj()

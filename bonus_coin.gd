@@ -19,3 +19,11 @@ func collect():
         else:
             GameManager.score += int(exp(6.0 * randf() + 3.0))
     super.collect()
+
+func bombed():
+    if GameManager.bonus:
+        if GameManager.level != 0:
+            GameManager.score += 15 * GameManager.level
+        else:
+            GameManager.score += 15
+    map_tile.rmv_obj()

@@ -21,3 +21,6 @@ func _new_tick():
 
 func hit_by_rock():
     map_tile.rmv_obj()
+
+func bombed():
+    map_tile.rmv_obj()
