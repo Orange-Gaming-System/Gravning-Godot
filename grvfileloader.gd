@@ -122,4 +122,4 @@ func get_level_path(level):
     return mappaths[level]
 
 func _ready():
-    parsegrvfile("res://test/test.grv")
+    parsegrvfile("res://levels/test/test.grv")
