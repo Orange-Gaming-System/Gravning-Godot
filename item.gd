@@ -77,7 +77,7 @@ func visual_str() -> String:
         var viz : Array = visuals[type]
         if visual < viz.size():
             return viz[visual]
-    return ""
+    return str(visual)
 
 # Delete these functions eventually
 static func is_doortype(itemtype: Type) -> bool:
