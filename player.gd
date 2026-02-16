@@ -12,27 +12,29 @@ var input_from_tick: bool = false
 const accepted_actions: Array[StringName] = ["left", "right", "up", "down", "escape"]
 
 ## The list of cheat actions and the corresponding action to execute.
-var cheats: Dictionary[StringName, Callable] = {"instant_win": GameManager.load_next_level, "getammo": func(): GameManager.ammo += 1}
+var cheats: Dictionary[StringName, Callable] = {"instant_win": GameManager.load_next_level, "getammo": func(): GameManager.ammo += 1, "cheatmenu": GameManager.load_cheat_menu}
 
 var bullet_dir: Dictionary[StringName, Vector2i] = {"shoot_left": Vector2i(-1, 0), "shoot_right": Vector2i(1, 0), "shoot_up": Vector2i(0, -1), "shoot_down": Vector2i(0, 1)}
 
 # Input handler
 func _input(event):
-    for action in accepted_actions:
-        if event.is_action(action):
-            if Input.is_action_just_pressed(action):
-                last_input = action
-                input_from_tick = true
-    for cheat in cheats:
-        if event.is_action(cheat):
-            if Input.is_action_just_pressed(cheat):
-                cheats[cheat].call()
-    if GameManager.ammo > 0:
-        for dir in bullet_dir:
-            if event.is_action(dir):
-                if Input.is_action_just_pressed(dir):
-                    GameManager.ammo -= 1
-                    GameManager.fire_bullet(map_tile.xy, bullet_dir[dir])
+    if !Input.is_key_pressed(KEY_ALT):
+        for action in accepted_actions:
+            if event.is_action(action):
+                if Input.is_action_just_pressed(action):
+                    last_input = action
+                    input_from_tick = true
+        if GameManager.ammo > 0:
+            for dir in bullet_dir:
+                if event.is_action(dir):
+                    if Input.is_action_just_pressed(dir):
+                        GameManager.ammo -= 1
+                        GameManager.fire_bullet(map_tile.xy, bullet_dir[dir])
+    else:
+        for cheat in cheats:
+            if event.is_action(cheat):
+                if Input.is_action_just_pressed(cheat):
+                    cheats[cheat].call()
 
 func _new_tick() -> void:
     board_pos = goal_pos
