@@ -3,6 +3,7 @@ byline "Byline"
 author "Orange Gaming System"
 levels 8
 escape 1
-map 1-6 gdincomplete.grvmap
+map 1 door.grvmap
+map 2-6 gdincomplete.grvmap
 map 7 gdtest.grvmap
 map 8 gdtest2.grvmap
