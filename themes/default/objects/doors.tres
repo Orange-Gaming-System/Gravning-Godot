@@ -2,29 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://bksrpskwdxf70" path="res://themes/default/objects/textures/doors.png" id="1_ixfml"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_door_gone"]
-atlas = ExtResource("1_ixfml")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_door_r"]
-atlas = ExtResource("1_ixfml")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_door_l"]
-atlas = ExtResource("1_ixfml")
-region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_door_lr"]
-atlas = ExtResource("1_ixfml")
-region = Rect2(48, 0, 16, 16)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_door_d"]
 atlas = ExtResource("1_ixfml")
 region = Rect2(0, 16, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_door_dr"]
-atlas = ExtResource("1_ixfml")
-region = Rect2(16, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_door_dl"]
 atlas = ExtResource("1_ixfml")
@@ -34,29 +14,33 @@ region = Rect2(32, 16, 16, 16)
 atlas = ExtResource("1_ixfml")
 region = Rect2(48, 16, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_door_dr"]
+atlas = ExtResource("1_ixfml")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_door_gone"]
+atlas = ExtResource("1_ixfml")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_door_l"]
+atlas = ExtResource("1_ixfml")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_door_lr"]
+atlas = ExtResource("1_ixfml")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_door_r"]
+atlas = ExtResource("1_ixfml")
+region = Rect2(16, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_door_u"]
 atlas = ExtResource("1_ixfml")
 region = Rect2(0, 32, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_door_ur"]
-atlas = ExtResource("1_ixfml")
-region = Rect2(16, 32, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_door_ul"]
-atlas = ExtResource("1_ixfml")
-region = Rect2(32, 32, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_door_ulr"]
-atlas = ExtResource("1_ixfml")
-region = Rect2(48, 32, 16, 16)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_door_ud"]
 atlas = ExtResource("1_ixfml")
 region = Rect2(0, 48, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_door_udr"]
-atlas = ExtResource("1_ixfml")
-region = Rect2(16, 48, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_door_udl"]
 atlas = ExtResource("1_ixfml")
@@ -66,54 +50,30 @@ region = Rect2(32, 48, 16, 16)
 atlas = ExtResource("1_ixfml")
 region = Rect2(48, 48, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_door_udr"]
+atlas = ExtResource("1_ixfml")
+region = Rect2(16, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_door_ul"]
+atlas = ExtResource("1_ixfml")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_door_ulr"]
+atlas = ExtResource("1_ixfml")
+region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_door_ur"]
+atlas = ExtResource("1_ixfml")
+region = Rect2(16, 32, 16, 16)
+
 [resource]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_door_gone")
-}],
-"loop": false,
-"name": &"GONE",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_door_r")
-}],
-"loop": false,
-"name": &"R",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_door_l")
-}],
-"loop": false,
-"name": &"L",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_door_lr")
-}],
-"loop": false,
-"name": &"LR",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_door_d")
 }],
 "loop": false,
 "name": &"D",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_door_dr")
-}],
-"loop": false,
-"name": &"DR",
 "speed": 5.0
 }, {
 "frames": [{
@@ -134,6 +94,46 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_door_dr")
+}],
+"loop": false,
+"name": &"DR",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_door_gone")
+}],
+"loop": false,
+"name": &"GONE",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_door_l")
+}],
+"loop": false,
+"name": &"L",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_door_lr")
+}],
+"loop": false,
+"name": &"LR",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_door_r")
+}],
+"loop": false,
+"name": &"R",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_door_u")
 }],
 "loop": false,
@@ -142,10 +142,34 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_door_ur")
+"texture": SubResource("AtlasTexture_door_ud")
 }],
 "loop": false,
-"name": &"UR",
+"name": &"UD",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_door_udl")
+}],
+"loop": false,
+"name": &"UDL",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_door_udlr")
+}],
+"loop": false,
+"name": &"UDLR",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_door_udr")
+}],
+"loop": false,
+"name": &"UDR",
 "speed": 5.0
 }, {
 "frames": [{
@@ -166,33 +190,9 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_door_ud")
+"texture": SubResource("AtlasTexture_door_ur")
 }],
 "loop": false,
-"name": &"UD",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_door_udr")
-}],
-"loop": false,
-"name": &"UDR",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_door_udl")
-}],
-"loop": false,
-"name": &"UDL",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_door_udlr")
-}],
-"loop": false,
-"name": &"UDLR",
+"name": &"UR",
 "speed": 5.0
 }]

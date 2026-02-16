@@ -24,3 +24,6 @@ func hit_by_rock():
 
 func bombed():
     map_tile.rmv_obj()
+
+func hit_by_bullet(_movement):
+    map_tile.rmv_obj()

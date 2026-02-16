@@ -20,6 +20,16 @@ var score: int = 0:
         score = value
         gamescene.get_node("UI/score").text = str(score)
 
+## The amount of ammo the play has.
+var ammo: int = 0:
+    set(value):
+        ammo = value
+        if value > 99:
+            ammo = 99
+        gamescene.get_node("UI/ammo").visible = ammo
+        gamescene.get_node("UI/Fixed/ammo").visible = ammo
+        gamescene.get_node("UI/ammo").text = str(ammo)
+
 ## Holds whether or not bonus dots will give score right now.
 var bonus: bool = false
 
@@ -27,12 +37,22 @@ var hyper: Array[bool] = [false, false, false, false, false]
 
 var game_clock: Timer
 
-const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres"), Item.Type.GHOST: preload("res://themes/default/objects/ghost.tres"), Item.Type.FROZEN_CHERRY: preload("res://themes/default/objects/frozen_cherry.tres"), Item.Type.THAWED_CHERRY: preload("res://themes/default/objects/thawed_cherry.tres"), Item.Type.BONUS: preload("res://themes/default/objects/bonus_coin.tres"), Item.Type.DOOR: preload("res://themes/default/objects/doors.tres"), Item.Type.HYPER: preload("res://themes/default/objects/hyper.tres"), Item.Type.ROCK: preload("res://themes/default/objects/rock.tres"), Item.Type.BOMB: preload("res://themes/default/objects/bomb.tres"), Item.Type.MYSTERY: preload("res://themes/default/objects/mystery.tres")}
+const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres"), Item.Type.GHOST: preload("res://themes/default/objects/ghost.tres"), Item.Type.FROZEN_CHERRY: preload("res://themes/default/objects/frozen_cherry.tres"), Item.Type.THAWED_CHERRY: preload("res://themes/default/objects/thawed_cherry.tres"), Item.Type.BONUS: preload("res://themes/default/objects/bonus_coin.tres"), Item.Type.DOOR: preload("res://themes/default/objects/doors.tres"), Item.Type.HYPER: preload("res://themes/default/objects/hyper.tres"), Item.Type.ROCK: preload("res://themes/default/objects/rock.tres"), Item.Type.BOMB: preload("res://themes/default/objects/bomb.tres"), Item.Type.MYSTERY: preload("res://themes/default/objects/mystery.tres"), Item.Type.CLUSTER: preload("res://themes/default/objects/cluster_bomb.tres")}
 
 const bomb_actions: Dictionary[Item.Type, BombAction] = {Item.Type.CHERRY: BombAction.COLLECT, Item.Type.AMMO: BombAction.DESTROY, Item.Type.PLAYER: BombAction.OTHER, Item.Type.APPLE: BombAction.NONE, Item.Type.DIAMOND: BombAction.DESTROY, Item.Type.GHOST: BombAction.DESTROY, Item.Type.FROZEN_CHERRY: BombAction.NONE, Item.Type.THAWED_CHERRY: BombAction.COLLECT, Item.Type.BONUS: BombAction.OTHER, Item.Type.DOOR: BombAction.NONE, Item.Type.HYPER: BombAction.NONE, Item.Type.ROCK: BombAction.NONE, Item.Type.BOMB: BombAction.NONE, Item.Type.WALL: BombAction.DESTROY, Item.Type.SOFTWALL: BombAction.DESTROY, Item.Type.EMPTY: BombAction.NONE, Item.Type.MYSTERY: BombAction.DESTROY, Item.Type.CLUSTER: BombAction.NONE, Item.Type.APPLE_DIAMOND: BombAction.NONE}
 
 enum BombAction {
     NONE,
+    COLLECT,
+    DESTROY,
+    OTHER
+}
+
+const bullet_effects: Dictionary[Item.Type, BulletEffect] = {Item.Type.CHERRY: BulletEffect.COLLECT, Item.Type.AMMO: BulletEffect.COLLECT, Item.Type.PLAYER: BulletEffect.OTHER, Item.Type.APPLE: BulletEffect.BLOCK, Item.Type.DIAMOND: BulletEffect.COLLECT, Item.Type.GHOST: BulletEffect.DESTROY, Item.Type.FROZEN_CHERRY: BulletEffect.BLOCK, Item.Type.THAWED_CHERRY: BulletEffect.COLLECT, Item.Type.BONUS: BulletEffect.COLLECT, Item.Type.DOOR: BulletEffect.BLOCK, Item.Type.HYPER: BulletEffect.COLLECT, Item.Type.ROCK: BulletEffect.BLOCK, Item.Type.BOMB: BulletEffect.BLOCK, Item.Type.WALL: BulletEffect.BLOCK, Item.Type.SOFTWALL: BulletEffect.BLOCK, Item.Type.EMPTY: BulletEffect.IGNORE, Item.Type.MYSTERY: BulletEffect.BLOCK, Item.Type.CLUSTER: BulletEffect.OTHER, Item.Type.APPLE_DIAMOND: BulletEffect.BLOCK}
+
+enum BulletEffect {
+    IGNORE,
+    BLOCK,
     COLLECT,
     DESTROY,
     OTHER
@@ -155,12 +175,42 @@ func bomb_tile(pos: Vector2i):
         BombAction.OTHER:
             mtile.node.bombed()
 
+## Attempt to shoot a tile. Returns whether or not the bullet should continue.
+func shoot_tile(pos: Vector2i, movement: Vector2i) -> bool:
+    var mtile = grvmap.at(pos)
+    if mtile.oob():
+        return false
+    match bullet_effects[mtile.item.type]:
+        BulletEffect.IGNORE:
+            return true
+        BulletEffect.BLOCK:
+            return false
+        BulletEffect.COLLECT:
+            mtile.node.collect()
+            return false
+        BulletEffect.DESTROY:
+            mtile.rmv_obj()
+            return false
+        BulletEffect.OTHER:
+            mtile.node.hit_by_bullet(movement)
+            return false
+    return false
+
+func fire_bullet(from: Vector2i, movement: Vector2i):
+    while true:
+        from += movement
+        if !shoot_tile(from, movement):
+            print("bullet landed at ", from)
+            break
 
 func load_next_level():
     gamescene.queue_free()
     gamescene = preload("res://game.tscn").instantiate()
     level += 1
     level_streak += 1
+    for shot in ammo:
+        if randf() > 0.1:
+            ammo -= 1 # 10% chance to keep unused shots. (Really a 90% chance to lose each shot)
     get_tree().get_root().add_child.call_deferred(gamescene)
 
 func load_level():
@@ -170,6 +220,7 @@ func load_level():
     hyper = [false, false, false, false, false]
     score = score
     level = level
+    ammo = ammo
     has_lost_level = false
     for letter in Item.visuals[Item.Type.HYPER]:
         gamescene.get_node("UI/hyper_" + letter).play(letter)

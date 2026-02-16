@@ -12,7 +12,9 @@ var input_from_tick: bool = false
 const accepted_actions: Array[StringName] = ["left", "right", "up", "down", "escape"]
 
 ## The list of cheat actions and the corresponding action to execute.
-var cheats: Dictionary[StringName, Callable] = {"instant_win": GameManager.load_next_level}
+var cheats: Dictionary[StringName, Callable] = {"instant_win": GameManager.load_next_level, "getammo": func(): GameManager.ammo += 1}
+
+var bullet_dir: Dictionary[StringName, Vector2i] = {"shoot_left": Vector2i(-1, 0), "shoot_right": Vector2i(1, 0), "shoot_up": Vector2i(0, -1), "shoot_down": Vector2i(0, 1)}
 
 # Input handler
 func _input(event):
@@ -25,6 +27,12 @@ func _input(event):
         if event.is_action(cheat):
             if Input.is_action_just_pressed(cheat):
                 cheats[cheat].call()
+    if GameManager.ammo > 0:
+        for dir in bullet_dir:
+            if event.is_action(dir):
+                if Input.is_action_just_pressed(dir):
+                    GameManager.ammo -= 1
+                    GameManager.fire_bullet(map_tile.xy, bullet_dir[dir])
 
 func _new_tick() -> void:
     board_pos = goal_pos
@@ -71,6 +79,10 @@ func hit_by_rock():
     map_tile.rmv_obj()
 
 func bombed():
+    GameManager.has_lost_level = true
+    map_tile.rmv_obj()
+
+func hit_by_bullet(_movement):
     GameManager.has_lost_level = true
     map_tile.rmv_obj()
 

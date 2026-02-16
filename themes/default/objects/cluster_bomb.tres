@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://650r5oxga5t5"]
+
+[ext_resource type="Texture2D" uid="uid://c4dsd6xjs5dug" path="res://themes/default/objects/textures/cluster_bomb.png" id="1_uowk7"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_uowk7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
