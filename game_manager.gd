@@ -12,6 +12,8 @@ var level_streak: int = 0
 
 var has_lost_level: bool = false
 
+var lives: int = 3
+
 ## Holds the current score. Can be negative!
 var score: int = 0:
     set(value):
@@ -25,9 +27,9 @@ var hyper: Array[bool] = [false, false, false, false, false]
 
 var game_clock: Timer
 
-const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres"), Item.Type.GHOST: preload("res://themes/default/objects/ghost.tres"), Item.Type.FROZEN_CHERRY: preload("res://themes/default/objects/frozen_cherry.tres"), Item.Type.THAWED_CHERRY: preload("res://themes/default/objects/thawed_cherry.tres"), Item.Type.BONUS: preload("res://themes/default/objects/bonus_coin.tres"), Item.Type.DOOR: preload("res://themes/default/objects/doors.tres"), Item.Type.HYPER: preload("res://themes/default/objects/hyper.tres"), Item.Type.ROCK: preload("res://themes/default/objects/rock.tres"), Item.Type.BOMB: preload("res://themes/default/objects/bomb.tres")}
+const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres"), Item.Type.GHOST: preload("res://themes/default/objects/ghost.tres"), Item.Type.FROZEN_CHERRY: preload("res://themes/default/objects/frozen_cherry.tres"), Item.Type.THAWED_CHERRY: preload("res://themes/default/objects/thawed_cherry.tres"), Item.Type.BONUS: preload("res://themes/default/objects/bonus_coin.tres"), Item.Type.DOOR: preload("res://themes/default/objects/doors.tres"), Item.Type.HYPER: preload("res://themes/default/objects/hyper.tres"), Item.Type.ROCK: preload("res://themes/default/objects/rock.tres"), Item.Type.BOMB: preload("res://themes/default/objects/bomb.tres"), Item.Type.MYSTERY: preload("res://themes/default/objects/mystery.tres")}
 
-const bomb_actions: Dictionary[Item.Type, BombAction] = {Item.Type.CHERRY: BombAction.COLLECT, Item.Type.AMMO: BombAction.DESTROY, Item.Type.PLAYER: BombAction.OTHER, Item.Type.APPLE: BombAction.NONE, Item.Type.DIAMOND: BombAction.DESTROY, Item.Type.GHOST: BombAction.DESTROY, Item.Type.FROZEN_CHERRY: BombAction.NONE, Item.Type.THAWED_CHERRY: BombAction.COLLECT, Item.Type.BONUS: BombAction.OTHER, Item.Type.DOOR: BombAction.NONE, Item.Type.HYPER: BombAction.NONE, Item.Type.ROCK: BombAction.NONE, Item.Type.BOMB: BombAction.NONE, Item.Type.WALL: BombAction.DESTROY, Item.Type.SOFTWALL: BombAction.DESTROY, Item.Type.EMPTY: BombAction.NONE, Item.Type.MYSTERY: BombAction.DESTROY, Item.Type.CLUSTER: BombAction.NONE}
+const bomb_actions: Dictionary[Item.Type, BombAction] = {Item.Type.CHERRY: BombAction.COLLECT, Item.Type.AMMO: BombAction.DESTROY, Item.Type.PLAYER: BombAction.OTHER, Item.Type.APPLE: BombAction.NONE, Item.Type.DIAMOND: BombAction.DESTROY, Item.Type.GHOST: BombAction.DESTROY, Item.Type.FROZEN_CHERRY: BombAction.NONE, Item.Type.THAWED_CHERRY: BombAction.COLLECT, Item.Type.BONUS: BombAction.OTHER, Item.Type.DOOR: BombAction.NONE, Item.Type.HYPER: BombAction.NONE, Item.Type.ROCK: BombAction.NONE, Item.Type.BOMB: BombAction.NONE, Item.Type.WALL: BombAction.DESTROY, Item.Type.SOFTWALL: BombAction.DESTROY, Item.Type.EMPTY: BombAction.NONE, Item.Type.MYSTERY: BombAction.DESTROY, Item.Type.CLUSTER: BombAction.NONE, Item.Type.APPLE_DIAMOND: BombAction.NONE}
 
 enum BombAction {
     NONE,
@@ -70,7 +72,7 @@ const soft_walls = {"gray": 0, "blue": 1, "brown": 2, "red": 3, "pink": 4, "gree
 const colors = {"blue": Color("#0020aa"), "brown": Color("#a97142"), "red": Color("#aa0f00"), "gray": Color("#aaaaaa"), "pink": Color("#aa23aa"), "green": Color("#02aa00"), "cyan": Color("#00aaaa")}
 
 ## Holds the text color used for each color.
-const text_colors = {"blue": Color.WHITE, "red": Color.WHITE, "brown": Color.WHITE, "gray": Color.BLACK, "pink": Color.WHITE, "green": Color.WHITE, "cyan": Color.WHITE}
+const text_colors = {"blue": Color.WHITE, "red": Color.WHITE, "brown": Color.WHITE, "gray": Color.WHITE, "pink": Color.WHITE, "green": Color.WHITE, "cyan": Color.WHITE}
 
 ## Defines the four movement "types" which denote what properties a tile has for movement purposes.
 enum MOVE_TYPE {
@@ -85,6 +87,7 @@ func _ready():
     Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 func lose_level():
+    lives -= 1
     level -= 1
     level_streak = -1
     load_next_level()

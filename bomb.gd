@@ -11,11 +11,22 @@ func _ready():
     super._ready()
     play("default")
 
-func event(_timeritem):
+func instant_detonate():
+    var new_time = GameTime.now() + 4
+    if timeritem.time > new_time:
+        timeritem.disable()
+        timeritem = GameManager.queue.add(event, new_time, map_tile.prio)
+
+func event(_timeritem, smash = false):
     for index in bomb_pattern.size():
         var x = int(index + board_pos.x - pattern_offset)
         for tile in (bomb_pattern[index] * 2) + 1:
             var y = int(tile + board_pos.y - bomb_pattern[index])
+            if smash and Vector2i(x, y) == Vector2i(board_pos):
+                continue
             GameManager.bomb_tile(Vector2i(x, y))
-    map_tile.rmv_obj()
+    if smash:
+        queue_free()
+    else:
+        map_tile.rmv_obj()
     return true

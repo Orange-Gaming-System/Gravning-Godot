@@ -73,3 +73,19 @@ func hit_by_rock():
 func bombed():
     GameManager.has_lost_level = true
     map_tile.rmv_obj()
+
+const smash_offset = 6
+const smash_pattern: Array[int] = [0, 2, 3, 4, 4, 5, 5, 5, 4, 4, 3, 2, 0]
+const big_smash_offset = 9
+const big_smash_pattern: Array[int] = [0, 2, 4, 5, 6, 6, 7, 7, 7, 7, 7, 7, 7, 6, 6, 5, 4, 2, 0]
+
+func smash(_timeritem):
+    var pattern = smash_pattern
+    var pattern_offset = smash_offset
+    if randf() < 0.1:
+        pattern = big_smash_pattern
+        pattern_offset = big_smash_offset
+    var bomb = Bomb.new(map_tile)
+    bomb.bomb_pattern = pattern
+    bomb.pattern_offset = pattern_offset
+    bomb.event(_timeritem, true)
