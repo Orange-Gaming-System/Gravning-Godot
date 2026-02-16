@@ -3,3 +3,19 @@ byline "2026 - "Slightly better this time!""
 author "Peter Anvin"
 levels 75
 escape 16
+map 1-5 basic.grvmap
+map 6-10 crosswall.grvmap
+map 11-16 wheelingwalls.grvmap
+map 16-19 pluswalls.grvmap
+map 20-24 hole_I.grvmap
+map 25-29 bunker.grvmap
+map 30-35 fredrik_I.grvmap
+map 36-40 hashtagwalls.grvmap
+map 41-45 carldavid_I.grvmap
+map 46-49 fredrik_II.grvmap
+map 50-56 breakout.grvmap
+map 57-62 arch.grvmap
+map 63-67 machke_I.grvmap
+map 68-71 carldavid_II.grvmap
+map 72-74 full.grvmap
+map 75 finale.grvmap
