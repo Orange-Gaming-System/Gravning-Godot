@@ -63,7 +63,7 @@ const doorways : Dictionary[int, int] = {
 }
 
 const visuals : Dictionary[Type, Array] = {
-    Type.DOOR   : [ "", "R", "L", "LR", "D", "DR", "DL", "DLR",
+    Type.DOOR   : [ "GONE", "R", "L", "LR", "D", "DR", "DL", "DLR",
                     "U", "UR", "UL", "ULR", "UD", "UDR", "UDL", "UDLR" ],
     Type.HYPER  : [ "H", "Y", "P", "E", "R"]
 }
