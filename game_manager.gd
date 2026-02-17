@@ -136,6 +136,9 @@ func get_tile_atlas(tile: Tile) -> int:
     push_warning("Tile's type is invalid. Returning -1.")
     return -1
 
+func get_border_atlas():
+    return walls[palette[0]]
+
 ## Takes two tile coordinates ([param to] and [param from]) and returns the [enum MOVE_TYPE] that corresponds to that tile [b]given the movement being attempted[b].[br][br]For example, if the player is moving into a rock that cannot be pushed, it will return MOVE_TYPE_BLOCKED, not MOVE_TYPE_ROCK.
 func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
     var mtile = grvmap.at(to)
