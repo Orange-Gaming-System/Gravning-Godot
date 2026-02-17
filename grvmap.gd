@@ -173,6 +173,10 @@ enum Data {
 func _init(mapdata : PackedByteArray, _level : int):
     level = _level
 
+    if !mapdata.size():
+        error = Error.ERR_FILE_NOT_FOUND
+        return
+
     if mapdata.size() < File.HdrLen or mapdata.size() > Data.MaxLen:
         error = Error.ERR_FILE_CORRUPT
         return
