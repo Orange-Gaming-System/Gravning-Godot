@@ -82,13 +82,13 @@ const palettes = [
     ["gray", "red"]
 ]
 
-## The terrains for each color of dirt.
-const dirt = {"blue": 14, "brown": 15, "red": 16, "gray": 17, "pink": 18, "green": 19, "cyan": 20}
+## The atlas for each color of dirt.
+const dirt = {"blue": 14, "brown": 15, "red": 17, "gray": 18, "pink": 19, "green": 20, "cyan": 21}
 
-## The terrains for each color of wall.
+## The atlas for each color of wall.
 const walls = {"blue": 7, "brown": 8, "red": 9, "gray": 10, "pink": 11, "green": 12, "cyan": 13}
 
-## The terrains for each color of soft wall.
+## The atlas for each color of soft wall.
 const soft_walls = {"gray": 0, "blue": 1, "brown": 2, "red": 3, "pink": 4, "green": 5, "cyan": 6}
 
 ## Holds the colors used for the background of each color.
@@ -122,6 +122,19 @@ func lose_level():
     level -= 1
     level_streak = -1
     load_next_level()
+
+func get_tile_atlas(tile: Tile) -> int:
+    match tile.type:
+        Tile.TYPE.EMPTY:
+            return -1
+        Tile.TYPE.DIRT:
+            return dirt[palette[tile.color]]
+        Tile.TYPE.SOFT_WALL:
+            return soft_walls[palette[tile.color]]
+        Tile.TYPE.WALL:
+            return walls[palette[tile.color]]
+    push_warning("Tile's type is invalid. Returning -1.")
+    return -1
 
 ## Takes two tile coordinates ([param to] and [param from]) and returns the [enum MOVE_TYPE] that corresponds to that tile [b]given the movement being attempted[b].[br][br]For example, if the player is moving into a rock that cannot be pushed, it will return MOVE_TYPE_BLOCKED, not MOVE_TYPE_ROCK.
 func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
