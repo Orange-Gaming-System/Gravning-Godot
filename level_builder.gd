@@ -3,61 +3,31 @@ class_name Level_Builder extends Node
 
 var obj_classes = {Item.Type.PLAYER: Player, Item.Type.CHERRY: Cherry, Item.Type.AMMO: Ammo, Item.Type.APPLE: Apple, Item.Type.DIAMOND: Diamond, Item.Type.GHOST: Ghost, Item.Type.FROZEN_CHERRY: FrozenCherry, Item.Type.THAWED_CHERRY: ThawedCherry, Item.Type.BONUS: BonusCoin, Item.Type.DOOR: Door, Item.Type.HYPER: Hyper, Item.Type.ROCK: Rock, Item.Type.BOMB: Bomb, Item.Type.MYSTERY: Mystery, Item.Type.CLUSTER: ClusterBomb}
 
-##Builds ground tiles from a 2D array of [Tile]s.
-func build_ground(tiles: Array):
-    var empty = []
-    var dirt0 = []
-    var dirt1 = []
-    var walls0 = []
-    var walls1 = []
-    var soft0 = []
-    var soft1 = []
-    for row in tiles.size():
-        for tile in tiles[row].size():
-            match tiles[row][tile].type:
-                Tile.TYPE.EMPTY:
-                    empty.append(Vector2i(tile, row))
-                Tile.TYPE.DIRT:
-                    match tiles[row][tile].color:
-                        1:
-                            dirt1.append(Vector2i(tile, row))
-                        0:
-                            dirt0.append(Vector2i(tile, row))
-                Tile.TYPE.WALL:
-                    match tiles[row][tile].color:
-                        1:
-                            walls1.append(Vector2i(tile, row))
-                        0:
-                            walls0.append(Vector2i(tile, row))
-                Tile.TYPE.SOFT_WALL:
-                    match tiles[row][tile].color:
-                        1:
-                            soft1.append(Vector2i(tile, row))
-                        0:
-                            soft0.append(Vector2i(tile, row))
-    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(empty, 0, -1)
-    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(dirt0, 0, GameManager.dirt[GameManager.palette[0]])
-    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(dirt1, 0, GameManager.dirt[GameManager.palette[1]])
-    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(walls0, 0, GameManager.walls[GameManager.palette[0]])
-    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(walls1, 0, GameManager.walls[GameManager.palette[1]])
-    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(soft0, 0, GameManager.soft_walls[GameManager.palette[0]])
-    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(soft1, 0, GameManager.soft_walls[GameManager.palette[1]])
+## Builds background tiles from a tilemap
+const gameboard_rect = Rect2i(-18, -4, 75, 30)     # Including border
+
+func generate_ground(map : Map):
+    var ground_tiles : TileMapLayer = GameManager.gamescene.get_node("ground_tiles")
+    var border_atlas = GameManager.get_border_atlas()
+    var grvmap : GrvMap = map.grvmap
+    var tiles = map.tiles
+
+    for y in range(gameboard_rect.position.y, gameboard_rect.end.y):
+        for x in range(gameboard_rect.position.x, gameboard_rect.end.x):
+            var xy : Vector2i = Vector2i(x, y)
+            var mtile : MapTile = grvmap.at(xy)
+            var atlas = border_atlas
+            var tilecoord = Vector2i(-1, -1)
+            if !mtile.item.in_tunnel():
+                tilecoord = mtile.tileatlascoord()
+                if !mtile.oob():
+                    atlas = GameManager.get_tile_atlas(tiles[y][x])
+            ground_tiles.set_cell(xy, atlas, tilecoord)
 
 ## Generates all object nodes from an array of [MapTile].
 func generate_objs(objs: Array):
     for obj in objs:
         obj.spawn_obj()
-
-func generate_outer_walls():
-    var rect = Rect2i(-18, -4, 75, 30)
-    # Ensure the rectangle is valid (positive width/height)
-    var abs_rect = rect.abs()
-
-    var vector_list = []
-    for i in range(abs_rect.position.x, abs_rect.end.x):
-        for j in range(abs_rect.position.y, abs_rect.end.y):
-            vector_list.append(Vector2i(i, j))
-    GameManager.gamescene.get_node("ground_tiles").set_cells_terrain_connect(vector_list, 0, GameManager.walls[GameManager.palette[0]])
 
 # Temporary Constants for test level.
 @warning_ignore("int_as_enum_without_cast")
@@ -73,6 +43,5 @@ var wws = Tile.new(2, 1)
 
 ## Builds the level from [param map], which is a [Map].
 func build_level(map: Map):
-    generate_outer_walls()
-    build_ground(map.tiles)
+    generate_ground(map)
     generate_objs(map.objs)
