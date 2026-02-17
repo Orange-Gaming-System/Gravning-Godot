@@ -4,16 +4,18 @@ class_name Level_Builder extends Node
 var obj_classes = {Item.Type.PLAYER: Player, Item.Type.CHERRY: Cherry, Item.Type.AMMO: Ammo, Item.Type.APPLE: Apple, Item.Type.DIAMOND: Diamond, Item.Type.GHOST: Ghost, Item.Type.FROZEN_CHERRY: FrozenCherry, Item.Type.THAWED_CHERRY: ThawedCherry, Item.Type.BONUS: BonusCoin, Item.Type.DOOR: Door, Item.Type.HYPER: Hyper, Item.Type.ROCK: Rock, Item.Type.BOMB: Bomb, Item.Type.MYSTERY: Mystery, Item.Type.CLUSTER: ClusterBomb}
 
 ## Builds background tiles from a tilemap
-const gameboard_rect = Rect2i(-18, -4, 75, 30)     # Including border
 
-func generate_ground(map : Map):
+## Gameboard size including border [b]minus the outermost frame of tiles[/b]
+const gameboard_rect = Rect2i(-18+1, -4+1, 75-1, 30-1)
+
+func generate_ground(map : Map, rect : Rect2i = gameboard_rect):
     var ground_tiles : TileMapLayer = GameManager.gamescene.get_node("ground_tiles")
     var border_atlas = GameManager.get_border_atlas()
     var grvmap : GrvMap = map.grvmap
     var tiles = map.tiles
 
-    for y in range(gameboard_rect.position.y, gameboard_rect.end.y):
-        for x in range(gameboard_rect.position.x, gameboard_rect.end.x):
+    for y in range(rect.position.y-1, rect.end.y+1):
+        for x in range(rect.position.x-1, rect.end.x+1):
             var xy : Vector2i = Vector2i(x, y)
             var mtile : MapTile = grvmap.at(xy)
             var atlas = border_atlas
