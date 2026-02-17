@@ -13,7 +13,9 @@ func _init(path: String):
     var spawn_hyper = GameManager.level_streak >= 4
     if spawn_hyper:
         GameManager.level_streak = 0
-    grvmap =  GrvMap.new(FileAccess.get_file_as_bytes(path), GameManager.level)
+    grvmap = GrvMap.new(FileAccess.get_file_as_bytes(path), GameManager.level)
+    if grvmap.error:
+        push_error("Error loading level ", GameManager.level+1, ": ", error_string(grvmap.error))
     grvmap.generate(spawn_hyper)
     var empty_row = Array()
     empty_row.resize(grvmap.size.x)
