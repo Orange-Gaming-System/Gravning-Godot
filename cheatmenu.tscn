@@ -2,6 +2,17 @@
 
 [ext_resource type="Script" uid="uid://c34t2r3eupnbr" path="res://cheatmenu.gd" id="1_4y0sh"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4y0sh"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
 [sub_resource type="LabelSettings" id="LabelSettings_4y0sh"]
 font_size = 12
 font_color = Color(1, 0.5833334, 0, 1)
@@ -13,6 +24,14 @@ initial_position = 2
 size = Vector2i(500, 300)
 content_scale_mode = 1
 script = ExtResource("1_4y0sh")
+
+[node name="bgcolor" type="Panel" parent="." unique_id=381534921]
+z_index = -1
+offset_left = -32.0
+offset_top = -42.0
+offset_right = 552.0
+offset_bottom = 311.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4y0sh")
 
 [node name="Panel" type="Panel" parent="." unique_id=786934596]
 offset_right = 500.0
