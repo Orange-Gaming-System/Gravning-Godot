@@ -22,3 +22,5 @@ Bomb:
     https://merchant-shade.itch.io/16x16-mixed-rpg-icons
 Cluster Bomb:
     https://crumpaloo.itch.io/gagw
+Doors:
+    https://opengameart.org/content/gauntness
