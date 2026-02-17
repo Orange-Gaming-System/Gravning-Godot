@@ -63,6 +63,8 @@ enum BulletEffect {
 
 var grvmap: GrvMap
 
+var map: Map
+
 var queue: TimerItem.Queue
 
 ## Holds a reference to the game scene's root node.
@@ -190,7 +192,7 @@ func bomb_tile(pos: Vector2i):
     var mtile = grvmap.at(pos)
     if mtile.oob():
         return
-    remove_dirt(mtile)
+    mtile.dig()
     match bomb_actions[mtile.item.type]:
         BombAction.NONE:
             pass
@@ -256,7 +258,7 @@ func load_level():
     game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
     game_clock.connect("timeout", _new_tick)
     queue = TimerItem.Queue.new()
-    var map = Map.new(grvFileLoader.get_level_path(level))
+    map = Map.new(grvFileLoader.get_level_path(level))
     grvmap = map.grvmap
     LevelBuilder.build_level(map)
     bonus_dot_off()

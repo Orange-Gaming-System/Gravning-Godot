@@ -23,6 +23,7 @@ func event(_timeritem, smash = false):
             if smash and Vector2i(x, y) == Vector2i(board_pos):
                 continue
             GameManager.bomb_tile(Vector2i(x, y))
+    LevelBuilder.generate_ground(GameManager.map, Rect2i(int(board_pos.x - pattern_offset), int(board_pos.y - bomb_pattern.max()), pattern_offset * 2 + 1, int(bomb_pattern.max() * 2 + 1)))
     if smash:
         queue_free()
     else:
