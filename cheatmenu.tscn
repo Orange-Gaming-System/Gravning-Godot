@@ -11,7 +11,7 @@ oversampling_override = 1.0
 title = "Grävning - Cheat Menu"
 initial_position = 2
 size = Vector2i(500, 300)
-content_scale_mode = 2
+content_scale_mode = 1
 script = ExtResource("1_4y0sh")
 
 [node name="Panel" type="Panel" parent="." unique_id=786934596]
@@ -70,7 +70,27 @@ offset_bottom = 90.0
 theme_override_font_sizes/font_size = 12
 text = "Jump to Level"
 
+[node name="setshot_input" type="SpinBox" parent="Panel/ScrollContainer/Control" unique_id=1813260398]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 102.0
+offset_right = 120.0
+offset_bottom = 133.0
+max_value = 99.0
+prefix = "Shots:"
+
+[node name="setshot" type="Button" parent="Panel/ScrollContainer/Control" unique_id=2067511733]
+layout_mode = 0
+offset_left = 122.0
+offset_top = 104.0
+offset_right = 184.0
+offset_bottom = 129.0
+theme_override_font_sizes/font_size = 12
+text = "Set Shots"
+
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="size_changed" from="." to="." method="_on_size_changed"]
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="pressed" from="Panel/ScrollContainer/Control/instantwin" to="." method="instant_win"]
 [connection signal="pressed" from="Panel/ScrollContainer/Control/leveljump" to="." method="level_jump"]
+[connection signal="pressed" from="Panel/ScrollContainer/Control/setshot" to="." method="set_shots"]

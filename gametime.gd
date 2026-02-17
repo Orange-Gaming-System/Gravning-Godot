@@ -5,6 +5,7 @@ static var paused       : bool
 static var pause_tick   : int
 
 static func start() -> float:
+    paused = false
     epoch_tick = Time.get_ticks_usec()
     pause_tick = epoch_tick
     return 0.0
