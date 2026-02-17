@@ -32,11 +32,15 @@ const tile_index: PackedByteArray = [
 
 ## Converts a tile index to an atlas coordinate. Tile indexes are in hexadecimal: #yx.
 static func index_to_tile(index: int) -> Vector2i:
-    return Vector2i(index % 16, index / 16)
+    return Vector2i(index & 15, index >> 4)
 
 ## Converts an atlas coordinate to a tile index. Tile indexs are in hexadecimal: #yx.
 static func tile_to_index(tile: Vector2i):
-    return tile.x + (tile.y * 16)
+    return tile.x + (tile.y << 4)
+
+## Get the atlas coordinates given a neighbor match bitmask
+static func neighbors_to_tile(neighbors : int) -> Vector2i:
+    return index_to_tile(tile_index[neighbors])
 
 ## Converts an atlas coordinate to the proper format for [member tile_index].
 static func format_tile(tile: Vector2i):

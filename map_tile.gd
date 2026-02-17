@@ -168,18 +168,18 @@ func render_type() -> Item.Type:
             return Item.Type.EMPTY
 
 const directions : Array[Vector2i] = [
-    Vector2i(-1,-1), Vector2i(-1,0), Vector2i(-1,0),
+    Vector2i(-1,-1), Vector2i(0,-1), Vector2i(1,-1),
     Vector2i(-1,0), Vector2i(1,0),
-    Vector2i(1,-1), Vector2i(1,0), Vector2i(1,1)
+    Vector2i(-1,1), Vector2i(0,1), Vector2i(1,1)
 ]
 
 ## Get the "neighbor bitmask" for this tile, meaning that for rendering
 ## purposes the background tile in each of the 8 compass directions are
 ## to be rendered the same and thus connected
 func neighbors() -> int:
-    var flags : int = item.flags
-    var same : int = 0
-    var bit : int = 1
+    var flags   : int = item.flags
+    var same    : int = 0
+    var bit     : int = 1
 
     if flags & Item.Flags.TUNNEL:
         # In tunnels, the type doesn't matter
@@ -192,13 +192,22 @@ func neighbors() -> int:
         var flags_mask : int = Item.Flags.TUNNEL | Item.Flags.BG2
         var me : Item.Type = render_type()
 
+        flags &= flags_mask
+
         for d in directions:
             var they : MapTile = dv(d)
             if (they.item.flags & flags_mask) == flags and they.render_type() == me:
                 same |= bit
-        bit <<= 1
+            bit <<= 1
 
     return same
+
+## Get the corresponding background tile atlas coordinates
+func tileatlascoord() -> Vector2i:
+    if item.flags & Item.Flags.TUNNEL:
+        return Vector2i(-1, -1)     # Tunnels do not use the tile system
+    else:
+        return TileManager.neighbors_to_tile(neighbors())
 
 ## Spawns an object from a [MapTile]. The provided [MapTile] must not be a door, wall, soft wall, or empty.
 func spawn_obj():
