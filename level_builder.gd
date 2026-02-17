@@ -6,16 +6,17 @@ var obj_classes = {Item.Type.PLAYER: Player, Item.Type.CHERRY: Cherry, Item.Type
 ## Builds background tiles from a tilemap
 
 ## Gameboard size including border [b]minus the outermost frame of tiles[/b]
-const gameboard_rect = Rect2i(-18+1, -4+1, 75-1, 30-1)
+const gameboard_rect = Rect2i(-18+1, -4+1, 76-2, 30-2)
 
 func generate_ground(map : Map, rect : Rect2i = gameboard_rect):
     var ground_tiles : TileMapLayer = GameManager.gamescene.get_node("ground_tiles")
     var border_atlas = GameManager.get_border_atlas()
     var grvmap : GrvMap = map.grvmap
     var tiles = map.tiles
+    rect = rect.grow(1)
 
-    for y in range(rect.position.y-1, rect.end.y+1):
-        for x in range(rect.position.x-1, rect.end.x+1):
+    for y in range(rect.position.y, rect.end.y):
+        for x in range(rect.position.x, rect.end.x):
             var xy : Vector2i = Vector2i(x, y)
             var mtile : MapTile = grvmap.at(xy)
             var atlas = border_atlas
