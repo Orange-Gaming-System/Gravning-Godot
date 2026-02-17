@@ -159,8 +159,6 @@ static func by_player_start_prio(a : MapTile, b : MapTile) -> bool:
     return a.player_start_prio() < b.player_start_prio()
 
 func render_type() -> Item.Type:
-    if item.in_tunnel():
-        return Item.Type.EMPTY
     match item.type:
         Item.Type.WALL, Item.Type.SOFTWALL:
             return item.type
@@ -179,16 +177,27 @@ const directions : Array[Vector2i] = [
 ## purposes the background tile in each of the 8 compass directions are
 ## to be rendered the same and thus connected
 func neighbors() -> int:
-    var me : Item.Type = render_type()
-    var flags_mask : int = Item.Flags.BG2 | Item.Flags.TUNNEL
-    var flags : int = item.flags & flags_mask
+    var flags : int = item.flags
     var same : int = 0
     var bit : int = 1
-    for d in directions:
-        var they : MapTile = dv(d)
-        if they.render_type() == me and (they.item.flags & flags_mask) == flags:
+
+    if flags & Item.Flags.TUNNEL:
+        # In tunnels, the type doesn't matter
+        for d in directions:
+            var they : MapTile = dv(d)
+            if they.item.flags & Item.Flags.TUNNEL:
+                same |= bit
+            bit <<= 1
+    else:
+        var flags_mask : int = Item.Flags.TUNNEL | Item.Flags.BG2
+        var me : Item.Type = render_type()
+
+        for d in directions:
+            var they : MapTile = dv(d)
+            if (they.item.flags & flags_mask) == flags and they.render_type() == me:
                 same |= bit
         bit <<= 1
+
     return same
 
 ## Spawns an object from a [MapTile]. The provided [MapTile] must not be a door, wall, soft wall, or empty.
