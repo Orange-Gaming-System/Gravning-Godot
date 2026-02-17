@@ -158,6 +158,39 @@ func player_start_prio() -> int:
 static func by_player_start_prio(a : MapTile, b : MapTile) -> bool:
     return a.player_start_prio() < b.player_start_prio()
 
+func render_type() -> Item.Type:
+    if item.in_tunnel():
+        return Item.Type.EMPTY
+    match item.type:
+        Item.Type.WALL, Item.Type.SOFTWALL:
+            return item.type
+        Item.Type.OUT_OF_BOUNDS:
+            return Item.Type.WALL
+        _:
+            return Item.Type.EMPTY
+
+const directions : Array[Vector2i] = [
+    Vector2i(-1,-1), Vector2i(-1,0), Vector2i(-1,0),
+    Vector2i(-1,0), Vector2i(1,0),
+    Vector2i(1,-1), Vector2i(1,0), Vector2i(1,1)
+]
+
+## Get the "neighbor bitmask" for this tile, meaning that for rendering
+## purposes the background tile in each of the 8 compass directions are
+## to be rendered the same and thus connected
+func neighbors() -> int:
+    var me : Item.Type = render_type()
+    var flags_mask : int = Item.Flags.BG2 | Item.Flags.TUNNEL
+    var flags : int = item.flags & flags_mask
+    var same : int = 0
+    var bit : int = 1
+    for d in directions:
+        var they : MapTile = dv(d)
+        if they.render_type() == me and (they.item.flags & flags_mask) == flags:
+                same |= bit
+        bit <<= 1
+    return same
+
 ## Spawns an object from a [MapTile]. The provided [MapTile] must not be a door, wall, soft wall, or empty.
 func spawn_obj():
     var obj_node = LevelBuilder.obj_classes[item.type].new(self)
