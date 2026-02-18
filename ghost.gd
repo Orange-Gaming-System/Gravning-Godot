@@ -51,8 +51,9 @@ func alternate_ai() -> void:
     for m in moves:
         var to : MapTile = map_tile.dv(m)
         if to.item.is_tunnel() or to.item.type == Item.Type.PLAYER:
-            goal_pos = Vector2(to.xy)
-            break
+            if to.item.type != Item.Type.PLAYER or !GameManager.has_won_level:
+                goal_pos = Vector2(to.xy)
+                break
     # Otherwise stay put...
 
 func _new_tick():

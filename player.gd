@@ -76,17 +76,18 @@ func _new_tick() -> void:
     map_tile = map_tile.map.move_player(goal_pos)
     input_from_tick = false
 
-func hit_by_rock():
+func player_killed():
     GameManager.has_lost_level = true
     map_tile.rmv_obj()
+
+func hit_by_rock():
+    player_killed()
 
 func bombed():
-    GameManager.has_lost_level = true
-    map_tile.rmv_obj()
+    player_killed()
 
 func hit_by_bullet(_movement):
-    GameManager.has_lost_level = true
-    map_tile.rmv_obj()
+    player_killed()
 
 const smash_offset = 6
 const smash_pattern: Array[int] = [0, 2, 3, 4, 4, 5, 5, 5, 4, 4, 3, 2, 0]

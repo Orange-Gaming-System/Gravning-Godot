@@ -12,6 +12,8 @@ var level_streak: int = 0
 
 var has_lost_level: bool = false
 
+var has_won_level: bool = false
+
 var lives: int = 3
 
 ## Holds the current score. Can be negative!
@@ -265,6 +267,7 @@ func load_level():
     ammo = ammo
     projectiles = 0
     has_lost_level = false
+    has_won_level = false
     for letter in Item.visuals[Item.Type.HYPER]:
         gamescene.get_node("UI/hyper_" + letter).play(letter)
     game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
@@ -296,6 +299,9 @@ func bonus_dot_off(_timeritem = null) -> bool:
         return false
 
 func _new_tick():
+    if has_won_level:
+        load_next_level()
+        has_lost_level = false
     if has_lost_level:
         lose_level()
     queue.poll(GameTime.now())
