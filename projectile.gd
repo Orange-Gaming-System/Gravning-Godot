@@ -16,6 +16,7 @@ func _init(_map: GrvMap, pos: Vector2i, _movement: Vector2i, _speed: float):
     movement = _movement
     speed = _speed
     next_tile = pos + movement
+    position = board_pos * 16
     GameManager.projectiles += 1
 
 ## Checks if [param new] is farther from [param original] than [param comp]. If it is, returns true.
