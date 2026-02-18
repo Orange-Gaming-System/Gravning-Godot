@@ -3,12 +3,8 @@ class_name grv_File_Loader extends Node
 
 ## Holds the length of the current game in levels.
 var levelcount  : int = -1
-## Holds the title of the current game.
-var title       : String
-## Holds the byline of the current game (sort of a subtitle).
-var byline      : String
-## Holds the author (or creator) of the current game.
-var author      : String
+## Holds the title, byline (subtitle) and author (creator) of the current game.
+var meta        : Dictionary[String, String]
 ## Holds the paths to all the levels in the current game. Empty (null) elements are allowed, and will use the default level instead.
 var mappaths    : PackedStringArray
 ## Holds the first level (0-based) where quick escape is allowed.
@@ -18,22 +14,50 @@ var escape_lvl  : int = MAX_LEVELS
 const MAX_LEVELS: int = 65536
 
 ## Read a single line in a .grv file splitting it by tokens
-var _token_regex : RegEx = RegEx.create_from_string("([^\\s\'\"]\\S*|\"(?:[^\"]|\"\")*\"|'(?:[^']|'')*')")
 func read_line(file : FileAccess, strs : PackedStringArray) -> bool:
     strs.clear()
     var line : String = file.get_line()
     if (file.eof_reached()):
         return false
-    for m in _token_regex.search_all(line):
-        var s : String
-        s = m.get_string(1)
-        var c : String = (s[0]) if (s.length()) else ("")
-        if (s.length() < 1 or c == "#"):
-            break           # Empty or start of comment
-        elif (s.length() >= 2 and (c == "'" or c == "\"")):
-            s = s.substr(1, s.length()-2)
-            s.replace(c+c, c)
-        strs.append(s)
+
+    line.replace_char(9, 32)       # Replace tabs with spaces
+
+    var sep     : String = ""
+    var tok     : String = ""
+    var escape  : bool   = false
+
+    for i in line.length():
+        var c : String = line[i]
+        if escape:
+            escape = false
+            if c == sep:
+                tok += sep
+                continue
+            else:
+                strs.append(tok)
+                tok     = ""
+                sep     = ""
+        if not sep:
+            if c == "#":
+                # Start comment
+                break
+            elif c in "\'\"":
+                sep = c
+            elif c != " ":
+                sep = " "
+                tok = c
+        elif c == sep:
+            if sep != " ":
+                escape = true
+            else:
+                strs.append(tok)
+                sep = ""
+                tok = ""
+        else:
+            tok += c
+
+    if sep:
+        strs.append(tok)
     return true
 
 ## Parses the .grv file found at [param path], converting it into a format that the rest of the game can understand.
@@ -42,9 +66,11 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
     var dir : String = path.get_base_dir()                       # File location
     # Set all variables to their default value.
     levelcount = 75
-    title = "Custom Game"
-    byline = ""
-    author = ""
+    meta = {
+        "title"     : "Custom Game",
+        "byline"    : "",
+        "author"    : ""
+    }
     mappaths.clear()
     mappaths.resize(levelcount)
     escape_lvl = MAX_LEVELS
@@ -59,14 +85,9 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
             continue
 
         print(linedata)
+        var command: String = linedata[0].to_lower()
 
-        match linedata[0].to_lower():
-            "title":
-                title = linedata[1]
-            "byline":
-                byline = linedata[1]
-            "author":
-                author = linedata[1]
+        match command:
             "levels": # For levels, set the level count to the argument after converting it to an integer, and set the size of the mappaths array.
                 if (linedata[1].is_valid_int()):
                     var lc : int = int(linedata[1])
@@ -114,6 +135,9 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
                 for map in range(lo, hi):
                     mappaths[map] = mappath
                 next = hi
+            _:
+                if meta.has(command):
+                    meta[command] = " ".join(linedata.slice(1))
     file.close()
 
 func get_level_path(level):

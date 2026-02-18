@@ -64,7 +64,7 @@ class RandVal extends RefCounted:
             value = rand.valbase + (rand.level - rand.minlvl) * rand.vallvl
             if rand.valrnd:
                 value += frand(rand.valrnd)
-            if rand.valmax and fval > rand.valmax:
+            if rand.valmax and value > rand.valmax:
                 value = rand.valmax
         setval(value + rand.addend)
 

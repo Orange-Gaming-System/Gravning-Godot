@@ -3,7 +3,9 @@ class_name Rock extends FallingObj
 
 func _ready():
     super._ready()
-    play(map_tile.item.visual_str())
+    var anim : PackedStringArray = sprite_frames.get_animation_names()
+    map_tile.item.visual = randi_range(0, anim.size()-1)
+    play(anim[map_tile.item.visual], 0.0)
 
 func is_valid_fall(to: Vector2i, from: Vector2i):
     var move_type = GameManager.get_movement_type(to, from)

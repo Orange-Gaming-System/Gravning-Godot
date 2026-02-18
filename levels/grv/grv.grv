@@ -1,11 +1,11 @@
 title "Grävning"
-byline "2026 - "Slightly better this time!""
+byline '2026 - "Slightly better this time!"'
 author "Peter Anvin"
 levels 75
 escape 16
 map 1-5 basic.grvmap
 map 6-10 crosswall.grvmap
-map 11-16 wheelingwalls.grvmap
+map 11-15 wheelingwalls.grvmap
 map 16-19 pluswalls.grvmap
 map 20-24 hole_I.grvmap
 map 25-29 bunker.grvmap
