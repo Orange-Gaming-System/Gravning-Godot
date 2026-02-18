@@ -18,22 +18,50 @@ var escape_lvl  : int = MAX_LEVELS
 const MAX_LEVELS: int = 65536
 
 ## Read a single line in a .grv file splitting it by tokens
-var _token_regex : RegEx = RegEx.create_from_string("([^\\s\'\"]\\S*|\"(?:[^\"]|\"\")*\"|'(?:[^']|'')*')")
 func read_line(file : FileAccess, strs : PackedStringArray) -> bool:
     strs.clear()
     var line : String = file.get_line()
     if (file.eof_reached()):
         return false
-    for m in _token_regex.search_all(line):
-        var s : String
-        s = m.get_string(1)
-        var c : String = (s[0]) if (s.length()) else ("")
-        if (s.length() < 1 or c == "#"):
-            break           # Empty or start of comment
-        elif (s.length() >= 2 and (c == "'" or c == "\"")):
-            s = s.substr(1, s.length()-2)
-            s.replace(c+c, c)
-        strs.append(s)
+
+    line.replace_char(9, 32)       # Replace tabs with spaces
+
+    var sep     : String = ""
+    var tok     : String = ""
+    var escape  : bool   = false
+
+    for i in line.length():
+        var c : String = line[i]
+        if escape:
+            escape = false
+            if c == sep:
+                tok += sep
+                continue
+            else:
+                strs.append(tok)
+                tok     = ""
+                sep     = ""
+        if not sep:
+            if c == "#":
+                # Start comment
+                break
+            elif c in "\'\"":
+                sep = c
+            elif c != " ":
+                sep = " "
+                tok = c
+        elif c == sep:
+            if sep != " ":
+                escape = true
+            else:
+                strs.append(tok)
+                sep = ""
+                tok = ""
+        else:
+            tok += c
+
+    if sep:
+        strs.append(tok)
     return true
 
 ## Parses the .grv file found at [param path], converting it into a format that the rest of the game can understand.
