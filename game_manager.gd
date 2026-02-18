@@ -323,7 +323,7 @@ func _new_tick():
         GameManager.score += pbonus
         gamescene.get_node("endscreen/pbonus/pbonus").text = str(pbonus)
 
-        game_clock.stop()
+        game_clock.paused = true
         GameTime.pause()
         gamescene.get_node("end_timer").timeout.connect(load_next_level)
         gamescene.get_node("end_timer").start()
