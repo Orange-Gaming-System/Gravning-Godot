@@ -29,7 +29,7 @@ func _input(event):
                 if event.is_action(dir):
                     if Input.is_action_just_pressed(dir):
                         GameManager.ammo -= 1
-                        GameManager.fire_bullet(map_tile.xy, bullet_dir[dir])
+                        get_parent().add_child(Bullet.new(map_tile.map, goal_pos, bullet_dir[dir], 0.01, false))
     else:
         for cheat in cheats:
             if event.is_action(cheat):

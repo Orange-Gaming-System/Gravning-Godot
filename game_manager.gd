@@ -35,12 +35,23 @@ var bonus: bool = false
 
 var hyper: Array[bool] = [false, false, false, false, false]
 
+## Holds the current number of projectiles active on screen. If greater than 0, time is paused.
+var projectiles: int = 0:
+    set(value):
+        projectiles = value
+        if projectiles > 0:
+            pause()
+        else:
+            resume()
+
 var game_clock: Timer
 
 ## Holds a reference to the current active cheat menu (or null if nonexistent).
 var chmenu: Window
 
 const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres"), Item.Type.GHOST: preload("res://themes/default/objects/ghost.tres"), Item.Type.FROZEN_CHERRY: preload("res://themes/default/objects/frozen_cherry.tres"), Item.Type.THAWED_CHERRY: preload("res://themes/default/objects/thawed_cherry.tres"), Item.Type.BONUS: preload("res://themes/default/objects/bonus_coin.tres"), Item.Type.DOOR: preload("res://themes/default/objects/doors.tres"), Item.Type.HYPER: preload("res://themes/default/objects/hyper.tres"), Item.Type.ROCK: preload("res://themes/default/objects/rock.tres"), Item.Type.BOMB: preload("res://themes/default/objects/bomb.tres"), Item.Type.MYSTERY: preload("res://themes/default/objects/mystery.tres"), Item.Type.CLUSTER: preload("res://themes/default/objects/cluster_bomb.tres")}
+
+const other_frames: Dictionary[String, SpriteFrames] = {"bullet": preload("res://themes/default/objects/bullets.tres")}
 
 const bomb_actions: Dictionary[Item.Type, BombAction] = {Item.Type.CHERRY: BombAction.COLLECT, Item.Type.AMMO: BombAction.DESTROY, Item.Type.PLAYER: BombAction.OTHER, Item.Type.APPLE: BombAction.NONE, Item.Type.DIAMOND: BombAction.DESTROY, Item.Type.GHOST: BombAction.DESTROY, Item.Type.FROZEN_CHERRY: BombAction.NONE, Item.Type.THAWED_CHERRY: BombAction.COLLECT, Item.Type.BONUS: BombAction.OTHER, Item.Type.DOOR: BombAction.NONE, Item.Type.HYPER: BombAction.NONE, Item.Type.ROCK: BombAction.NONE, Item.Type.BOMB: BombAction.NONE, Item.Type.WALL: BombAction.DESTROY, Item.Type.SOFTWALL: BombAction.DESTROY, Item.Type.EMPTY: BombAction.NONE, Item.Type.MYSTERY: BombAction.DESTROY, Item.Type.CLUSTER: BombAction.NONE, Item.Type.APPLE_DIAMOND: BombAction.NONE}
 
@@ -252,6 +263,7 @@ func load_level():
     score = score
     level = level
     ammo = ammo
+    projectiles = 0
     has_lost_level = false
     for letter in Item.visuals[Item.Type.HYPER]:
         gamescene.get_node("UI/hyper_" + letter).play(letter)
