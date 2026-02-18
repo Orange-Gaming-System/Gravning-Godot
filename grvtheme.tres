@@ -2,7 +2,11 @@
 
 [ext_resource type="FontFile" uid="uid://dja54g52jxax8" path="res://PressStart2P-Regular.ttf" id="1_1ff62"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ff62"]
+bg_color = Color(1, 1, 1, 1)
+
 [resource]
 default_font = ExtResource("1_1ff62")
 default_font_size = 16
 Label/colors/font_color = Color(1, 1, 1, 1)
+Panel/styles/panel = SubResource("StyleBoxFlat_1ff62")

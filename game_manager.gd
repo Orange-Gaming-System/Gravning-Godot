@@ -14,6 +14,8 @@ var has_lost_level: bool = false
 
 var has_won_level: bool = false
 
+var is_end_screen: bool = false
+
 var lives: int = 3
 
 ## Holds the current score. Can be negative!
@@ -107,7 +109,7 @@ const walls = {"blue": 7, "brown": 8, "red": 9, "gray": 10, "pink": 11, "green":
 const soft_walls = {"gray": 0, "blue": 1, "brown": 2, "red": 3, "pink": 4, "green": 5, "cyan": 6}
 
 ## Holds the colors used for the background of each color.
-const colors = {"blue": Color("#0020aa"), "brown": Color("#a97142"), "red": Color("#aa0f00"), "gray": Color("#aaaaaa"), "pink": Color("#aa23aa"), "green": Color("#02aa00"), "cyan": Color("#00aaaa")}
+const colors = {"blue": Color("#0020aa"), "brown": Color("#aa5500"), "red": Color("#aa0f00"), "gray": Color("#aaaaaa"), "pink": Color("#aa23aa"), "green": Color("#02aa00"), "cyan": Color("#00aaaa")}
 
 ## Holds the text color used for each color.
 const text_colors = {"blue": Color.WHITE, "red": Color.WHITE, "brown": Color.WHITE, "gray": Color.WHITE, "pink": Color.WHITE, "green": Color.WHITE, "cyan": Color.WHITE}
@@ -268,6 +270,7 @@ func load_level():
     projectiles = 0
     has_lost_level = false
     has_won_level = false
+    is_end_screen = false
     for letter in Item.visuals[Item.Type.HYPER]:
         gamescene.get_node("UI/hyper_" + letter).play(letter)
     game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
@@ -300,11 +303,41 @@ func bonus_dot_off(_timeritem = null) -> bool:
 
 func _new_tick():
     if has_won_level:
-        load_next_level()
+        gamescene.get_node("endscreen").appear()
+
+        # Setup end screen.
+        # Calc time.
+        var gtime = GameTime.now()
+        var minutes = int(gtime / 60)
+        var seconds = gtime - (minutes * 60)
+        minutes = str(minutes).lpad(2, "0")
+        var subsec = seconds - floor(seconds)
+        subsec = int(subsec * 10)
+        subsec = str(subsec)
+        seconds = int(seconds)
+        seconds = str(seconds).lpad(2, "0")
+        gamescene.get_node("endscreen/time/time").text = minutes + ":" + seconds + "." + subsec
+
+        # Determine performance bonus.
+        var pbonus = int(((30000.0 * (level + 1)) / gtime) * (grvmap.startcherries - grvmap.itemcount[Item.Type.CHERRY]) / grvmap.startcherries + 0.5)
+        GameManager.score += pbonus
+        gamescene.get_node("endscreen/pbonus/pbonus").text = str(pbonus)
+
+        game_clock.stop()
+        GameTime.pause()
+        gamescene.get_node("end_timer").timeout.connect(load_next_level)
+        gamescene.get_node("end_timer").start()
+        is_end_screen = true
         has_lost_level = false
     if has_lost_level:
         lose_level()
     queue.poll(GameTime.now())
+
+func _input(_event):
+    if Input.is_action_just_pressed("skip_end_screen") and is_end_screen:
+        gamescene.get_node("end_timer").stop()
+        load_next_level()
+        is_end_screen = false
 
 func load_cheat_menu() -> Window:
     pause()

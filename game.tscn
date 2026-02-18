@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://c23t7foj83xto" path="res://cave_bg.png" id="4_7jktm"]
 [ext_resource type="Script" uid="uid://c81ay70qsislf" path="res://game_clock.gd" id="4_fc0e3"]
 [ext_resource type="SpriteFrames" uid="uid://bpvppce2gvltj" path="res://themes/default/objects/hyper.tres" id="6_ryrav"]
+[ext_resource type="PackedScene" uid="uid://bq8cdcdukfsgr" path="res://endscreen.tscn" id="7_eow3j"]
 
 [node name="game" type="Node2D" unique_id=1465605954]
 script = ExtResource("1_7jktm")
@@ -139,3 +140,9 @@ position = Vector2(625, 400)
 sprite_frames = ExtResource("6_ryrav")
 animation = &"H"
 centered = false
+
+[node name="endscreen" parent="." unique_id=505433523 instance=ExtResource("7_eow3j")]
+visible = false
+
+[node name="end_timer" type="Timer" parent="." unique_id=883609000]
+wait_time = 2.0

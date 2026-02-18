@@ -41,7 +41,7 @@ func collect():
             break
         if myst < 470:
             print("Treasure: End of Level")
-            GameManager.load_next_level()
+            GameManager.has_won_level = true
             break
         if myst < 650:
             print("Treasure: Ghost Freeze (WIP)")
