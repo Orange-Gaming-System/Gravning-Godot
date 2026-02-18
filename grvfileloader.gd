@@ -3,12 +3,8 @@ class_name grv_File_Loader extends Node
 
 ## Holds the length of the current game in levels.
 var levelcount  : int = -1
-## Holds the title of the current game.
-var title       : String
-## Holds the byline of the current game (sort of a subtitle).
-var byline      : String
-## Holds the author (or creator) of the current game.
-var author      : String
+## Holds the title, byline (subtitle) and author (creator) of the current game.
+var meta        : Dictionary[String, String]
 ## Holds the paths to all the levels in the current game. Empty (null) elements are allowed, and will use the default level instead.
 var mappaths    : PackedStringArray
 ## Holds the first level (0-based) where quick escape is allowed.
@@ -70,9 +66,11 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
     var dir : String = path.get_base_dir()                       # File location
     # Set all variables to their default value.
     levelcount = 75
-    title = "Custom Game"
-    byline = ""
-    author = ""
+    meta = {
+        "title"     : "Custom Game",
+        "byline"    : "",
+        "author"    : ""
+    }
     mappaths.clear()
     mappaths.resize(levelcount)
     escape_lvl = MAX_LEVELS
@@ -87,14 +85,9 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
             continue
 
         print(linedata)
+        var command: String = linedata[0].to_lower()
 
-        match linedata[0].to_lower():
-            "title":
-                title = linedata[1]
-            "byline":
-                byline = linedata[1]
-            "author":
-                author = linedata[1]
+        match command:
             "levels": # For levels, set the level count to the argument after converting it to an integer, and set the size of the mappaths array.
                 if (linedata[1].is_valid_int()):
                     var lc : int = int(linedata[1])
@@ -142,6 +135,9 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
                 for map in range(lo, hi):
                     mappaths[map] = mappath
                 next = hi
+            _:
+                if meta.has(command):
+                    meta[command] = " ".join(linedata.slice(1))
     file.close()
 
 func get_level_path(level):
