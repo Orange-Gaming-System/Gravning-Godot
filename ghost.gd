@@ -1,4 +1,7 @@
+@icon("res://Node Icons/node_2D/icon_skull.png")
 class_name Ghost extends Character
+
+var is_dead = false
 
 func _ready():
     super._ready()
@@ -59,9 +62,41 @@ func alternate_ai() -> void:
 func _new_tick():
     board_pos = goal_pos.round()
     start_pos = board_pos
-    alternate_ai()
+    if !is_dead:
+        alternate_ai()
+    else:
+        if randf() < 0.012 and map_tile.map.at(Vector2i(19, 21)).item.is_tunnel():
+            var mtile = map_tile.map.at(Vector2i(19, 21))
+            mtile.changetype(Item.Type.GHOST)
+            mtile.spawn_obj()
+            queue_free()
     super._new_tick()
 
 func _collided(area):
-    if area.get_parent() is Player:
-        GameManager.has_lost_level = true
+    if !is_dead:
+        if area.get_parent() is Player:
+            if GameManager.level + 1 < grvFileLoader.levelcount or GameManager.power < 3:
+                GameManager.has_lost_level = true
+            else:
+                GameManager.power -= 3
+                kill_ghost()
+
+func kill_ghost():
+    print(GameManager.level + 1 < grvFileLoader.levelcount)
+    if GameManager.level + 1 < grvFileLoader.levelcount:
+        GameManager.power += randi_range(0, 3) + 2
+        map_tile.rmv_obj()
+    else:
+        map_tile.node = null
+        map_tile.changetype(Item.Type.EMPTY)
+        visible = false
+        is_dead = true
+
+func hit_by_rock():
+    kill_ghost()
+
+func bombed():
+    kill_ghost()
+
+func hit_by_bullet(_movement):
+    kill_ghost()

@@ -24,7 +24,7 @@ var score: int = 0:
         score = value
         gamescene.get_node("UI/score").text = str(score)
 
-## The amount of ammo the play has.
+## The amount of ammo the player has.
 var ammo: int = 0:
     set(value):
         ammo = value
@@ -33,6 +33,14 @@ var ammo: int = 0:
         gamescene.get_node("UI/ammo").visible = ammo
         gamescene.get_node("UI/Fixed/ammo").visible = ammo
         gamescene.get_node("UI/ammo").text = str(ammo)
+
+## The amount of power the player has.
+var power: int = 0:
+    set(value):
+        power = value
+        if value > 9999:
+            power = 9999
+        gamescene.get_node("UI/power").text = str(power)
 
 ## Holds whether or not bonus dots will give score right now.
 var bonus: bool = false
@@ -57,7 +65,7 @@ const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: prelo
 
 const other_frames: Dictionary[String, SpriteFrames] = {"bullet": preload("res://themes/default/objects/bullets.tres"), "falling_apple": preload("res://themes/default/objects/apple.tres")}
 
-const bomb_actions: Dictionary[Item.Type, BombAction] = {Item.Type.CHERRY: BombAction.COLLECT, Item.Type.AMMO: BombAction.DESTROY, Item.Type.PLAYER: BombAction.OTHER, Item.Type.APPLE: BombAction.NONE, Item.Type.DIAMOND: BombAction.DESTROY, Item.Type.GHOST: BombAction.DESTROY, Item.Type.FROZEN_CHERRY: BombAction.NONE, Item.Type.THAWED_CHERRY: BombAction.COLLECT, Item.Type.BONUS: BombAction.OTHER, Item.Type.DOOR: BombAction.NONE, Item.Type.HYPER: BombAction.NONE, Item.Type.ROCK: BombAction.NONE, Item.Type.BOMB: BombAction.NONE, Item.Type.WALL: BombAction.DESTROY, Item.Type.SOFTWALL: BombAction.DESTROY, Item.Type.EMPTY: BombAction.NONE, Item.Type.MYSTERY: BombAction.DESTROY, Item.Type.CLUSTER: BombAction.NONE, Item.Type.APPLE_DIAMOND: BombAction.NONE}
+const bomb_actions: Dictionary[Item.Type, BombAction] = {Item.Type.CHERRY: BombAction.COLLECT, Item.Type.AMMO: BombAction.DESTROY, Item.Type.PLAYER: BombAction.OTHER, Item.Type.APPLE: BombAction.NONE, Item.Type.DIAMOND: BombAction.DESTROY, Item.Type.GHOST: BombAction.OTHER, Item.Type.FROZEN_CHERRY: BombAction.NONE, Item.Type.THAWED_CHERRY: BombAction.COLLECT, Item.Type.BONUS: BombAction.OTHER, Item.Type.DOOR: BombAction.NONE, Item.Type.HYPER: BombAction.NONE, Item.Type.ROCK: BombAction.NONE, Item.Type.BOMB: BombAction.NONE, Item.Type.WALL: BombAction.DESTROY, Item.Type.SOFTWALL: BombAction.DESTROY, Item.Type.EMPTY: BombAction.NONE, Item.Type.MYSTERY: BombAction.DESTROY, Item.Type.CLUSTER: BombAction.NONE, Item.Type.APPLE_DIAMOND: BombAction.NONE}
 
 enum BombAction {
     NONE,
@@ -66,7 +74,7 @@ enum BombAction {
     OTHER
 }
 
-const bullet_effects: Dictionary[Item.Type, BulletEffect] = {Item.Type.CHERRY: BulletEffect.COLLECT, Item.Type.AMMO: BulletEffect.COLLECT, Item.Type.PLAYER: BulletEffect.OTHER, Item.Type.APPLE: BulletEffect.BLOCK, Item.Type.DIAMOND: BulletEffect.COLLECT, Item.Type.GHOST: BulletEffect.DESTROY, Item.Type.FROZEN_CHERRY: BulletEffect.BLOCK, Item.Type.THAWED_CHERRY: BulletEffect.COLLECT, Item.Type.BONUS: BulletEffect.COLLECT, Item.Type.DOOR: BulletEffect.BLOCK, Item.Type.HYPER: BulletEffect.COLLECT, Item.Type.ROCK: BulletEffect.BLOCK, Item.Type.BOMB: BulletEffect.BLOCK, Item.Type.WALL: BulletEffect.BLOCK, Item.Type.SOFTWALL: BulletEffect.BLOCK, Item.Type.EMPTY: BulletEffect.IGNORE, Item.Type.MYSTERY: BulletEffect.BLOCK, Item.Type.CLUSTER: BulletEffect.OTHER, Item.Type.APPLE_DIAMOND: BulletEffect.BLOCK}
+const bullet_effects: Dictionary[Item.Type, BulletEffect] = {Item.Type.CHERRY: BulletEffect.COLLECT, Item.Type.AMMO: BulletEffect.COLLECT, Item.Type.PLAYER: BulletEffect.OTHER, Item.Type.APPLE: BulletEffect.BLOCK, Item.Type.DIAMOND: BulletEffect.COLLECT, Item.Type.GHOST: BulletEffect.OTHER, Item.Type.FROZEN_CHERRY: BulletEffect.BLOCK, Item.Type.THAWED_CHERRY: BulletEffect.COLLECT, Item.Type.BONUS: BulletEffect.COLLECT, Item.Type.DOOR: BulletEffect.BLOCK, Item.Type.HYPER: BulletEffect.COLLECT, Item.Type.ROCK: BulletEffect.BLOCK, Item.Type.BOMB: BulletEffect.BLOCK, Item.Type.WALL: BulletEffect.BLOCK, Item.Type.SOFTWALL: BulletEffect.BLOCK, Item.Type.EMPTY: BulletEffect.IGNORE, Item.Type.MYSTERY: BulletEffect.BLOCK, Item.Type.CLUSTER: BulletEffect.OTHER, Item.Type.APPLE_DIAMOND: BulletEffect.BLOCK}
 
 enum BulletEffect {
     IGNORE,
@@ -267,6 +275,7 @@ func load_level():
     score = score
     level = level
     ammo = ammo
+    power = power
     projectiles = 0
     has_lost_level = false
     has_won_level = false
@@ -324,6 +333,7 @@ func _new_tick():
         gamescene.get_node("endscreen/pbonus/pbonus").text = str(pbonus)
 
         game_clock.paused = true
+
         GameTime.pause()
         gamescene.get_node("end_timer").timeout.connect(load_next_level)
         gamescene.get_node("end_timer").start()
