@@ -24,7 +24,7 @@ LevelBuilder="*res://level_builder.gd"
 [display]
 
 window/size/viewport_width=672
-window/size/viewport_height=432
+window/size/viewport_height=464
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 

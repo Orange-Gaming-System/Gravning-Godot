@@ -63,6 +63,10 @@ func read_line(file : FileAccess, strs : PackedStringArray) -> bool:
 ## Parses the .grv file found at [param path], converting it into a format that the rest of the game can understand.
 func parsegrvfile(path : String): # stores all the data about a game from the .grv file into variables for easy access.
     var file : FileAccess = FileAccess.open(path, FileAccess.READ)
+    var error: Error = FileAccess.get_open_error()
+    if error:
+        push_error("Could not open file! Error code: ", error_string(error))
+        return
     var dir : String = path.get_base_dir()                       # File location
     # Set all variables to their default value.
     levelcount = 75
@@ -142,7 +146,7 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
 
 func get_level_path(level):
     if mappaths[level] == "":
-        return get_level_path(level - 1)
+        return "res://levels/error.grvmap"
     return mappaths[level]
 
 func _ready():

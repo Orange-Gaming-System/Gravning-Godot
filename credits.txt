@@ -24,3 +24,5 @@ Cluster Bomb:
     https://crumpaloo.itch.io/gagw
 Doors:
     https://opengameart.org/content/gauntness
+Lives:
+    https://nakinogasai.itch.io/10-free-gems

@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://c81ay70qsislf" path="res://game_clock.gd" id="4_fc0e3"]
 [ext_resource type="SpriteFrames" uid="uid://bpvppce2gvltj" path="res://themes/default/objects/hyper.tres" id="6_ryrav"]
 [ext_resource type="PackedScene" uid="uid://bq8cdcdukfsgr" path="res://endscreen.tscn" id="7_eow3j"]
+[ext_resource type="Texture2D" uid="uid://qwxxmko02d1h" path="res://themes/default/lives_sprite.png" id="8_j5wjh"]
 
 [node name="game" type="Node2D" unique_id=1465605954]
 script = ExtResource("1_7jktm")
@@ -55,62 +56,58 @@ grow_vertical = 2
 [node name="score" type="Label" parent="UI/Fixed" unique_id=1273879766]
 layout_mode = 0
 offset_left = 16.0
-offset_top = 16.0
 offset_right = 114.0
-offset_bottom = 32.0
+offset_bottom = 16.0
 theme = ExtResource("3_feb5d")
 text = "SCORE:"
 
 [node name="level" type="Label" parent="UI/Fixed" unique_id=323572772]
 layout_mode = 0
 offset_left = 497.0
-offset_top = 16.0
 offset_right = 593.0
-offset_bottom = 32.0
+offset_bottom = 16.0
 theme = ExtResource("3_feb5d")
 text = "LEVEL:"
 
 [node name="ammo" type="Label" parent="UI/Fixed" unique_id=1670083868]
 layout_mode = 0
 offset_left = 161.0
-offset_top = 401.0
+offset_top = 416.0
 offset_right = 241.0
-offset_bottom = 417.0
+offset_bottom = 432.0
 theme = ExtResource("3_feb5d")
 text = "SHOTS"
 
 [node name="power" type="Label" parent="UI/Fixed" unique_id=642126342]
 layout_mode = 0
 offset_left = 321.0
-offset_top = 401.0
+offset_top = 416.0
 offset_right = 401.0
-offset_bottom = 417.0
+offset_bottom = 432.0
 theme = ExtResource("3_feb5d")
 text = "POWER"
 
 [node name="score" type="Label" parent="UI" unique_id=450557202]
 layout_mode = 0
 offset_left = 128.0
-offset_top = 16.0
 offset_right = 168.0
-offset_bottom = 32.0
+offset_bottom = 16.0
 theme = ExtResource("3_feb5d")
 
 [node name="level" type="Label" parent="UI" unique_id=880934624]
 layout_mode = 0
 offset_left = 608.0
-offset_top = 16.0
 offset_right = 656.0
-offset_bottom = 32.0
+offset_bottom = 16.0
 theme = ExtResource("3_feb5d")
 text = "0"
 
 [node name="ammo" type="Label" parent="UI" unique_id=1840649817]
 layout_mode = 0
 offset_left = 257.0
-offset_top = 401.0
+offset_top = 416.0
 offset_right = 289.0
-offset_bottom = 417.0
+offset_bottom = 432.0
 theme = ExtResource("3_feb5d")
 text = "10"
 horizontal_alignment = 2
@@ -118,11 +115,29 @@ horizontal_alignment = 2
 [node name="power" type="Label" parent="UI" unique_id=1012532028]
 layout_mode = 0
 offset_left = 417.0
-offset_top = 401.0
+offset_top = 416.0
 offset_right = 457.0
-offset_bottom = 417.0
+offset_bottom = 432.0
 theme = ExtResource("3_feb5d")
 text = "10"
+
+[node name="message" type="Label" parent="UI" unique_id=1972374820]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 400.0
+offset_right = 656.0
+offset_bottom = 416.0
+theme = ExtResource("3_feb5d")
+horizontal_alignment = 1
+uppercase = true
+
+[node name="lives" type="Sprite2D" parent="UI" unique_id=1848589272]
+texture_repeat = 2
+position = Vector2(288, 0)
+texture = ExtResource("8_j5wjh")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 96, 16)
 
 [node name="hyper_H" type="AnimatedSprite2D" parent="UI" unique_id=1508475739]
 visible = false

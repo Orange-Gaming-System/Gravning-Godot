@@ -285,7 +285,9 @@ func load_level():
     game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
     game_clock.connect("timeout", _new_tick)
     queue = TimerItem.Queue.new()
-    map = Map.new(grvFileLoader.get_level_path(level))
+    var lvl_path = grvFileLoader.get_level_path(level)
+
+    map = Map.new(lvl_path)
     grvmap = map.grvmap
     LevelBuilder.build_level(map)
     bonus_dot_off()
@@ -361,3 +363,6 @@ func pause():
 func resume():
     game_clock.paused = false
     GameTime.unpause()
+
+func print_message(message: String):
+    gamescene.get_node("UI/message").text = message
