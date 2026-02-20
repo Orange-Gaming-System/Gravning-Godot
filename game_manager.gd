@@ -16,7 +16,12 @@ var has_won_level: bool = false
 
 var is_end_screen: bool = false
 
-var lives: int = 3
+var lives: int = 3:
+    set(value):
+        lives = value
+        if lives > 6:
+            lives = 6
+        gamescene.get_node("UI/lives").region_rect.size.x = lives * 32
 
 ## Holds the current score. Can be negative!
 var score: int = 0:
@@ -146,6 +151,12 @@ func lose_level():
     lives -= 1
     level -= 1
     level_streak = -1
+    if lives < 0:
+        score = 0
+        lives = 3
+        level = -1
+        ammo = 0
+        power = 0
     load_next_level()
 
 func get_tile_atlas(tile: Tile) -> int:
@@ -276,6 +287,7 @@ func load_level():
     level = level
     ammo = ammo
     power = power
+    lives = lives
     projectiles = 0
     has_lost_level = false
     has_won_level = false
