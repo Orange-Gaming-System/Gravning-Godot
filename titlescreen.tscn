@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://hk5lwnpx01ec"]
+
+[ext_resource type="Theme" uid="uid://c7jrhubx5eew8" path="res://grvtheme.tres" id="1_cjnew"]
+[ext_resource type="Script" uid="uid://bpy5uaqqee115" path="res://playbutton.gd" id="2_goadl"]
+
+[node name="Control" type="Control" unique_id=1346205953]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="title" type="Label" parent="." unique_id=1482386721]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 39.0
+offset_bottom = 103.0
+grow_horizontal = 2
+theme = ExtResource("1_cjnew")
+theme_override_font_sizes/font_size = 64
+text = "GRÄVNING"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="subtitle" type="Label" parent="title" unique_id=1472116387]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("1_cjnew")
+theme_override_font_sizes/font_size = 32
+text = "Godot Version"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="buttons" type="Control" parent="." unique_id=1979484349]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -119.0
+offset_top = -109.0
+offset_right = 119.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+
+[node name="play" type="Button" parent="buttons" unique_id=261026588]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_cjnew")
+theme_override_font_sizes/font_size = 24
+text = "PLAY"
+script = ExtResource("2_goadl")
+
+[node name="Label" type="Label" parent="buttons" unique_id=1431530850]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -111.0
+offset_right = 96.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset_ratio = Vector2(0.5, 0)
+text = "Controls:
+Move - WASD/Arrow Keys
+Shoot - IJLK
+Quick Escape (Lv. 16+) - Escape"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="buttons/play" to="buttons/play" method="_on_pressed"]
