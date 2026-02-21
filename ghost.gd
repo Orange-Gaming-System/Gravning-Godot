@@ -3,6 +3,9 @@ class_name Ghost extends Character
 
 var is_dead = false
 
+# Only applies when slow ghosts is on.
+var is_second_tick = false
+
 func _ready():
     super._ready()
     process_priority = map_tile.prio
@@ -52,6 +55,7 @@ func alternate_ai() -> void:
         moves = [ymov, xmov, -xmov, -ymov]
 
     for m in moves:
+        m = m * GameManager.ghost_speed_mods[GameManager.ghost_modifier]
         var to : MapTile = map_tile.dv(m)
         if to.item.is_tunnel() or to.item.type == Item.Type.PLAYER:
             if to.item.type != Item.Type.PLAYER or !GameManager.has_won_level:
@@ -60,6 +64,9 @@ func alternate_ai() -> void:
     # Otherwise stay put...
 
 func _new_tick():
+    if GameManager.ghost_modifier == GameManager.GhostMod.SLOW or is_second_tick:
+        slow_ghost_behavior()
+        return
     board_pos = goal_pos.round()
     start_pos = board_pos
     if !is_dead:
@@ -71,6 +78,21 @@ func _new_tick():
             mtile.spawn_obj()
             queue_free()
     super._new_tick()
+
+func slow_ghost_behavior():
+    if is_second_tick:
+        board_pos = goal_pos
+        goal_pos += goal_pos - start_pos
+        goal_pos = goal_pos.round()
+        start_pos = board_pos
+        super._new_tick()
+        is_second_tick = false
+    else:
+        board_pos = goal_pos.round()
+        start_pos = board_pos
+        alternate_ai()
+        goal_pos = start_pos + ((goal_pos - start_pos) / 2)
+        is_second_tick = true
 
 func _collided(area):
     if !is_dead:

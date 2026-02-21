@@ -100,6 +100,17 @@ enum BulletEffect {
     OTHER
 }
 
+const ghost_speed_mods: Dictionary[GhostMod, float] = {GhostMod.NONE: 1, GhostMod.FREEZE: 0, GhostMod.SCARED: -1, GhostMod.SLOW: 1}
+
+var ghost_modifier: GhostMod = GhostMod.NONE
+
+enum GhostMod {
+    NONE,
+    FREEZE,
+    SCARED,
+    SLOW
+}
+
 var grvmap: GrvMap
 
 var map: Map
@@ -305,6 +316,7 @@ func load_level():
     ammo = ammo
     power = power
     lives = lives
+    ghost_modifier = GhostMod.NONE
     if level >= grvFileLoader.levelcount - 1:
         jumpto = grvFileLoader.levelcount
         reduce_jumpto(null)
@@ -406,3 +418,15 @@ func reduce_jumpto(_timeritem):
     jumpto -= 1
     if jumpto > 0:
         queue.add(reduce_jumpto, GameTime.now() + 10)
+
+func unfreeze_ghosts(_timeritem):
+    if ghost_modifier == GhostMod.FREEZE:
+        ghost_modifier = GhostMod.NONE
+
+func unscare_ghosts(_timeritem):
+    if ghost_modifier == GhostMod.SCARED:
+        ghost_modifier = GhostMod.NONE
+
+func unslow_ghosts(_timeritem):
+    if ghost_modifier == GhostMod.SLOW:
+        ghost_modifier = GhostMod.NONE
