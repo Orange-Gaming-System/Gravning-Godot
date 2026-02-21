@@ -11,6 +11,8 @@ var grvmap: GrvMap
 
 func _init(path: String):
     var spawn_hyper = GameManager.level_streak >= 4
+    if GameManager.level >= grvFileLoader.levelcount - 1:
+        spawn_hyper = false
     if spawn_hyper:
         GameManager.level_streak = 0
     grvmap = GrvMap.new(FileAccess.get_file_as_bytes(path), GameManager.level)

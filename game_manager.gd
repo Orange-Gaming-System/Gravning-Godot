@@ -61,6 +61,17 @@ var projectiles: int = 0:
         else:
             resume()
 
+var jumpto: int = -1:
+    set(value):
+        jumpto = value
+        if value == -1:
+            gamescene.get_node("UI/jumpto").visible = false
+            gamescene.get_node("UI/Fixed/jumpto").visible = false
+        else:
+            gamescene.get_node("UI/jumpto").visible = true
+            gamescene.get_node("UI/Fixed/jumpto").visible = true
+            gamescene.get_node("UI/jumpto").text = str(jumpto + 1)
+
 var game_clock: Timer
 
 ## Holds a reference to the current active cheat menu (or null if nonexistent).
@@ -271,7 +282,10 @@ func load_next_level():
     gamescene.queue_free()
     gamescene = preload("res://game.tscn").instantiate()
     level += 1
+    level += hyper.count(true)
     level_streak += 1
+    if level >= grvFileLoader.levelcount:
+        level = jumpto
     for shot in ammo:
         if randf() > 0.1:
             ammo -= 1 # 10% chance to keep unused shots. (Really a 90% chance to lose each shot)
@@ -288,6 +302,12 @@ func load_level():
     ammo = ammo
     power = power
     lives = lives
+    if level >= grvFileLoader.levelcount - 1:
+        jumpto = grvFileLoader.levelcount
+        reduce_jumpto(null)
+        ammo = 0
+    else:
+        jumpto = -1
     projectiles = 0
     has_lost_level = false
     has_won_level = false
@@ -378,3 +398,8 @@ func resume():
 
 func print_message(message: String):
     gamescene.get_node("UI/message").text = message
+
+func reduce_jumpto(_timeritem):
+    jumpto -= 1
+    if jumpto > 0:
+        queue.add(reduce_jumpto, GameTime.now() + 10)
