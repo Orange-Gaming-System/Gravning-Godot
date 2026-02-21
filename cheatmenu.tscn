@@ -1,20 +1,11 @@
 [gd_scene format=3 uid="uid://bgtqalbkgwcnf"]
 
 [ext_resource type="Script" uid="uid://c34t2r3eupnbr" path="res://cheatmenu.gd" id="1_4y0sh"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4y0sh"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
+[ext_resource type="Theme" uid="uid://buqkjov1bm061" path="res://cheat_theme.tres" id="2_e1x4t"]
+[ext_resource type="Theme" uid="uid://c7jrhubx5eew8" path="res://grvtheme.tres" id="2_fqmdt"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4y0sh"]
-font_size = 12
+font_size = 10
 font_color = Color(1, 0.5833334, 0, 1)
 
 [node name="cheatmenu" type="Window" unique_id=403857395]
@@ -31,11 +22,12 @@ offset_left = -32.0
 offset_top = -42.0
 offset_right = 552.0
 offset_bottom = 311.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_4y0sh")
+theme = ExtResource("2_fqmdt")
 
 [node name="Panel" type="Panel" parent="." unique_id=786934596]
 offset_right = 500.0
 offset_bottom = 300.0
+theme = ExtResource("2_e1x4t")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Panel" unique_id=1699840458]
 layout_mode = 0
@@ -53,13 +45,16 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -180.0
-offset_right = 180.0
+offset_left = -250.0
+offset_right = 250.0
 offset_bottom = 23.0
 grow_horizontal = 2
 pivot_offset_ratio = Vector2(0.5, 0)
+theme_override_font_sizes/font_size = 8
 text = "WARNING: Use of ANY of these cheats will invalidate your run!"
 label_settings = SubResource("LabelSettings_4y0sh")
+horizontal_alignment = 1
+autowrap_mode = 3
 
 [node name="instantwin" type="Button" parent="Panel/ScrollContainer/Control" unique_id=1249398168]
 layout_mode = 0
@@ -73,39 +68,57 @@ text = "Instant Win (Alt+L)"
 [node name="leveljump_input" type="SpinBox" parent="Panel/ScrollContainer/Control" unique_id=245102545]
 layout_mode = 0
 offset_left = 16.0
-offset_top = 63.0
-offset_right = 120.0
-offset_bottom = 94.0
+offset_top = 64.0
+offset_right = 186.0
+offset_bottom = 95.0
 min_value = 1.0
 value = 1.0
 prefix = "Level:"
 
 [node name="leveljump" type="Button" parent="Panel/ScrollContainer/Control" unique_id=146813546]
 layout_mode = 0
-offset_left = 122.0
-offset_top = 65.0
-offset_right = 209.0
-offset_bottom = 90.0
+offset_left = 190.0
+offset_top = 67.0
+offset_right = 354.0
+offset_bottom = 92.0
 theme_override_font_sizes/font_size = 12
 text = "Jump to Level"
 
 [node name="setshot_input" type="SpinBox" parent="Panel/ScrollContainer/Control" unique_id=1813260398]
 layout_mode = 0
 offset_left = 16.0
-offset_top = 102.0
-offset_right = 120.0
-offset_bottom = 133.0
+offset_top = 104.0
+offset_right = 186.0
+offset_bottom = 135.0
 max_value = 99.0
 prefix = "Shots:"
 
 [node name="setshot" type="Button" parent="Panel/ScrollContainer/Control" unique_id=2067511733]
 layout_mode = 0
-offset_left = 122.0
-offset_top = 104.0
-offset_right = 184.0
-offset_bottom = 129.0
+offset_left = 190.0
+offset_top = 106.0
+offset_right = 354.0
+offset_bottom = 131.0
 theme_override_font_sizes/font_size = 12
 text = "Set Shots"
+
+[node name="setpower_input" type="SpinBox" parent="Panel/ScrollContainer/Control" unique_id=1085110584]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 144.0
+offset_right = 218.0
+offset_bottom = 175.0
+max_value = 9999.0
+prefix = "Power:"
+
+[node name="setpower" type="Button" parent="Panel/ScrollContainer/Control" unique_id=255470844]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 146.0
+offset_right = 354.0
+offset_bottom = 171.0
+theme_override_font_sizes/font_size = 12
+text = "Set Power"
 
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="size_changed" from="." to="." method="_on_size_changed"]
@@ -113,3 +126,4 @@ text = "Set Shots"
 [connection signal="pressed" from="Panel/ScrollContainer/Control/instantwin" to="." method="instant_win"]
 [connection signal="pressed" from="Panel/ScrollContainer/Control/leveljump" to="." method="level_jump"]
 [connection signal="pressed" from="Panel/ScrollContainer/Control/setshot" to="." method="set_shots"]
+[connection signal="pressed" from="Panel/ScrollContainer/Control/setpower" to="." method="set_power"]
