@@ -11,7 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="title" type="Label" parent="." unique_id=1482386721]
+[node name="title" type="RichTextLabel" parent="." unique_id=552321203]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -19,24 +19,9 @@ offset_top = 39.0
 offset_bottom = 103.0
 grow_horizontal = 2
 theme = ExtResource("1_cjnew")
-theme_override_font_sizes/font_size = 64
-text = "GRÄVNING"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="subtitle" type="Label" parent="title" unique_id=1472116387]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 2.0
-offset_bottom = 34.0
-grow_horizontal = 2
-grow_vertical = 0
-theme = ExtResource("1_cjnew")
-theme_override_font_sizes/font_size = 32
-text = "Godot Version"
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[color=#0020aa]G[color=#aa5500]R[color=#aa0f00]Ä[color=#aaaaaa]V[color=#aa23aa]N[color=#02aa00]I[color=#00aaaa]N[color=#0020aa]G"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -88,5 +73,21 @@ Move - WASD/Arrow Keys
 Shoot - IJLK
 Quick Escape (Lv. 16+) - Escape"
 horizontal_alignment = 1
+
+[node name="subtitle" type="Label" parent="." unique_id=1472116387]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -359.0
+offset_bottom = -327.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("1_cjnew")
+theme_override_font_sizes/font_size = 32
+text = "Godot Version"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="buttons/play" to="buttons/play" method="_on_pressed"]

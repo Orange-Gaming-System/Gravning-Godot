@@ -147,13 +147,12 @@ enum MOVE_TYPE {
 }
 
 func _ready():
-    gamescene = $"../game"
     chmenu = preload("res://cheatmenu.tscn").instantiate()
     add_sibling.call_deferred(chmenu)
     chmenu.hide()
 
 func _process(_delta: float) -> void:
-    if !chmenu.visible:
+    if !chmenu.visible and gamescene:
         Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
     else:
         Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -168,6 +167,10 @@ func lose_level():
         level = -1
         ammo = 0
         power = 0
+        gamescene.queue_free()
+        RenderingServer.set_default_clear_color(Color("#4d4d4d"))
+        get_tree().get_root().add_child(preload("res://titlescreen.tscn").instantiate())
+        return
     load_next_level()
 
 func get_tile_atlas(tile: Tile) -> int:

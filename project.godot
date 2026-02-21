@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Gravning Godot A2"
-run/main_scene="res://game.tscn"
+run/main_scene="uid://hk5lwnpx01ec"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://themes/default/objects/textures/player.png"
 
