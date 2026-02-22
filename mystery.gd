@@ -9,10 +9,15 @@ func _animation_finished():
     if animation == "open":
         queue_free()
 
-func collect():
+const forced_sentinal = -1_000_000_000
+
+func collect(forced: int = forced_sentinal):
     while true:
         var tlife = (6 - GameManager.lives) * 20
         var myst = randi_range(0, 1400 + tlife) - tlife
+        if forced != forced_sentinal:
+            myst = forced
+            forced = forced_sentinal
         if myst < 0:
             if GameManager.lives >= 6:
                 continue

@@ -33,3 +33,14 @@ func set_shots() -> void:
 
 func set_power() -> void:
     GameManager.power = $Panel/ScrollContainer/Control/setpower_input.value
+
+const mystery_numbers = [Mystery.forced_sentinal, -1, 100, 300, 375, 450, 600, 700, 900, 1000, 1200, 1300]
+
+func give_mystery() -> void:
+    var choice = $Panel/ScrollContainer/Control/mysteryselector.selected
+    var forced = mystery_numbers[choice]
+    _on_close_requested()
+    var mystery = Mystery.new(GameManager.grvmap.player)
+    GameManager.gamescene.get_node("objects").add_child(mystery)
+    mystery.sprite_frames = GameManager.obj_frames[Item.Type.MYSTERY]
+    mystery.collect(forced)

@@ -90,7 +90,12 @@ func _new_tick():
 func slow_ghost_behavior():
     if is_second_tick:
         board_pos = goal_pos
-        goal_pos += goal_pos - start_pos
+        var next_pos = goal_pos + (goal_pos - start_pos)
+        var to: MapTile = map_tile.map.at(next_pos)
+        if to.item.is_tunnel() or (to.item.type == Item.Type.PLAYER and !GameManager.has_won_level):
+            goal_pos = next_pos
+        else:
+            goal_pos = start_pos
         goal_pos = goal_pos.round()
         start_pos = board_pos
         super._new_tick()

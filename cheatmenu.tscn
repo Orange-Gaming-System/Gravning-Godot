@@ -120,6 +120,58 @@ offset_bottom = 171.0
 theme_override_font_sizes/font_size = 12
 text = "Set Power"
 
+[node name="mysteryselector" type="OptionButton" parent="Panel/ScrollContainer/Control" unique_id=561148983]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 182.0
+offset_right = 49.0
+offset_bottom = 202.0
+selected = 0
+fit_to_longest_item = false
+allow_reselect = true
+item_count = 12
+popup/item_0/text = "Random"
+popup/item_0/id = 0
+popup/item_1/text = "Extra Life"
+popup/item_1/id = 1
+popup/item_2/text = "Small Score"
+popup/item_2/id = 2
+popup/item_3/text = "Medium Score"
+popup/item_3/id = 3
+popup/item_4/text = "Big Score"
+popup/item_4/id = 4
+popup/item_5/text = "End of Level"
+popup/item_5/id = 5
+popup/item_6/text = "Ghost Freeze"
+popup/item_6/id = 6
+popup/item_7/text = "Ammo"
+popup/item_7/id = 7
+popup/item_8/text = "Bomb Detonation"
+popup/item_8/id = 8
+popup/item_9/text = "SMASH"
+popup/item_9/id = 9
+popup/item_10/text = "Scared Ghosts"
+popup/item_10/id = 10
+popup/item_11/text = "Slow Ghosts"
+popup/item_11/id = 11
+
+[node name="givemystery" type="Button" parent="Panel/ScrollContainer/Control/mysteryselector" unique_id=1195990992]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = -12.0
+offset_right = 152.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0, 0.5)
+theme_override_font_sizes/font_size = 12
+text = "Get Mystery"
+
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="size_changed" from="." to="." method="_on_size_changed"]
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
@@ -127,3 +179,4 @@ text = "Set Power"
 [connection signal="pressed" from="Panel/ScrollContainer/Control/leveljump" to="." method="level_jump"]
 [connection signal="pressed" from="Panel/ScrollContainer/Control/setshot" to="." method="set_shots"]
 [connection signal="pressed" from="Panel/ScrollContainer/Control/setpower" to="." method="set_power"]
+[connection signal="pressed" from="Panel/ScrollContainer/Control/mysteryselector/givemystery" to="." method="give_mystery"]
