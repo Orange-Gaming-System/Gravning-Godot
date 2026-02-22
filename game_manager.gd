@@ -100,13 +100,14 @@ enum BulletEffect {
     OTHER
 }
 
-const ghost_speed_mods: Dictionary[GhostMod, float] = {GhostMod.NONE: 1, GhostMod.FREEZE: 0, GhostMod.SCARED: -1, GhostMod.SLOW: 1}
+const ghost_speed_mods: Dictionary[GhostMod, float] = {GhostMod.NONE: 1, GhostMod.FREEZE: 0, GhostMod.THAW: 0, GhostMod.SCARED: -1, GhostMod.SLOW: 1}
 
 var ghost_modifier: GhostMod = GhostMod.NONE
 
 enum GhostMod {
     NONE,
     FREEZE,
+    THAW,
     SCARED,
     SLOW
 }
@@ -419,8 +420,14 @@ func reduce_jumpto(_timeritem):
     if jumpto > 0:
         queue.add(reduce_jumpto, GameTime.now() + 10)
 
-func unfreeze_ghosts(_timeritem):
+func thaw_ghosts(_timeritem):
     if ghost_modifier == GhostMod.FREEZE:
+        ghost_modifier = GhostMod.THAW
+        for ghost in grvmap.items[Item.Type.GHOST]:
+            grvmap.items[Item.Type.GHOST][ghost].node.thaw()
+
+func unfreeze_ghosts(_timeritem):
+    if ghost_modifier == GhostMod.THAW:
         ghost_modifier = GhostMod.NONE
 
 func unscare_ghosts(_timeritem):

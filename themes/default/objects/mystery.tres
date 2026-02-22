@@ -2,6 +2,14 @@
 
 [ext_resource type="Texture2D" uid="uid://dbae8v4lcpukf" path="res://themes/default/objects/textures/mystery.png" id="1_cpcrq"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_cpcrq"]
+atlas = ExtResource("1_cpcrq")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gcjll"]
+atlas = ExtResource("1_cpcrq")
+region = Rect2(16, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_fmmmw"]
 atlas = ExtResource("1_cpcrq")
 region = Rect2(0, 0, 16, 16)
@@ -17,6 +25,17 @@ region = Rect2(32, 0, 16, 16)
 [resource]
 animations = [{
 "frames": [{
+"duration": 9.0,
+"texture": SubResource("AtlasTexture_cpcrq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gcjll")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}, {
+"frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fmmmw")
 }, {
@@ -27,6 +46,6 @@ animations = [{
 "texture": SubResource("AtlasTexture_7n02i")
 }],
 "loop": false,
-"name": &"default",
+"name": &"open",
 "speed": 6.0
 }]

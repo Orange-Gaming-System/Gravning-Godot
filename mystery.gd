@@ -6,12 +6,14 @@ func _ready():
     animation_finished.connect(_animation_finished)
 
 func _animation_finished():
-    queue_free()
+    if animation == "open":
+        queue_free()
 
 func collect():
     while true:
         var tlife = (6 - GameManager.lives) * 20
         var myst = randi_range(0, 1400 + tlife) - tlife
+        myst =  600
         if myst < 0:
             if GameManager.lives >= 6:
                 continue
@@ -48,7 +50,9 @@ func collect():
                 continue
             GameManager.print_message("Treasure: Ghost freeze")
             GameManager.ghost_modifier = GameManager.GhostMod.FREEZE
-            GameManager.queue.add(GameManager.unfreeze_ghosts, GameTime.now() + 32.0 + 60.0 * randf() + 8)
+            var freeze_time = GameTime.now() + 32.0 + 60.0 * randf()
+            GameManager.queue.add(GameManager.thaw_ghosts, freeze_time)
+            GameManager.queue.add(GameManager.unfreeze_ghosts, freeze_time + 8)
             break
         if myst < 790:
             var ammo = randi_range(0, 3) + 2
@@ -80,4 +84,4 @@ func collect():
             GameManager.ghost_modifier = GameManager.GhostMod.SLOW
             GameManager.queue.add(GameManager.unslow_ghosts, GameTime.now() + 60)
             break
-    play("default")
+    play("open")

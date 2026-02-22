@@ -71,6 +71,14 @@ func _new_tick():
     start_pos = board_pos
     if !is_dead:
         alternate_ai()
+        if GameManager.ghost_modifier != GameManager.GhostMod.FREEZE:
+            if GameManager.ghost_modifier != GameManager.GhostMod.THAW:
+                var dir_name = OGSLib.get_dir_name(goal_pos - start_pos)
+                if animation != dir_name:
+                    play(dir_name)
+        else:
+            if animation != "freeze":
+                play("freeze")
     else:
         if randf() < 0.012 and map_tile.map.at(Vector2i(19, 21)).item.is_tunnel():
             var mtile = map_tile.map.at(Vector2i(19, 21))
@@ -93,6 +101,7 @@ func slow_ghost_behavior():
         alternate_ai()
         goal_pos = start_pos + ((goal_pos - start_pos) / 2)
         is_second_tick = true
+    play(OGSLib.get_dir_name(goal_pos - start_pos))
 
 func _collided(area):
     if !is_dead:
@@ -113,6 +122,9 @@ func kill_ghost():
         map_tile.changetype(Item.Type.EMPTY)
         visible = false
         is_dead = true
+
+func thaw():
+    play("thaw")
 
 func hit_by_rock():
     kill_ghost()

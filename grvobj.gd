@@ -10,6 +10,8 @@ var map_tile: MapTile
 func _ready():
     position = board_pos * 16
     sprite_frames = GameManager.obj_frames[map_tile.item.type]
+    if sprite_frames.has_animation("default"):
+        play("default")
     GameManager.game_clock.timeout.connect(_new_tick)
 
 func _init(tile: MapTile):
