@@ -13,7 +13,6 @@ func collect():
     while true:
         var tlife = (6 - GameManager.lives) * 20
         var myst = randi_range(0, 1400 + tlife) - tlife
-        myst =  600
         if myst < 0:
             if GameManager.lives >= 6:
                 continue
