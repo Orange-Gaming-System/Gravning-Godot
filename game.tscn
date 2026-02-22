@@ -139,7 +139,6 @@ offset_right = 656.0
 offset_bottom = 416.0
 theme = ExtResource("3_feb5d")
 horizontal_alignment = 1
-uppercase = true
 
 [node name="jumpto" type="Label" parent="UI" unique_id=458254587]
 layout_mode = 0
