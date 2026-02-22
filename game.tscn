@@ -158,37 +158,37 @@ region_rect = Rect2(0, 0, 96, 16)
 
 [node name="hyper_H" type="AnimatedSprite2D" parent="UI" unique_id=1508475739]
 visible = false
-position = Vector2(497, 400)
+position = Vector2(496, 416)
 sprite_frames = ExtResource("6_ryrav")
 animation = &"H"
 centered = false
 
 [node name="hyper_Y" type="AnimatedSprite2D" parent="UI" unique_id=1305144915]
 visible = false
-position = Vector2(529, 400)
+position = Vector2(528, 416)
 sprite_frames = ExtResource("6_ryrav")
-animation = &"H"
+animation = &"Y"
 centered = false
 
 [node name="hyper_P" type="AnimatedSprite2D" parent="UI" unique_id=415191100]
 visible = false
-position = Vector2(561, 400)
+position = Vector2(560, 416)
 sprite_frames = ExtResource("6_ryrav")
-animation = &"H"
+animation = &"P"
 centered = false
 
 [node name="hyper_E" type="AnimatedSprite2D" parent="UI" unique_id=1491858415]
 visible = false
-position = Vector2(593, 400)
+position = Vector2(592, 416)
 sprite_frames = ExtResource("6_ryrav")
-animation = &"H"
+animation = &"E"
 centered = false
 
 [node name="hyper_R" type="AnimatedSprite2D" parent="UI" unique_id=465454165]
 visible = false
-position = Vector2(625, 400)
+position = Vector2(624, 416)
 sprite_frames = ExtResource("6_ryrav")
-animation = &"H"
+animation = &"R"
 centered = false
 
 [node name="endscreen" parent="." unique_id=505433523 instance=ExtResource("7_eow3j")]
