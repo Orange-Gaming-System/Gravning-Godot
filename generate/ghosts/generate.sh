@@ -1,30 +1,42 @@
 #!/bin/bash
 
-declare -a static=(ghost-stopped-trans.png ghost-right-trans.png
-                   ghost-left-trans.png ghost-down-trans.png
-                   ghost-up-trans.png ghost-frozen-trans.png)
-declare -a thaw
+declare -a directions=(stopped right left down up)
 
 rm -rf tmp
 mkdir -p tmp
 
-count=15
+ghostcolor='#02008f'
+frozecolor='#7f9bff'
+thawcount=15
 
-./gradients.pl $count
+magick -size 16x16 "xc:$ghostcolor" tmp/live.png
+magick -size 16x16 "xc:$frozecolor" tmp/froz.png
 
-for ((i = 1; i <= $count ; i++)); do
+declare -a static
+for d in "${directions[@]}"; do
+    df="tmp/$d"
+    magick tmp/live.png eyes-"$d".png -flatten "$df.s.png"
+    magick "$df.s.png" bodymask.png -compose copy-alpha -composite "$df.png"
+    static+=("$df.png")
+done
+
+magick tmp/froz.png eyes-stopped.png -flatten "tmp/frozen.s.png"
+magick "tmp/frozen.s.png" bodymask.png -compose copy-alpha -composite \
+       "tmp/frozen.png"
+static+=("tmp/frozen.png")
+
+./gradients.pl $thawcount
+
+declare -a thaw
+for ((i = 1; i <= $thawcount ; i++)); do
     n=$(printf 'tmp/grad%02d' $i)
-    magick ghost-thawing-frozen-gradient-noalpha.png \
-	   "$n.pgm" -compose copy-alpha \
-	   -composite "$n.g.png"
-    magick ghost-thawing-ghostcolor.png "$n.g.png" \
-	   ghost-thawing-eyes.png -flatten "$n.f.png"
-    magick "$n.f.png" ghost-thawing-bodymask-greyscale.png \
-	   -compose copy-alpha -composite "$n.t.png"
+    magick tmp/froz.png "$n.pgm" -compose copy-alpha -composite "$n.g.png"
+    magick tmp/live.png "$n.g.png" eyes-stopped.png -flatten "$n.f.png"
+    magick "$n.f.png" bodymask.png -compose copy-alpha -composite "$n.t.png"
     thaw+=("$n.t.png")
 done
 montage "${thaw[@]}" -alpha set -background none -geometry +0+0 \
-	    -tile ${count}x1 tmp/thaw.png
+	    -tile ${thawcount}x1 tmp/thaw.png
 montage "${static[@]}" -alpha set -background none -geometry +0+0 \
         -tile "${#static[@]}"x1 tmp/static.png
 montage tmp/static.png tmp/thaw.png -alpha set -background none \
