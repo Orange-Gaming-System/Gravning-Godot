@@ -26,3 +26,13 @@ static func unpause() -> float:
         epoch_tick += now_tick - pause_tick
         paused = false
     return (now_tick - epoch_tick) * 1.0e-6
+
+static func format(when : float = now()):
+    var c : int = floori(when * 100.0)
+    @warning_ignore("integer_division")
+    var s  : int = c / 100
+    c %= 100
+    @warning_ignore("integer_division")
+    var m  : int = s / 60
+    s %= 60
+    return "%02d:%02d.%02d" % [m, s, c]
