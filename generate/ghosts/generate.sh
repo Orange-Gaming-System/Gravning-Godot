@@ -7,7 +7,7 @@ mkdir -p tmp
 
 ghostcolor='#02008f'
 frozecolor='#7f9bff'
-thawcount=15
+thawcount=16
 
 magick -size 16x16 "xc:$ghostcolor" tmp/live.png
 magick -size 16x16 "xc:$frozecolor" tmp/froz.png
