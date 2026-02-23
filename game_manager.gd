@@ -161,7 +161,10 @@ enum MOVE_TYPE {
 var fade_message = false
 var message_timer: TimerItem
 
+var version
+
 func _ready():
+    version = Version.version()
     chmenu = preload("res://cheatmenu.tscn").instantiate()
     add_sibling.call_deferred(chmenu)
     chmenu.hide()
@@ -350,13 +353,13 @@ func load_level():
     game_clock.start()
 
 func bonus_dot_on(_timeritem = null) -> bool:
+    if !grvmap.itemcount[Item.Type.BONUS]:
+        return false
     print("BONUS")
     bonus = true
-    if grvmap.itemcount[Item.Type.BONUS]:
-        queue.add(bonus_dot_off, GameTime.now() + 12)
-        return true
-    else:
-        return false
+    gamescene.get_node("UI/bonus_anim").play()
+    queue.add(bonus_dot_off, GameTime.now() + 12)
+    return true
 
 func bonus_dot_off(_timeritem = null) -> bool:
     print("No bonus")
