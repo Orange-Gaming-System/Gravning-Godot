@@ -10,8 +10,10 @@ static func version() -> Dictionary:
 static func get_git_version() -> Dictionary:
     var ver : Dictionary = { }
     var output : Array
-    OS.execute("git", PackedStringArray(["log", "--max-count=1",
-        r"--pretty=tformat:%at%n%ct%n%ai%n%ci%n%H%n%(describe:abbrev=7)%n%s"]), output)
+    OS.execute("git",
+        PackedStringArray(["log", "--max-count=1",
+        r"--pretty=tformat:%at%n%ct%n%ai%n%ci%n%H%n%(describe:abbrev=6)%n%s"]),
+        output)
     if !output.is_empty():
         var fields = output[0].split("\n")
         var i = 0
