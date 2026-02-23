@@ -8,16 +8,21 @@ static func version() -> Dictionary:
         return get_git_version()
 
 static func get_git_version() -> Dictionary:
-    var ver = null
+    var ver : Dictionary = { }
     var output : Array
     OS.execute("git", PackedStringArray(["log", "--max-count=1",
-        r"--pretty=format:{\"commit\":\"%H\",\"author_time\":%at,\"author_date\":\"%ai\",\"commit_time\":%ct,\"commit_date\":\"%ci\",\"describe\":\"%(describe:abbrev=7)\",\"subject\":\"%s\"}%n"]), output)
+        r"--pretty=tformat:%at%n%ct%n%ai%n%ci%n%H%n%(describe:abbrev=7)%n%s"]), output)
     if !output.is_empty():
-        print(output[0])
-        ver = JSON.parse_string(output[0])
+        var fields = output[0].split("\n")
+        var i = 0
+        for iarg in ["author_time", "commit_time"]:
+            ver[iarg] = int(fields[i])
+            i += 1
+        for sarg in ["author_date", "commit_date", "commit", "describe", "subject"]:
+            ver[sarg] = fields[i]
+            i += 1
     if !ver:
         push_error("Failed to get version from git log. Make sure you have git installed and project is inside a valid git directory.")
-        return { }
     return ver
 
 ## Used on export
