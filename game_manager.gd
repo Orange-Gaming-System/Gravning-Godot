@@ -158,16 +158,21 @@ enum MOVE_TYPE {
     BLOCKED
 }
 
+var fade_message = false
+var message_timer: TimerItem
+
 func _ready():
     chmenu = preload("res://cheatmenu.tscn").instantiate()
     add_sibling.call_deferred(chmenu)
     chmenu.hide()
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
     if !chmenu.visible and gamescene:
         Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
     else:
         Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+    if fade_message:
+        gamescene.get_node("UI/message").self_modulate.a -= delta
 
 func lose_level():
     lives -= 1
@@ -317,6 +322,8 @@ func load_level():
     ammo = ammo
     power = power
     lives = lives
+    message_timer = null
+    fade_message = false
     ghost_modifier = GhostMod.NONE
     if level >= grvFileLoader.levelcount - 1:
         jumpto = grvFileLoader.levelcount
@@ -412,28 +419,42 @@ func resume():
     game_clock.paused = false
     GameTime.unpause()
 
-func print_message(message: String):
+func print_message(message: String, fade_time: float = 5):
+    fade_message = false
+    if message_timer:
+        message_timer.disable()
     gamescene.get_node("UI/message").text = message
+    gamescene.get_node("UI/message").self_modulate.a = 1.0
+    message_timer = queue.add(begin_message_fade, GameTime.now() + fade_time)
+
+func begin_message_fade(_timeritem):
+    fade_message = true
+    return false
 
 func reduce_jumpto(_timeritem):
     jumpto -= 1
     if jumpto > 0:
         queue.add(reduce_jumpto, GameTime.now() + 10)
+    return true
 
 func thaw_ghosts(_timeritem):
     if ghost_modifier == GhostMod.FREEZE:
         ghost_modifier = GhostMod.THAW
         for ghost in grvmap.items[Item.Type.GHOST]:
             grvmap.items[Item.Type.GHOST][ghost].node.thaw()
+    return true
 
 func unfreeze_ghosts(_timeritem):
     if ghost_modifier == GhostMod.THAW:
         ghost_modifier = GhostMod.NONE
+    return true
 
 func unscare_ghosts(_timeritem):
     if ghost_modifier == GhostMod.SCARED:
         ghost_modifier = GhostMod.NONE
+    return true
 
 func unslow_ghosts(_timeritem):
     if ghost_modifier == GhostMod.SLOW:
         ghost_modifier = GhostMod.NONE
+    return true

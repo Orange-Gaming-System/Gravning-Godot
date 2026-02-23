@@ -52,9 +52,10 @@ func collect(forced: int = forced_sentinal):
         if myst < 650:
             if GameManager.ghost_modifier == GameManager.GhostMod.FREEZE:
                 continue
-            GameManager.print_message("Treasure: Ghost freeze")
+
             GameManager.ghost_modifier = GameManager.GhostMod.FREEZE
             var freeze_time = GameTime.now() + 32.0 + 60.0 * randf()
+            GameManager.print_message("Treasure: Ghost freeze", freeze_time)
             GameManager.queue.add(GameManager.thaw_ghosts, freeze_time)
             GameManager.queue.add(GameManager.unfreeze_ghosts, freeze_time + 8)
             break
@@ -68,23 +69,23 @@ func collect(forced: int = forced_sentinal):
                 continue
             for bombpos in map_tile.map.items[Item.Type.BOMB]:
                 map_tile.map.items[Item.Type.BOMB][bombpos].node.instant_detonate(GameTime.now() + 4)
-            GameManager.print_message("Treasure: Bomb detonation... OOPS!")
+            GameManager.print_message("Treasure: Bomb detonation... OOPS!", 4)
             break
         if myst < 1060:
             GameManager.queue.add(map_tile.map.player.node.smash, GameTime.now() + 5)
-            GameManager.print_message("Treasure: *** SMASH ***")
+            GameManager.print_message("Treasure: *** SMASH ***", 5)
             break
         if myst < 1230:
             if GameManager.ghost_modifier == GameManager.GhostMod.SCARED:
                 continue
-            GameManager.print_message("Treasure: Scared ghosts")
+            GameManager.print_message("Treasure: Scared ghosts", 80)
             GameManager.ghost_modifier = GameManager.GhostMod.SCARED
             GameManager.queue.add(GameManager.unfreeze_ghosts, GameTime.now() + 80)
             break
         else:
             if GameManager.ghost_modifier != GameManager.GhostMod.NONE:
                 continue
-            GameManager.print_message("Treasure: Slow ghosts")
+            GameManager.print_message("Treasure: Slow ghosts", 60)
             GameManager.ghost_modifier = GameManager.GhostMod.SLOW
             GameManager.queue.add(GameManager.unslow_ghosts, GameTime.now() + 60)
             break
