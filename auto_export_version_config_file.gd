@@ -30,9 +30,6 @@ static func get_git_version() -> Dictionary:
 ## Used on export
 func get_version(features: PackedStringArray, is_debug: bool, path: String, flags: int) -> String:
     var ver : Dictionary = get_git_version()
-    ver.preset_version = get_export_preset_version()
-    ver.preset_android_version_code = get_export_preset_android_version_code()
-    ver.preset_android_version_name = get_export_preset_android_version_name()
     ver.debug = is_debug
     ver.path = path
     ver.flags = flags
