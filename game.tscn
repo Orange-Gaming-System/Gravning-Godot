@@ -8,6 +8,7 @@
 [ext_resource type="SpriteFrames" uid="uid://bpvppce2gvltj" path="res://themes/default/objects/hyper.tres" id="6_ryrav"]
 [ext_resource type="PackedScene" uid="uid://bq8cdcdukfsgr" path="res://endscreen.tscn" id="7_eow3j"]
 [ext_resource type="Texture2D" uid="uid://qwxxmko02d1h" path="res://themes/default/lives_sprite.png" id="8_j5wjh"]
+[ext_resource type="SpriteFrames" uid="uid://b50up4dqgkbgd" path="res://themes/default/objects/bonus_anim.tres" id="8_vef74"]
 
 [node name="game" type="Node2D" unique_id=1465605954]
 script = ExtResource("1_7jktm")
@@ -189,6 +190,12 @@ visible = false
 position = Vector2(624, 416)
 sprite_frames = ExtResource("6_ryrav")
 animation = &"R"
+centered = false
+
+[node name="bonus_anim" type="AnimatedSprite2D" parent="UI" unique_id=1025898456]
+position = Vector2(16, 416)
+sprite_frames = ExtResource("8_vef74")
+animation = &"bonus"
 centered = false
 
 [node name="endscreen" parent="." unique_id=505433523 instance=ExtResource("7_eow3j")]
