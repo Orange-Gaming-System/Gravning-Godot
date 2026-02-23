@@ -158,7 +158,10 @@ enum MOVE_TYPE {
     BLOCKED
 }
 
+var version
+
 func _ready():
+    version = Version.version()
     chmenu = preload("res://cheatmenu.tscn").instantiate()
     add_sibling.call_deferred(chmenu)
     chmenu.hide()
