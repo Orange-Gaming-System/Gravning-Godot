@@ -2,6 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://c7jrhubx5eew8" path="res://grvtheme.tres" id="1_cjnew"]
 [ext_resource type="Script" uid="uid://bpy5uaqqee115" path="res://playbutton.gd" id="2_goadl"]
+[ext_resource type="Script" uid="uid://bum3dpfhhwjkp" path="res://version.gd" id="3_2bjoa"]
 
 [node name="Control" type="Control" unique_id=1346205953]
 layout_mode = 3
@@ -80,8 +81,8 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -359.0
-offset_bottom = -327.0
+offset_top = -336.0
+offset_bottom = -304.0
 grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("1_cjnew")
@@ -89,5 +90,21 @@ theme_override_font_sizes/font_size = 32
 text = "Godot Version"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="version" type="Label" parent="." unique_id=2069855504]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -48.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("1_cjnew")
+text = "<version number>"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_2bjoa")
 
 [connection signal="pressed" from="buttons/play" to="buttons/play" method="_on_pressed"]
