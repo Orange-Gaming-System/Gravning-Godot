@@ -1,11 +1,16 @@
 class_name Version extends "res://addons/AutoExportVersion/VersionProvider.gd"
 
+static var _version : Dictionary
+
 static func version() -> Dictionary:
+    if _version:
+        return _version
     var v = ProjectSettings.get_setting("application/config/version")
     if v:
-        return JSON.parse_string(v)
+        _version = JSON.parse_string(v)
     else:
-        return get_git_version()
+        _version = get_git_version()
+    return _version
 
 static func get_git_version() -> Dictionary:
     var ver : Dictionary = { }
