@@ -22,6 +22,7 @@ func _init(path: String):
     var empty_row = Array()
     empty_row.resize(grvmap.size.x)
     tiles = Array()
+    objs.append(grvmap.player)
     for row in grvmap.size.y:
         tiles.append(empty_row.duplicate())
     for t in grvmap.tile:
@@ -34,5 +35,5 @@ func _init(path: String):
                 tiles[t.xy.y][t.xy.x] = Tile.new(Tile.TYPE.EMPTY, t.item.flags & Item.Flags.BG2 as Tile.COLOR)
             else:
                 tiles[t.xy.y][t.xy.x] = Tile.new(Tile.TYPE.DIRT, t.item.flags & Item.Flags.BG2 as Tile.COLOR)
-            if LevelBuilder.obj_classes.has(t.item.type) or t.item.is_door():
+            if LevelBuilder.obj_classes.has(t.item.type) and t.item.type != Item.Type.PLAYER:
                 objs.append(t)

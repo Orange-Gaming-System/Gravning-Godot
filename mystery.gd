@@ -72,8 +72,8 @@ func collect(forced: int = forced_sentinal):
             GameManager.print_message("Treasure: Bomb detonation... OOPS!", 4)
             break
         if myst < 1060:
-            GameManager.queue.add(map_tile.map.player.node.smash, GameTime.now() + 5)
             GameManager.print_message("Treasure: *** SMASH ***", 5)
+            GameManager.queue.add(map_tile.map.player.node.smash, GameTime.now() + 5)
             break
         if myst < 1230:
             if GameManager.ghost_modifier == GameManager.GhostMod.SCARED:
