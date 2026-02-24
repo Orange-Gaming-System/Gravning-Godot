@@ -1,4 +1,4 @@
-class_name Version extends "res://addons/AutoExportVersion/VersionProvider.gd"
+class_name AutoVersion extends "res://addons/AutoExportVersion/VersionProvider.gd"
 
 static var _version : Dictionary
 
