@@ -38,6 +38,12 @@ version_control/autoload_on_startup=true
 
 enabled=PackedStringArray("res://addons/AutoExportVersion/plugin.cfg")
 
+[addons]
+
+AutoExportVersion/version_store_location=0
+AutoExportVersion/version_file_path="res://version/exported.gd"
+AutoExportVersion/version_config_file="res://version/autoversion.gd"
+
 [gui]
 
 theme/custom="uid://c7jrhubx5eew8"

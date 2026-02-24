@@ -21,7 +21,7 @@ var STORE_LOCATION: VersionStoreLocation = VersionStoreLocation.PROJECT_SETTING
 ## Path to the version script file where it is going to be saved. See [member SCRIPT_TEMPLATE]
 var SCRIPT_PATH: String = "res://version.gd"
 ## This template String is going to be formatted so that it contains the version.
-const SCRIPT_TEMPLATE: String ="extends RefCounted\nconst VERSION: String = \"{version}\""
+const SCRIPT_TEMPLATE: String ="extends RefCounted\nconst _version = {version}\nstatic func version():\n\treturn _version\n"
 ## Name of the project setting where the version is going to be stored as a String.
 var PROJECT_SETTING_NAME: String = "application/config/version"
 ## Path to the configuration file for the plugin.
@@ -141,7 +141,7 @@ func _tool_menu_print_version() -> void:
     OS.alert(_CURRENT_VERSION.format({ "version": version }))
     store_version(version, STORE_LOCATION)
 
-func get_version(features: PackedStringArray, is_debug: bool, path: String, flags: int) -> String:
+func get_version(features: PackedStringArray, is_debug: bool, path: String, flags: int):
     if not ResourceLoader.exists(CONFIG_PATH, "GDScript"):
         push_error("Version config file does not exist!")
         return ""
@@ -157,5 +157,5 @@ class AutoExportVersionExporter extends EditorExportPlugin:
             push_error("No plugin set in AutoExportVersionExporter")
             return
 
-        var version: String = plugin.get_version(features, is_debug, path, flags)
-        plugin.store_version(version, plugin.STORE_LOCATION)
+        var version = plugin.get_version(features, is_debug, path, flags)
+        plugin.store_version(var_to_str(version), plugin.STORE_LOCATION)
