@@ -7,6 +7,9 @@ class_name GrvObj extends AnimatedSprite2D
 ## Holds the [MapTile] originally used to spawn the object.
 var map_tile: MapTile
 
+## Holds the last [AudioStreamPlayer2D] created with [method create_audio_player].
+var last_audio: AudioStreamPlayer2D
+
 func _ready():
     position = board_pos * 16
     sprite_frames = GameManager.obj_frames[map_tile.item.type]
@@ -29,3 +32,10 @@ func bombed():
 
 func hit_by_bullet(_movement):
     map_tile.rmv_obj()
+
+## Creates an [AudioStreamPlayer2D] to play a sound specified in [param sound_name]. Returns the [AudioStreamPlayer2D] and stores it in [member last_audio].
+func create_audio_player(sound_name: String) -> AudioStreamPlayer2D:
+    var audio = AudioStreamPlayer2D.new()
+    audio.stream = GameManager.audio.sound_data[sound_name]
+    add_child(audio)
+    return audio

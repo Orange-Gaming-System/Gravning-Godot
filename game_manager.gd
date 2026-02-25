@@ -118,6 +118,8 @@ var map: Map
 
 var queue: TimerItem.Queue
 
+var audio: GrvAudio
+
 ## Holds a reference to the game scene's root node.
 var gamescene: Node
 
@@ -168,6 +170,8 @@ func _ready():
     chmenu = preload("res://cheatmenu.tscn").instantiate()
     add_sibling.call_deferred(chmenu)
     chmenu.hide()
+    audio = GrvAudio.new()
+    audio.load_sound_data("res://themes/default/sound/")
 
 func _process(delta: float) -> void:
     if !chmenu.visible and gamescene:

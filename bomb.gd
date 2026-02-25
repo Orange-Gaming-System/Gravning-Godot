@@ -7,9 +7,12 @@ var pattern_offset: int = 5
 ## Determines the height of each collumn in the pattern. The actual height is given by the formula: (2x + 1).
 var bomb_pattern: Array[int] = [0, 0, 2, 2, 3, 3, 3, 2, 2, 0, 0]
 
+var explode_audio: AudioStreamPlayer2D
+
 func _ready():
     super._ready()
-    play("default")
+    explode_audio = create_audio_player("bomb_explode")
+    print(explode_audio)
 
 func instant_detonate(new_time):
     timeritem.disable()
@@ -28,4 +31,9 @@ func event(_timeritem, smash = false):
         queue_free()
     else:
         map_tile.rmv_obj()
+        remove_child(explode_audio)
+        add_sibling(explode_audio)
+        explode_audio.position = position
+        explode_audio.finished.connect(explode_audio.queue_free)
+        explode_audio.playing = true
     return true
