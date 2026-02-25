@@ -8,6 +8,12 @@
 
 config_version=5
 
+[addons]
+
+AutoExportVersion/version_store_location=0
+AutoExportVersion/version_file_path="res://version/exported.gd"
+AutoExportVersion/version_config_file="res://version/autoversion.gd"
+
 [application]
 
 config/name="Gravning Godot A2"
@@ -31,17 +37,10 @@ window/stretch/aspect="expand"
 [editor]
 
 movie_writer/movie_file="res://movies/movie.png"
-version_control/autoload_on_startup=false
 
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/AutoExportVersion/plugin.cfg")
-
-[addons]
-
-AutoExportVersion/version_store_location=0
-AutoExportVersion/version_file_path="res://version/exported.gd"
-AutoExportVersion/version_config_file="res://version/autoversion.gd"
 
 [gui]
 
@@ -146,3 +145,5 @@ get_power={
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_s3tc_bptc=true
+textures/vram_compression/import_etc2_astc=true
