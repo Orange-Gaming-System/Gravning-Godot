@@ -11,7 +11,6 @@ config_version=5
 [application]
 
 config/name="Gravning Godot A2"
-config/version="{\"author_date\":\"2026-02-23 16:05:49 -0800\",\"author_time\":1771891549,\"commit\":\"493daf6d7c2215f43f35aa16f6ebd3b2dc2fa662\",\"commit_date\":\"2026-02-23 16:05:49 -0800\",\"commit_time\":1771891549,\"debug\":false,\"describe\":\"pre-alpha-13-g493daf\",\"features\":[\"web\",\"s3tc\",\"bptc\",\"nothreads\",\"web_extensions\",\"wasm32\",\"template\",\"release\",\"template_release\",\"single\"],\"flags\":0,\"path\":\"builds/web/Gravning Godot A2.html\",\"subject\":\"Fixed point-blank shots failing by giving the player priority.\"}"
 run/main_scene="uid://hk5lwnpx01ec"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://themes/default/objects/textures/player.png"
@@ -32,12 +31,17 @@ window/stretch/aspect="expand"
 [editor]
 
 movie_writer/movie_file="res://movies/movie.png"
-version_control/plugin_name="GitPlugin"
-version_control/autoload_on_startup=true
+version_control/autoload_on_startup=false
 
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/AutoExportVersion/plugin.cfg")
+
+[addons]
+
+AutoExportVersion/version_store_location=0
+AutoExportVersion/version_file_path="res://version/exported.gd"
+AutoExportVersion/version_config_file="res://version/autoversion.gd"
 
 [gui]
 
