@@ -6,6 +6,7 @@ name="$(sed -n -E -e 's/^config\/name="(.*)"$/\1/p' project.godot)"
 
 rm -rf builds/web
 mkdir -p builds/web
+( cd builds/web && ln -sf "$name.html" index.html )
 godot --headless --export-release Web "builds/web/$name.html" &
 
 rm -rf builds/linux
