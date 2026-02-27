@@ -200,6 +200,11 @@ centered = false
 
 [node name="endscreen" parent="." unique_id=505433523 instance=ExtResource("7_eow3j")]
 visible = false
+z_index = 2
+offset_left = 92.0
+offset_top = 3.0
+offset_right = 532.0
+offset_bottom = 333.0
 
 [node name="end_timer" type="Timer" parent="." unique_id=883609000]
 wait_time = 2.0
