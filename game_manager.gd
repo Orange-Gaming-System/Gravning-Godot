@@ -147,7 +147,9 @@ const walls = {"blue": 7, "brown": 8, "red": 9, "gray": 10, "pink": 11, "green":
 const soft_walls = {"gray": 0, "blue": 1, "brown": 2, "red": 3, "pink": 4, "green": 5, "cyan": 6}
 
 ## Holds the colors used for the background of each color.
-const colors = {"blue": Color("#0020aa"), "brown": Color("#aa5500"), "red": Color("#aa0f00"), "gray": Color("#aaaaaa"), "pink": Color("#aa23aa"), "green": Color("#02aa00"), "cyan": Color("#00aaaa")}
+## These should match the color used for the interior of a wall for the
+## specified color.
+const colors = {"blue": Color("#111635"), "brown": Color("#361e11"), "red": Color("#351117"), "gray": Color("#1c212a"), "pink": Color("#351125"), "green": Color("#10300f"), "cyan": Color("#113535")}
 
 ## Holds the text color used for each color.
 const text_colors = {"blue": Color.WHITE, "red": Color.WHITE, "brown": Color.WHITE, "gray": Color.WHITE, "pink": Color.WHITE, "green": Color.WHITE, "cyan": Color.WHITE}
@@ -212,6 +214,9 @@ func get_tile_atlas(tile: Tile) -> int:
 
 func get_border_atlas() -> int:
     return walls[palette[0]]
+
+func set_background_color() -> void:
+    return RenderingServer.set_default_clear_color(colors[palette[0]])
 
 ## Takes two tile coordinates ([param to] and [param from]) and returns the [enum MOVE_TYPE] that corresponds to that tile [b]given the movement being attempted[b].[br][br]For example, if the player is moving into a rock that cannot be pushed, it will return MOVE_TYPE_BLOCKED, not MOVE_TYPE_ROCK.
 func get_movement_type(to: Vector2i, from: Vector2i) -> MOVE_TYPE:
