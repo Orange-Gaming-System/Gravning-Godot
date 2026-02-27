@@ -12,7 +12,6 @@ func generate_ground(map : Map, rect : Rect2i, zap : bool = false):
     rect = rect.grow(1)
 
     if zap:
-        GameManager.set_background_color()
         ground_tiles.clear()
 
     for y in range(rect.position.y, rect.end.y):

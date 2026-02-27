@@ -194,7 +194,6 @@ func lose_level():
         ammo = 0
         power = 0
         gamescene.queue_free()
-        RenderingServer.set_default_clear_color(Color("#4d4d4d"))
         get_tree().get_root().add_child(preload("res://titlescreen.tscn").instantiate())
         return
     load_next_level()
@@ -326,7 +325,7 @@ func load_next_level():
 func load_level():
     chmenu.hide()
     palette = palettes[level % 7]
-    RenderingServer.set_default_clear_color(colors[palette[0]])
+    set_background_color()
     preload("res://grvtheme.tres").set_color("font_color", "Label", text_colors[palette[0]])
     hyper = [false, false, false, false, false]
     score = score
