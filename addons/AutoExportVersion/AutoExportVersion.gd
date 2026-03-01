@@ -159,3 +159,6 @@ class AutoExportVersionExporter extends EditorExportPlugin:
 
         var version = plugin.get_version(features, is_debug, path, flags)
         plugin.store_version(var_to_str(version), plugin.STORE_LOCATION)
+
+    func _get_name() -> String:
+        return "AutoExportVersionExporter"
