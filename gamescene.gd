@@ -1,7 +1,10 @@
 extends Node2D
 
-var grvmap: GrvMap
+var objects		: Node2D
+var end_timer	: Timer
 
 func _ready():
-    GameManager.load_level()
-    grvmap = GameManager.grvmap
+    objects = get_node("objects")
+    end_timer = get_node("end_timer")
+    end_timer.stop()
+    GameManager.start_game()

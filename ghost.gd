@@ -64,6 +64,8 @@ func alternate_ai() -> void:
     # Otherwise stay put...
 
 func _new_tick():
+    if !map_tile:       # Ghost object pending deletion
+        return
     if GameManager.ghost_modifier == GameManager.GhostMod.SLOW or is_second_tick:
         slow_ghost_behavior()
         return

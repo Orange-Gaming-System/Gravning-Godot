@@ -1,9 +1,10 @@
-[gd_scene format=3 uid="uid://hk5lwnpx01ec"]
+[gd_scene format=4 uid="uid://hk5lwnpx01ec"]
 
 [ext_resource type="Script" uid="uid://dqw2qlowp60ni" path="res://titlescreen.gd" id="1_8pdex"]
 [ext_resource type="Theme" uid="uid://c7jrhubx5eew8" path="res://grvtheme.tres" id="1_cjnew"]
 [ext_resource type="Script" uid="uid://bpy5uaqqee115" path="res://playbutton.gd" id="2_goadl"]
 [ext_resource type="Script" uid="uid://bum3dpfhhwjkp" path="res://version_label.gd" id="3_2bjoa"]
+[ext_resource type="TileSet" uid="uid://y82sa4eqkhtr" path="res://ground_tiles.tres" id="5_hxypl"]
 
 [node name="Control" type="Control" unique_id=1346205953]
 layout_mode = 3
@@ -15,6 +16,7 @@ grow_vertical = 2
 script = ExtResource("1_8pdex")
 
 [node name="title" type="RichTextLabel" parent="." unique_id=552321203]
+visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -79,14 +81,11 @@ horizontal_alignment = 1
 
 [node name="subtitle" type="Label" parent="." unique_id=1472116387]
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -336.0
-offset_bottom = -304.0
+offset_top = 176.0
+offset_bottom = 208.0
 grow_horizontal = 2
-grow_vertical = 0
 theme = ExtResource("1_cjnew")
 theme_override_font_sizes/font_size = 32
 text = "Godot Version"
@@ -108,5 +107,24 @@ text = "<version number>"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("3_2bjoa")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="." unique_id=486156817]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -336.0
+offset_top = -232.0
+offset_right = -336.0
+offset_bottom = -232.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="title_tiles" type="TileMapLayer" parent="AspectRatioContainer" unique_id=1730299192]
+z_index = -1
+tile_map_data = PackedByteArray("AAAEAAgAAQAAAAMAAAAFAAgAAQABAAMAAAAEAAIAAQAAAAMAAAAFAAIAAQABAAMAAAAmAAQAAQAHAAAAAAAmAAUAAQADAAEAAAAmAAYAAQADAAEAAAAmAAcAAQADAAEAAAAmAAgAAQAHAAQAAAAmAAkAAQADAAEAAAAmAAoAAQADAAIAAAAlAAsAAQACAAMAAAAkAAsAAQAAAAMAAAAjAAoAAQADAAMAAAAlAAQAAQABAAMAAAAkAAQAAQAAAAMAAAAjAAUAAQADAAAAAAAjAAYAAQADAAEAAAAjAAcAAQADAAIAAAAkAAgAAQAAAAMAAAAlAAgAAQABAAMAAAAhAAUAAAADAAAAAAAhAAYAAAADAAEAAAAhAAcAAAADAAEAAAAhAAgAAAADAAIAAAAgAAQAAAACAAMAAAAfAAQAAAABAAMAAAAeAAQAAAAEAAAAAAAeAAUAAAADAAEAAAAeAAYAAAADAAEAAAAeAAcAAAADAAEAAAAeAAgAAAADAAIAAAAcAAQABgADAAAAAAAcAAUABgADAAEAAAAcAAYABgADAAEAAAAcAAcABgADAAEAAAAcAAgABgADAAIAAAAcAAIABgADAAMAAAAaAAUAAgADAAAAAAAaAAYAAgADAAEAAAAaAAcAAgADAAEAAAAaAAgAAgADAAIAAAAZAAQAAgACAAMAAAAYAAQAAgABAAMAAAAXAAQAAgAEAAAAAAAXAAUAAgADAAEAAAAXAAYAAgADAAEAAAAXAAcAAgADAAEAAAAXAAgAAgADAAIAAAAVAAQABQADAAAAAAAVAAUABQADAAIAAAAUAAYABQADAAAAAAAUAAcABQADAAIAAAATAAgABQADAAMAAAASAAYABQADAAAAAAASAAcABQADAAIAAAARAAQABQADAAAAAAARAAUABQADAAIAAAANAAQABAAAAAMAAAAOAAQABAABAAMAAAAPAAQABAAHAAAAAAAPAAUABAADAAEAAAAPAAYABAAHAAQAAAAPAAcABAADAAEAAAAPAAgABAAHAAMAAAAOAAgABAABAAMAAAANAAgABAABAAMAAAAOAAYABAABAAMAAAANAAYABAABAAMAAAANAAIABAADAAMAAAAPAAIABAADAAMAAAADAAMAAQADAAAAAAADAAQAAQADAAEAAAADAAUAAQADAAEAAAADAAYAAQADAAEAAAADAAcAAQADAAIAAAAFAAUAAQAAAAMAAAAGAAUAAQAHAAAAAAAGAAYAAQADAAEAAAAGAAcAAQADAAEAAAAGAAgAAQAHAAMAAAAGAAIAAQACAAMAAAAIAAUAAwADAAEAAAAIAAYAAwADAAEAAAAIAAcAAwADAAEAAAAIAAgAAwADAAIAAAALAAQAAwACAAMAAAAKAAQAAwABAAMAAAAIAAQAAwAEAAAAAAAJAAQAAwABAAMAAAAMAAcABAADAAEAAAAMAAYABAAEAAAAAAAMAAgABAAEAAMAAAA=")
+tile_set = ExtResource("5_hxypl")
 
 [connection signal="pressed" from="buttons/play" to="buttons/play" method="_on_pressed"]

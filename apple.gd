@@ -15,6 +15,9 @@ func _ready():
         get_parent().add_child.call_deferred(diamond)
 
 func _process(_delta):
+    if !map_tile:
+        queue_free()
+        return
     if !falling:
         if map_tile.below().item.in_tunnel() or map_tile.item.in_tunnel():
             GameManager.queue.add(fall, GameTime.now() + (30.0 / (GameManager.level + 1)))

@@ -14,14 +14,22 @@ var has_lost_level: bool = false
 
 var has_won_level: bool = false
 
-var is_end_screen: bool = false
+# Level loaded and ready to accept input
+var level_loaded : bool = false
+
+var endscreen : Control = null
+const WAIT_TIME_END_OF_LEVEL : float =  2.5
+const BONUS_SPIN_TIME        : float =  1.5
+const WAIT_TIME_GAME_OVER    : float = 10.0
+
+var grvtheme : Theme
 
 var lives: int = 3:
     set(value):
         lives = value
         if lives > 6:
             lives = 6
-        gamescene.get_node("UI/lives").region_rect.size.x = lives * 32
+        gamescene.get_node("UI/lives").region_rect.size.x = max(lives * 32, 0)
 
 ## Holds the current score. Can be negative!
 var score: int = 0:
@@ -113,15 +121,12 @@ enum GhostMod {
 }
 
 var grvmap: GrvMap
-
 var map: Map
-
 var queue: TimerItem.Queue
-
 var audio: GrvAudio
 
 ## Holds a reference to the game scene's root node.
-var gamescene: Node
+var gamescene: Node = null
 
 ## Holds the current color palette. See [constant palettes] for the list of color palettes.
 var palette: Array = palettes[0]
@@ -164,11 +169,13 @@ enum MOVE_TYPE {
 
 var fade_message = false
 var message_timer: TimerItem
-
-var version
+var bonus_spin_target : int = 0
+var bonus_spin_step   : int = 0
+var bonus_spin_ctr    : int = 0
+var bonus_spin_base   : int = 0
+var bonus_spin_label  : Label
 
 func _ready():
-    version = Version.version()
     chmenu = preload("res://cheatmenu.tscn").instantiate()
     add_sibling.call_deferred(chmenu)
     chmenu.hide()
@@ -180,23 +187,91 @@ func _process(delta: float) -> void:
         Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
     else:
         Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-    if fade_message:
-        gamescene.get_node("UI/message").self_modulate.a -= delta
 
-func lose_level():
+    if bonus_spin_step:
+        var spin_bonus : int = bonus_spin_ctr + roundi(bonus_spin_step * delta)
+        if spin_bonus >= bonus_spin_target:
+            spin_bonus = bonus_spin_target
+            bonus_spin_step = 0
+        score += spin_bonus - bonus_spin_ctr
+        bonus_spin_ctr = spin_bonus
+        bonus_spin_label.text = str(bonus_spin_ctr)
+
+    if fade_message:
+        var msgnode = gamescene.get_node("UI/message")
+        if msgnode.self_modulate.a < delta:
+            msgnode.self_modulate.a = 0.0
+            fade_message = false
+        else:
+            msgnode.self_modulate.a -= delta
+
+func game_over() -> void:
+    endscreen = gamescene.get_node("ending/gameover")
+    endscreen.visible = true
+    gamescene.end_timer.wait_time = WAIT_TIME_GAME_OVER
+    gamescene.end_timer.start()
+
+# Called from titlescreen/buttons/play
+func prepare_game() -> void:
+    level_loaded = false
+    gamescene = preload("res://game.tscn").instantiate()
+    get_tree().get_root().add_child.call_deferred(gamescene)
+
+# Called from gamescene._ready()
+func start_game() -> void:
+    pause()
+    game_clock.connect("timeout", _new_tick)
+    gamescene.end_timer.timeout.connect(endscreen_timeout)
+    grvtheme = preload("res://grvtheme.tres")
+    level           = -1
+    level_streak    =  0
+    ammo            =  0
+    score           =  0
+    lives           =  3
+    power           =  0
+    load_next_level()
+
+func end_game() -> void:
+    kill_endscreen()            # Just in case
+    gamescene.queue_free()
+    get_tree().get_root().add_child(preload("res://titlescreen.tscn").instantiate())
+
+func win_level(gtime : float) -> void:
+    # Setup end screen.
+    pause(gtime)
+
+    var cherries_left  : int = grvmap.cherries()
+    var cherries_taken : float = float(grvmap.startcherries - cherries_left)/grvmap.startcherries
+    if cherries_left:
+        endscreen = gamescene.get_node("ending/treasure")
+        endscreen.get_node("cherries/cherries").text = str(floori(cherries_taken * 100.0)) + "%"
+    else:
+        endscreen = gamescene.get_node("ending/cleared")
+
+    endscreen.get_node("time/time").text = GameTime.format(gtime)
+
+    # Determine and display performance bonus.
+    bonus_spin_target = roundi((30000 * (level + 1)) * cherries_taken/gtime)
+    bonus_spin_label = endscreen.get_node("pbonus/pbonus")
+    bonus_spin_label.text = "0"
+    bonus_spin_ctr    = 0
+    bonus_spin_step   = roundi(bonus_spin_target / BONUS_SPIN_TIME)
+
+    endscreen.visible = true
+
+    gamescene.end_timer.wait_time = WAIT_TIME_END_OF_LEVEL
+    gamescene.end_timer.start()
+    has_lost_level = false
+
+func lose_level() -> void:
+    pause()
     lives -= 1
-    level -= 1
     level_streak = -1
     if lives < 0:
-        score = 0
-        lives = 3
-        level = -1
-        ammo = 0
-        power = 0
-        gamescene.queue_free()
-        get_tree().get_root().add_child(preload("res://titlescreen.tscn").instantiate())
-        return
-    load_next_level()
+        game_over()
+    else:
+        level -= 1
+        load_next_level()
 
 func get_tile_atlas(tile: Tile) -> int:
     match tile.type:
@@ -310,25 +385,27 @@ func fire_bullet(from: Vector2i, movement: Vector2i):
             break
 
 func load_next_level():
-    gamescene.queue_free()
-    gamescene = preload("res://game.tscn").instantiate()
-    level += 1
-    level += hyper.count(true)
+    level += hyper.count(true) + 1
     level_streak += 1
     if level >= grvFileLoader.levelcount:
         level = jumpto
     for shot in ammo:
         if randf() > 0.1:
             ammo -= 1 # 10% chance to keep unused shots. (Really a 90% chance to lose each shot)
-    get_tree().get_root().add_child.call_deferred(gamescene)
+    load_level()
 
 func load_level():
+    level_loaded = false
+    kill_endscreen()            # Just in case
     chmenu.hide()
-    palette = palettes[level % 7]
+    palette = palettes[level % palettes.size()]
     set_background_color()
-    preload("res://grvtheme.tres").set_color("font_color", "Label", text_colors[palette[0]])
+    grvtheme.set_color("font_color", "Label", text_colors[palette[0]])
     hyper = [false, false, false, false, false]
-    score = score
+    bonus_spin_step = 0
+    score = score + (bonus_spin_target - bonus_spin_ctr)
+    bonus_spin_target = 0
+    bonus_spin_ctr = 0
     level = level
     ammo = ammo
     power = power
@@ -345,11 +422,15 @@ func load_level():
     projectiles = 0
     has_lost_level = false
     has_won_level = false
-    is_end_screen = false
+    for old_obj in gamescene.objects.get_children():
+        old_obj.delete()
+
     for letter in Item.visuals[Item.Type.HYPER]:
-        gamescene.get_node("UI/hyper_" + letter).play(letter)
+        var node : AnimatedSprite2D = gamescene.get_node("UI/hyper_" + letter)
+        node.visible = false
+        node.play(letter)
+
     game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
-    game_clock.connect("timeout", _new_tick)
     queue = TimerItem.Queue.new()
     var lvl_path = grvFileLoader.get_level_path(level)
 
@@ -357,20 +438,19 @@ func load_level():
     grvmap = map.grvmap
     LevelBuilder.build_level(map)
     bonus_dot_off()
+    level_loaded = true
     GameTime.start()
     game_clock.start()
 
 func bonus_dot_on(_timeritem = null) -> bool:
     if !grvmap.itemcount[Item.Type.BONUS]:
         return false
-    print("BONUS")
     bonus = true
     gamescene.get_node("UI/bonus_anim").play()
     queue.add(bonus_dot_off, GameTime.now() + 12)
     return true
 
 func bonus_dot_off(_timeritem = null) -> bool:
-    print("No bonus")
     bonus = false
     if grvmap.itemcount[Item.Type.BONUS]:
         queue.add(bonus_dot_on, GameTime.now() + 120)
@@ -378,57 +458,52 @@ func bonus_dot_off(_timeritem = null) -> bool:
     else:
         return false
 
+func endscreen_timeout() -> void:
+    if kill_endscreen():
+        if lives < 0:
+            end_game()
+        else:
+            load_next_level()
+
+func kill_endscreen() -> bool:
+    if endscreen:
+        endscreen.visible = false
+        endscreen = null
+        return true
+    else:
+        return false
+
 func _new_tick():
+    var gtime : float = GameTime.now()
+
     if has_won_level:
-        gamescene.get_node("endscreen").appear()
-
-        # Setup end screen.
-        # Calc time.
-        var gtime = GameTime.now()
-        var minutes = int(gtime / 60)
-        var seconds = gtime - (minutes * 60)
-        minutes = str(minutes).lpad(2, "0")
-        var subsec = seconds - floor(seconds)
-        subsec = int(subsec * 10)
-        subsec = str(subsec)
-        seconds = int(seconds)
-        seconds = str(seconds).lpad(2, "0")
-        gamescene.get_node("endscreen/time/time").text = minutes + ":" + seconds + "." + subsec
-
-        # Determine performance bonus.
-        var pbonus = int(((30000.0 * (level + 1)) / gtime) * (grvmap.startcherries - grvmap.itemcount[Item.Type.CHERRY]) / grvmap.startcherries + 0.5)
-        GameManager.score += pbonus
-        gamescene.get_node("endscreen/pbonus/pbonus").text = str(pbonus)
-
-        game_clock.paused = true
-
-        GameTime.pause()
-        gamescene.get_node("end_timer").timeout.connect(load_next_level)
-        gamescene.get_node("end_timer").start()
-        is_end_screen = true
-        has_lost_level = false
-    if has_lost_level:
+        win_level(gtime)
+    elif has_lost_level:
         lose_level()
-    queue.poll(GameTime.now())
+    else:
+        queue.poll(gtime)
+
+
 
 func _input(_event):
-    if Input.is_action_just_pressed("skip_end_screen") and is_end_screen:
-        gamescene.get_node("end_timer").stop()
-        load_next_level()
-        is_end_screen = false
+    if not level_loaded:
+        return
+    if Input.is_action_just_pressed("skip_end_screen") and endscreen:
+        gamescene.end_timer.stop()
+        endscreen_timeout()
 
 func load_cheat_menu() -> Window:
     pause()
     chmenu.show()
     return chmenu
 
-func pause():
+func pause(at_time : float = NAN) -> void:
     game_clock.paused = true
-    GameTime.pause()
+    GameTime.pause(at_time)
 
-func resume():
-    game_clock.paused = false
+func resume() -> void:
     GameTime.unpause()
+    game_clock.paused = false
 
 func print_message(message: String, fade_time: float = 5):
     fade_message = false
