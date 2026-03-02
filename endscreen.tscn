@@ -2,7 +2,6 @@
 
 [ext_resource type="FontFile" uid="uid://dja54g52jxax8" path="res://PressStart2P-Regular.ttf" id="1_gcvua"]
 [ext_resource type="Texture2D" uid="uid://bwwpcnxyh2mg6" path="res://themes/default/parchment_alpha.png" id="1_k7cnj"]
-[ext_resource type="Script" uid="uid://cs5yie00nkony" path="res://endscreen.gd" id="2_gcvua"]
 [ext_resource type="Theme" uid="uid://c7jrhubx5eew8" path="res://grvtheme.tres" id="3_dlbub"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nxgh7"]
@@ -28,7 +27,6 @@ offset_bottom = 328.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_dlbub")
-script = ExtResource("2_gcvua")
 
 [node name="title" type="Label" parent="." unique_id=1716494903]
 layout_mode = 1
