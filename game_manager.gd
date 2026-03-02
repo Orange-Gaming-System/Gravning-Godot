@@ -19,6 +19,7 @@ var level_loaded : bool = false
 
 var endscreen : Control = null
 const WAIT_TIME_END_OF_LEVEL : float =  2.0
+const BONUS_SPIN_TIME        : float =  1.5
 const WAIT_TIME_GAME_OVER    : float = 10.0
 
 var grvtheme : Theme
@@ -168,6 +169,11 @@ enum MOVE_TYPE {
 
 var fade_message = false
 var message_timer: TimerItem
+var bonus_spin_target : int = 0
+var bonus_spin_step   : int = 0
+var bonus_spin_ctr    : int = 0
+var bonus_spin_base   : int = 0
+var bonus_spin_label  : Label
 
 func _ready():
     chmenu = preload("res://cheatmenu.tscn").instantiate()
@@ -181,8 +187,23 @@ func _process(delta: float) -> void:
         Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
     else:
         Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+    if bonus_spin_step:
+        var spin_bonus : int = bonus_spin_ctr + roundi(bonus_spin_step * delta)
+        if spin_bonus >= bonus_spin_target:
+            spin_bonus = bonus_spin_target
+            bonus_spin_step = 0
+        score += spin_bonus - bonus_spin_ctr
+        bonus_spin_ctr = spin_bonus
+        bonus_spin_label.text = str(bonus_spin_ctr)
+
     if fade_message:
-        gamescene.get_node("UI/message").self_modulate.a -= delta
+        var msgnode = gamescene.get_node("UI/message")
+        if msgnode.self_modulate.a < delta:
+            msgnode.self_modulate.a = 0.0
+            fade_message = false
+        else:
+            msgnode.self_modulate.a -= delta
 
 func game_over() -> void:
     endscreen = gamescene.get_node("ending/gameover")
@@ -230,9 +251,11 @@ func win_level(gtime : float) -> void:
     endscreen.get_node("time/time").text = GameTime.format(gtime)
 
     # Determine and display performance bonus.
-    var pbonus = roundi((30000 * (level + 1)) * cherries_taken/gtime)
-    GameManager.score += pbonus
-    endscreen.get_node("pbonus/pbonus").text = str(pbonus)
+    bonus_spin_target = roundi((30000 * (level + 1)) * cherries_taken/gtime)
+    bonus_spin_label = endscreen.get_node("pbonus/pbonus")
+    bonus_spin_label.text = "0"
+    bonus_spin_ctr    = 0
+    bonus_spin_step   = roundi(bonus_spin_target / BONUS_SPIN_TIME)
 
     endscreen.visible = true
 
@@ -379,7 +402,10 @@ func load_level():
     set_background_color()
     grvtheme.set_color("font_color", "Label", text_colors[palette[0]])
     hyper = [false, false, false, false, false]
-    score = score
+    bonus_spin_step = 0
+    score = score + (bonus_spin_target - bonus_spin_ctr)
+    bonus_spin_target = 0
+    bonus_spin_ctr = 0
     level = level
     ammo = ammo
     power = power
