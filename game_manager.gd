@@ -243,11 +243,11 @@ func win_level(gtime : float) -> void:
 func lose_level() -> void:
     pause()
     lives -= 1
-    level -= 1
     level_streak = -1
     if lives < 0:
         game_over()
     else:
+        level -= 1
         load_next_level()
 
 func get_tile_atlas(tile: Tile) -> int:
