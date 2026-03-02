@@ -22,7 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://bwwpcnxyh2mg6" path="res://themes/default/parchment_alpha.png" id="20_x5p1p"]
 [ext_resource type="FontFile" uid="uid://dja54g52jxax8" path="res://PressStart2P-Regular.ttf" id="21_qhcbd"]
 [ext_resource type="PackedScene" uid="uid://chk3w7xy4xdem" path="res://endtreas.tscn" id="22_f1jbl"]
-[ext_resource type="Texture2D" path="res://themes/default/status frame.png" id="23_qhcbd"]
+[ext_resource type="Texture2D" uid="uid://dkx3eyx5x57u0" path="res://themes/default/status_frame.png" id="23_qhcbd"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nxgh7"]
 texture = ExtResource("20_x5p1p")
