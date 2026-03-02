@@ -18,7 +18,7 @@ var has_won_level: bool = false
 var level_loaded : bool = false
 
 var endscreen : Control = null
-const WAIT_TIME_END_OF_LEVEL : float =  2.0
+const WAIT_TIME_END_OF_LEVEL : float =  2.5
 const BONUS_SPIN_TIME        : float =  1.5
 const WAIT_TIME_GAME_OVER    : float = 10.0
 
