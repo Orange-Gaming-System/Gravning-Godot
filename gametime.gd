@@ -27,12 +27,12 @@ static func unpause() -> float:
         paused = false
     return (now_tick - epoch_tick) * 1.0e-6
 
-static func format(when : float = now()):
-    var c : int = floori(when * 100.0)
+static func format(when : float = now()) -> String:
+    var d : int = floori(when * 10.0)
     @warning_ignore("integer_division")
-    var s  : int = c / 100
-    c %= 100
+    var s  : int = d / 10
+    d %= 10
     @warning_ignore("integer_division")
     var m  : int = s / 60
     s %= 60
-    return "%02d:%02d.%02d" % [m, s, c]
+    return "%02d:%02d.%01d" % [m, s, d]

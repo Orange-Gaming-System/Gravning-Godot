@@ -9,6 +9,16 @@
 [ext_resource type="PackedScene" uid="uid://bq8cdcdukfsgr" path="res://endscreen.tscn" id="7_eow3j"]
 [ext_resource type="Texture2D" uid="uid://qwxxmko02d1h" path="res://themes/default/lives_sprite.png" id="8_j5wjh"]
 [ext_resource type="SpriteFrames" uid="uid://b50up4dqgkbgd" path="res://themes/default/objects/bonus_anim.tres" id="8_vef74"]
+[ext_resource type="Texture2D" uid="uid://q2jm35y3k4lc" path="res://themes/default/controls/active/dpad_element_north.svg" id="10_boyg6"]
+[ext_resource type="Texture2D" uid="uid://iaq1ljjx3op" path="res://themes/default/controls/pressed/dpad_element_north.svg" id="11_e36ub"]
+[ext_resource type="Texture2D" uid="uid://bn2e80y0xagdd" path="res://themes/default/controls/active/dpad_element_south.svg" id="12_hb5m1"]
+[ext_resource type="Texture2D" uid="uid://fil6w1f0y1wx" path="res://themes/default/controls/pressed/dpad_element_south.svg" id="13_x5p1p"]
+[ext_resource type="Texture2D" uid="uid://2y2krns3lbfc" path="res://themes/default/controls/active/dpad_element_east.svg" id="14_qhcbd"]
+[ext_resource type="Texture2D" uid="uid://cu1uatklfespy" path="res://themes/default/controls/pressed/dpad_element_east.svg" id="15_f1jbl"]
+[ext_resource type="Texture2D" uid="uid://dy34dq82k7431" path="res://themes/default/controls/active/dpad_element_west.svg" id="16_vaj68"]
+[ext_resource type="Texture2D" uid="uid://c1b5psyytqmns" path="res://themes/default/controls/pressed/dpad_element_west.svg" id="17_i2p71"]
+[ext_resource type="Texture2D" uid="uid://cx8rf8incd1iv" path="res://themes/default/controls/pressed/button_diamond.svg" id="18_xa8c5"]
+[ext_resource type="Texture2D" uid="uid://bdjypxfawt0jg" path="res://themes/default/controls/active/button_diamond.svg" id="19_5b14r"]
 
 [node name="game" type="Node2D" unique_id=1465605954]
 script = ExtResource("1_7jktm")
@@ -201,10 +211,61 @@ centered = false
 [node name="endscreen" parent="." unique_id=505433523 instance=ExtResource("7_eow3j")]
 visible = false
 z_index = 2
-offset_left = 92.0
 offset_top = 3.0
-offset_right = 532.0
 offset_bottom = 333.0
 
 [node name="end_timer" type="Timer" parent="." unique_id=883609000]
 wait_time = 2.0
+
+[node name="Touch_Player" type="Control" parent="." unique_id=330889576]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -304.0
+offset_top = 112.0
+offset_right = -64.0
+offset_bottom = 352.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Touch_Up" type="TouchScreenButton" parent="Touch_Player" unique_id=607666384]
+position = Vector2(168, 56)
+texture_normal = ExtResource("10_boyg6")
+texture_pressed = ExtResource("11_e36ub")
+passby_press = true
+action = "up"
+visibility_mode = 1
+
+[node name="Touch_Down" type="TouchScreenButton" parent="Touch_Player" unique_id=570343204]
+position = Vector2(168, 136)
+texture_normal = ExtResource("12_hb5m1")
+texture_pressed = ExtResource("13_x5p1p")
+passby_press = true
+action = "down"
+visibility_mode = 1
+
+[node name="Touch_Right" type="TouchScreenButton" parent="Touch_Player" unique_id=1705187967]
+position = Vector2(208, 96)
+texture_normal = ExtResource("14_qhcbd")
+texture_pressed = ExtResource("15_f1jbl")
+passby_press = true
+action = "right"
+visibility_mode = 1
+
+[node name="Touch_Left" type="TouchScreenButton" parent="Touch_Player" unique_id=545562428]
+position = Vector2(128, 96)
+texture_normal = ExtResource("16_vaj68")
+texture_pressed = ExtResource("17_i2p71")
+passby_press = true
+action = "left"
+visibility_mode = 1
+
+[node name="Touch_Esc" type="TouchScreenButton" parent="Touch_Player" unique_id=943739468]
+position = Vector2(168, -40)
+texture_normal = ExtResource("18_xa8c5")
+texture_pressed = ExtResource("19_5b14r")
+action = "escape"
+visibility_mode = 1

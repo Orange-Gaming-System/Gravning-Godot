@@ -11,7 +11,7 @@ texture = ExtResource("1_k7cnj")
 [sub_resource type="Theme" id="Theme_dlbub"]
 default_font = ExtResource("1_gcvua")
 default_font_size = 16
-Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_color = Color(0, 0, 0, 1)
 Panel/styles/panel = SubResource("StyleBoxTexture_nxgh7")
 
 [node name="endscreen" type="Panel" unique_id=505433523]
@@ -35,9 +35,9 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -96.0
+offset_left = -88.0
 offset_top = 32.0
-offset_right = 96.0
+offset_right = 104.0
 offset_bottom = 48.0
 grow_horizontal = 2
 theme = ExtResource("3_dlbub")
@@ -46,32 +46,45 @@ text = "END OF LEVEL"
 
 [node name="time" type="Label" parent="." unique_id=765279073]
 layout_mode = 0
-offset_left = 32.0
+offset_left = 48.0
 offset_top = 96.0
-offset_right = 112.0
+offset_right = 128.0
 offset_bottom = 112.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "TIME:"
 
 [node name="time" type="Label" parent="time" unique_id=556095021]
 layout_mode = 0
-offset_left = 96.0
-offset_right = 136.0
+offset_left = 192.0
+offset_right = 384.0
 offset_bottom = 16.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "00:00.0"
+horizontal_alignment = 2
 
 [node name="pbonus" type="Label" parent="." unique_id=1065212643]
 layout_mode = 0
-offset_left = 32.0
+offset_left = 48.0
 offset_top = 128.0
-offset_right = 320.0
+offset_right = 240.0
 offset_bottom = 144.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "PERFORMANCE BONUS:"
+text = "SPEED BONUS:"
 
 [node name="pbonus" type="Label" parent="pbonus" unique_id=50298506]
 layout_mode = 0
-offset_left = 304.0
-offset_right = 344.0
+offset_left = 192.0
+offset_right = 384.0
 offset_bottom = 16.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "123456789012"
+horizontal_alignment = 2
+
+[node name="cherries" type="Label" parent="." unique_id=748644286]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 64.0
+offset_right = 440.0
+offset_bottom = 80.0
+text = "88 OF 99 CHERRIES TAKEN"
+horizontal_alignment = 1

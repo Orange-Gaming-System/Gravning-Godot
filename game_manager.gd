@@ -384,27 +384,23 @@ func _new_tick():
 
         # Setup end screen.
         # Calc time.
-        var gtime = GameTime.now()
-        var minutes = int(gtime / 60)
-        var seconds = gtime - (minutes * 60)
-        minutes = str(minutes).lpad(2, "0")
-        var subsec = seconds - floor(seconds)
-        subsec = int(subsec * 10)
-        subsec = str(subsec)
-        seconds = int(seconds)
-        seconds = str(seconds).lpad(2, "0")
-        gamescene.get_node("endscreen/time/time").text = minutes + ":" + seconds + "." + subsec
+        var gtime : float = GameTime.pause()
+        game_clock.paused = true
+        gamescene.get_node("endscreen/time/time").text = GameTime.format(gtime)
 
-        # Determine performance bonus.
-        var pbonus = int(((30000.0 * (level + 1)) / gtime) * (grvmap.startcherries - grvmap.itemcount[Item.Type.CHERRY]) / grvmap.startcherries + 0.5)
+        # Determine and display performance bonus.
+        var cherries_left  : int = grvmap.cherries()
+        var cherries_taken : int = grvmap.startcherries - cherries_left
+        var pbonus = roundi((30000.0 * (level + 1) * cherries_taken) / (gtime * grvmap.startcherries))
         GameManager.score += pbonus
         gamescene.get_node("endscreen/pbonus/pbonus").text = str(pbonus)
+        var cherries_label : Label = gamescene.get_node("endscreen/cherries")
+        cherries_label.text = "%d OF %d CHERRIES TAKEN" % [cherries_taken, grvmap.startcherries]
+        cherries_label.visible = cherries_left
 
-        game_clock.paused = true
-
-        GameTime.pause()
-        gamescene.get_node("end_timer").timeout.connect(load_next_level)
-        gamescene.get_node("end_timer").start()
+        var end_timer : Timer = gamescene.get_node("end_timer")
+        end_timer.timeout.connect(load_next_level)
+        end_timer.start()
         is_end_screen = true
         has_lost_level = false
     if has_lost_level:
