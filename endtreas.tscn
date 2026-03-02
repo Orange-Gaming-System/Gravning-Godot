@@ -1,20 +1,20 @@
-[gd_scene format=3 uid="uid://bq8cdcdukfsgr"]
+[gd_scene format=3 uid="uid://chk3w7xy4xdem"]
 
-[ext_resource type="FontFile" uid="uid://dja54g52jxax8" path="res://PressStart2P-Regular.ttf" id="1_gcvua"]
-[ext_resource type="Texture2D" uid="uid://bwwpcnxyh2mg6" path="res://themes/default/parchment_alpha.png" id="1_k7cnj"]
-[ext_resource type="Script" uid="uid://cs5yie00nkony" path="res://endscreen.gd" id="2_gcvua"]
-[ext_resource type="Theme" uid="uid://c7jrhubx5eew8" path="res://grvtheme.tres" id="3_dlbub"]
+[ext_resource type="Texture2D" uid="uid://bwwpcnxyh2mg6" path="res://themes/default/parchment_alpha.png" id="1_whkk7"]
+[ext_resource type="FontFile" uid="uid://dja54g52jxax8" path="res://PressStart2P-Regular.ttf" id="2_wx3ip"]
+[ext_resource type="Script" uid="uid://cs5yie00nkony" path="res://endscreen.gd" id="3_i2cq6"]
+[ext_resource type="Theme" uid="uid://c7jrhubx5eew8" path="res://grvtheme.tres" id="4_ivvky"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nxgh7"]
-texture = ExtResource("1_k7cnj")
+texture = ExtResource("1_whkk7")
 
 [sub_resource type="Theme" id="Theme_dlbub"]
-default_font = ExtResource("1_gcvua")
+default_font = ExtResource("2_wx3ip")
 default_font_size = 16
 Label/colors/font_color = Color(0, 0, 0, 1)
 Panel/styles/panel = SubResource("StyleBoxTexture_nxgh7")
 
-[node name="endscreen" type="Panel" unique_id=505433523]
+[node name="endtreas" type="Panel" unique_id=505433523]
 self_modulate = Color(0.5, 0.5, 0.5, 1)
 anchors_preset = 8
 anchor_left = 0.5
@@ -22,13 +22,13 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = 72.0
-offset_top = 8.0
+offset_top = 16.0
 offset_right = 552.0
-offset_bottom = 328.0
+offset_bottom = 336.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_dlbub")
-script = ExtResource("2_gcvua")
+script = ExtResource("3_i2cq6")
 
 [node name="title" type="Label" parent="." unique_id=1716494903]
 layout_mode = 1
@@ -37,27 +37,27 @@ anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -184.0
 offset_top = 32.0
-offset_right = 184.0
+offset_right = 192.0
 offset_bottom = 48.0
 grow_horizontal = 2
-theme = ExtResource("3_dlbub")
+theme = ExtResource("4_ivvky")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "LEVEL CLEARED"
+text = "TREASURE: END OF LEVEL"
 horizontal_alignment = 1
 
 [node name="time" type="Label" parent="." unique_id=765279073]
 layout_mode = 0
 offset_left = 56.0
-offset_top = 80.0
+offset_top = 112.0
 offset_right = 200.0
-offset_bottom = 96.0
+offset_bottom = 128.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "TIME:"
 
 [node name="time" type="Label" parent="time" unique_id=556095021]
 layout_mode = 0
-offset_left = 128.0
-offset_right = 368.0
+offset_left = 144.0
+offset_right = 376.0
 offset_bottom = 16.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "00:00.0"
@@ -66,17 +66,33 @@ horizontal_alignment = 2
 [node name="pbonus" type="Label" parent="." unique_id=1065212643]
 layout_mode = 0
 offset_left = 56.0
-offset_top = 112.0
-offset_right = 200.0
-offset_bottom = 128.0
+offset_top = 144.0
+offset_right = 192.0
+offset_bottom = 160.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "BONUS:"
 
 [node name="pbonus" type="Label" parent="pbonus" unique_id=50298506]
 layout_mode = 0
-offset_left = 128.0
-offset_right = 368.0
+offset_left = 136.0
+offset_right = 376.0
 offset_bottom = 16.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "123456789012345"
+horizontal_alignment = 2
+
+[node name="cherries" type="Label" parent="." unique_id=1389264088]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 80.0
+offset_right = 296.0
+offset_bottom = 96.0
+text = "CHERRIES TAKEN:"
+
+[node name="cherries" type="Label" parent="cherries" unique_id=166636380]
+layout_mode = 0
+offset_left = 240.0
+offset_right = 376.0
+offset_bottom = 16.0
+text = "100%"
 horizontal_alignment = 2

@@ -19,6 +19,19 @@
 [ext_resource type="Texture2D" uid="uid://c1b5psyytqmns" path="res://themes/default/controls/pressed/dpad_element_west.svg" id="17_i2p71"]
 [ext_resource type="Texture2D" uid="uid://cx8rf8incd1iv" path="res://themes/default/controls/pressed/button_diamond.svg" id="18_xa8c5"]
 [ext_resource type="Texture2D" uid="uid://bdjypxfawt0jg" path="res://themes/default/controls/active/button_diamond.svg" id="19_5b14r"]
+[ext_resource type="Texture2D" uid="uid://bwwpcnxyh2mg6" path="res://themes/default/parchment_alpha.png" id="20_x5p1p"]
+[ext_resource type="FontFile" uid="uid://dja54g52jxax8" path="res://PressStart2P-Regular.ttf" id="21_qhcbd"]
+[ext_resource type="PackedScene" uid="uid://chk3w7xy4xdem" path="res://endtreas.tscn" id="22_f1jbl"]
+[ext_resource type="Texture2D" path="res://themes/default/status frame.png" id="23_qhcbd"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nxgh7"]
+texture = ExtResource("20_x5p1p")
+
+[sub_resource type="Theme" id="Theme_dlbub"]
+default_font = ExtResource("21_qhcbd")
+default_font_size = 16
+Label/colors/font_color = Color(0, 0, 0, 1)
+Panel/styles/panel = SubResource("StyleBoxTexture_nxgh7")
 
 [node name="game" type="Node2D" unique_id=1465605954]
 script = ExtResource("1_7jktm")
@@ -208,14 +221,9 @@ sprite_frames = ExtResource("8_vef74")
 animation = &"bonus"
 centered = false
 
-[node name="endscreen" parent="." unique_id=505433523 instance=ExtResource("7_eow3j")]
-visible = false
-z_index = 2
-offset_top = 3.0
-offset_bottom = 333.0
-
 [node name="end_timer" type="Timer" parent="." unique_id=883609000]
 wait_time = 2.0
+one_shot = true
 
 [node name="Touch_Player" type="Control" parent="." unique_id=330889576]
 layout_mode = 3
@@ -269,3 +277,58 @@ texture_normal = ExtResource("18_xa8c5")
 texture_pressed = ExtResource("19_5b14r")
 action = "escape"
 visibility_mode = 1
+
+[node name="ending" type="Control" parent="." unique_id=1121105184]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="cleared" parent="ending" unique_id=505433523 instance=ExtResource("7_eow3j")]
+visible = false
+z_index = 2
+layout_mode = 1
+offset_left = 52.0
+offset_top = -17.0
+offset_right = 532.0
+offset_bottom = 313.0
+theme = SubResource("Theme_dlbub")
+script = null
+
+[node name="treasure" parent="ending" unique_id=849063414 instance=ExtResource("22_f1jbl")]
+visible = false
+layout_mode = 1
+offset_left = 52.0
+offset_top = -20.0
+offset_right = 532.0
+offset_bottom = 300.0
+script = null
+
+[node name="gameover" type="TextureRect" parent="ending" unique_id=1043285880]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 92.0
+offset_top = 132.0
+offset_right = 492.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("23_qhcbd")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="gameover" type="Label" parent="ending/gameover" unique_id=1927308762]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 16.0
+offset_right = 352.0
+offset_bottom = 32.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1

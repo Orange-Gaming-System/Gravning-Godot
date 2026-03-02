@@ -5,18 +5,21 @@ static var paused       : bool
 static var pause_tick   : int
 
 static func start() -> float:
-    paused = false
     epoch_tick = Time.get_ticks_usec()
     pause_tick = epoch_tick
+    paused = false
     return 0.0
 
 static func now() -> float:
     var now_tick : int = pause_tick if (paused) else (Time.get_ticks_usec())
     return (now_tick - epoch_tick) * 1.0e-6
 
-static func pause() -> float:
+static func pause(at_time : float = NAN) -> float:
     if not paused:
-        pause_tick = Time.get_ticks_usec()
+        if at_time >= 0.0:         # Never true for NaN
+            pause_tick = roundi(at_time * 1.0e+6) + epoch_tick
+        else:
+            pause_tick = Time.get_ticks_usec()
         paused = true
     return (pause_tick - epoch_tick) * 1.0e-6
 

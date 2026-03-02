@@ -4,22 +4,30 @@ class_name GrvObj extends AnimatedSprite2D
 ## Holds the current player position in tiles. Is floating point to avoid snappy movement.
 @export var board_pos: Vector2
 
-## Holds the [MapTile] originally used to spawn the object.
+## Holds the [MapTile] originally used to spawn the object, or null if this
+## object is pending deletion.
 var map_tile: MapTile
-
-## Holds the last [AudioStreamPlayer2D] created with [method create_audio_player].
-var last_audio: AudioStreamPlayer2D
 
 func _ready():
     position = board_pos * 16
     sprite_frames = GameManager.obj_frames[map_tile.item.type]
     if sprite_frames.has_animation("default"):
         play("default")
-    GameManager.game_clock.timeout.connect(_new_tick)
+    GameManager.game_clock.timeout.connect(_maybe_new_tick)
+
+func delete() -> void:
+    stop()
+    visible = false
+    map_tile = null
+    queue_free()
 
 func _init(tile: MapTile):
     board_pos = tile.xy
     map_tile = tile
+
+func _maybe_new_tick():
+    if map_tile:
+        _new_tick()
 
 func _new_tick():
     pass
