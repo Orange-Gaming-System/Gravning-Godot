@@ -24,6 +24,21 @@
 [ext_resource type="PackedScene" uid="uid://chk3w7xy4xdem" path="res://endtreas.tscn" id="22_f1jbl"]
 [ext_resource type="Texture2D" uid="uid://dkx3eyx5x57u0" path="res://themes/default/status_frame.png" id="23_qhcbd"]
 
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_qhcbd"]
+points = PackedVector2Array(-32, -32, 32, -32, 32, 4, 0, 32, -32, 4)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_f1jbl"]
+points = PackedVector2Array(-32, 32, 32, 32, 32, -4, 0, -32, -32, -4)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_vaj68"]
+points = PackedVector2Array(32, -32, 32, 32, -4, 32, -32, 0, -4, -32)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_i2p71"]
+points = PackedVector2Array(-32, -32, -32, 32, 4, 32, 32, 0, 4, -32)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_xa8c5"]
+points = PackedVector2Array(32, 0, 0, 32, -32, 0, 0, -32)
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nxgh7"]
 texture = ExtResource("20_x5p1p")
 
@@ -243,6 +258,7 @@ grow_vertical = 2
 position = Vector2(168, 56)
 texture_normal = ExtResource("10_boyg6")
 texture_pressed = ExtResource("11_e36ub")
+shape = SubResource("ConvexPolygonShape2D_qhcbd")
 passby_press = true
 action = "up"
 visibility_mode = 1
@@ -251,6 +267,7 @@ visibility_mode = 1
 position = Vector2(168, 136)
 texture_normal = ExtResource("12_hb5m1")
 texture_pressed = ExtResource("13_x5p1p")
+shape = SubResource("ConvexPolygonShape2D_f1jbl")
 passby_press = true
 action = "down"
 visibility_mode = 1
@@ -259,6 +276,7 @@ visibility_mode = 1
 position = Vector2(208, 96)
 texture_normal = ExtResource("14_qhcbd")
 texture_pressed = ExtResource("15_f1jbl")
+shape = SubResource("ConvexPolygonShape2D_vaj68")
 passby_press = true
 action = "right"
 visibility_mode = 1
@@ -267,6 +285,7 @@ visibility_mode = 1
 position = Vector2(128, 96)
 texture_normal = ExtResource("16_vaj68")
 texture_pressed = ExtResource("17_i2p71")
+shape = SubResource("ConvexPolygonShape2D_i2p71")
 passby_press = true
 action = "left"
 visibility_mode = 1
@@ -275,6 +294,7 @@ visibility_mode = 1
 position = Vector2(168, -40)
 texture_normal = ExtResource("18_xa8c5")
 texture_pressed = ExtResource("19_5b14r")
+shape = SubResource("ConvexPolygonShape2D_xa8c5")
 action = "escape"
 visibility_mode = 1
 
