@@ -2,10 +2,10 @@ class_name Map extends RefCounted
 
 
 ## A 2D array of [Tile] which stores all tiles. Each array it contains is 1 row. Accessed as tiles[y][x].
-@export var tiles: Array
+var tiles: Array
 
 ## An array of [MapTile] which stores all objects (anything that isn't a Wall, Soft Wall, or Empty).
-@export var objs: Array
+var objs: Array[MapTile]
 
 var grvmap: GrvMap
 
@@ -35,5 +35,7 @@ func _init(path: String):
                 tiles[t.xy.y][t.xy.x] = Tile.new(Tile.TYPE.EMPTY, t.item.flags & Item.Flags.BG2 as Tile.COLOR)
             else:
                 tiles[t.xy.y][t.xy.x] = Tile.new(Tile.TYPE.DIRT, t.item.flags & Item.Flags.BG2 as Tile.COLOR)
-            if LevelBuilder.obj_classes.has(t.item.type) and t.item.type != Item.Type.PLAYER:
+            if LevelBuilder.obj_classes.has(t.item.type) and t.item.type != Item.Type.PLAYER and t.item.type != Item.Type.GHOST:
                 objs.append(t)
+    for ghost in grvmap.items[Item.Type.GHOST]:
+        objs.append(grvmap.items[Item.Type.GHOST][ghost])
