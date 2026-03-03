@@ -19,6 +19,7 @@ mkdir -p builds/windows/debug
 godot --headless --export-debug 'Windows Desktop' "builds/windows/debug/$name.exe" &
 godot --headless --export-release 'Windows Desktop' "builds/windows/$name.exe" &
 
+rm -rf builds/macos
 mkdir -p builds/macos
 godot --headless --export-release macOS "builds/macos/$name.app" &
 
