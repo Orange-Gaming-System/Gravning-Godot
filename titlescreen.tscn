@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://hk5lwnpx01ec"]
 
-[ext_resource type="Script" uid="uid://dqw2qlowp60ni" path="res://titlescreen.gd" id="1_8pdex"]
+[ext_resource type="Script" path="res://titlescreen.gd" id="1_8pdex"]
 [ext_resource type="Theme" uid="uid://c7jrhubx5eew8" path="res://grvtheme.tres" id="1_cjnew"]
 [ext_resource type="Script" uid="uid://bpy5uaqqee115" path="res://playbutton.gd" id="2_goadl"]
 [ext_resource type="Script" uid="uid://bum3dpfhhwjkp" path="res://version_label.gd" id="3_2bjoa"]
@@ -76,6 +76,7 @@ pivot_offset_ratio = Vector2(0.5, 0)
 text = "Controls:
 Move - WASD/Arrow Keys
 Shoot - IJLK
+Pause - P
 Quick Escape (Lv. 16+) - Escape"
 horizontal_alignment = 1
 
