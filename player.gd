@@ -18,23 +18,26 @@ var bullet_dir: Dictionary[StringName, Vector2i] = {"shoot_left": Vector2i(-1, 0
 
 # Input handler
 func _input(event):
-    if !Input.is_key_pressed(KEY_ALT):
-        for action in accepted_actions:
-            if event.is_action(action):
-                if Input.is_action_just_pressed(action):
-                    last_input = action
-                    input_from_tick = true
-        if GameManager.ammo > 0:
-            for dir in bullet_dir:
-                if event.is_action(dir):
-                    if Input.is_action_just_pressed(dir):
-                        GameManager.ammo -= 1
-                        get_parent().add_child(Bullet.new(map_tile.map, map_tile.xy, bullet_dir[dir], 0.01, false))
-    else:
-        for cheat in cheats:
-            if event.is_action(cheat):
-                if Input.is_action_just_pressed(cheat):
-                    cheats[cheat].call()
+    if !GameManager.paused:
+        if !Input.is_key_pressed(KEY_ALT):
+            for action in accepted_actions:
+                if event.is_action(action):
+                    if Input.is_action_just_pressed(action):
+                        last_input = action
+                        input_from_tick = true
+            if GameManager.ammo > 0:
+                for dir in bullet_dir:
+                    if event.is_action(dir):
+                        if Input.is_action_just_pressed(dir):
+                            GameManager.ammo -= 1
+                            get_parent().add_child(Bullet.new(map_tile.map, map_tile.xy, bullet_dir[dir], 0.01, false))
+        else:
+            for cheat in cheats:
+                if event.is_action(cheat):
+                    if Input.is_action_just_pressed(cheat):
+                        cheats[cheat].call()
+    if Input.is_action_just_pressed("pause"):
+        GameManager.paused = !GameManager.paused
 
 func _new_tick() -> void:
     board_pos = goal_pos

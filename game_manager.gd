@@ -17,6 +17,16 @@ var has_won_level: bool = false
 # Level loaded and ready to accept input
 var level_loaded : bool = false
 
+# If the level is paused. Note that this is not the same as the game being paused by projectiles!
+var paused: bool = false:
+    set(value):
+        paused = value
+        if projectiles <= 0:
+            if value:
+                pause()
+            else:
+                resume()
+
 var endscreen : Control = null
 const WAIT_TIME_END_OF_LEVEL : float =  2.5
 const BONUS_SPIN_TIME        : float =  1.5

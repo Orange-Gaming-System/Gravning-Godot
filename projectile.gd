@@ -26,6 +26,8 @@ func is_further(original: Vector2, new: Vector2, comp: Vector2) -> bool:
     return new_dist > comp_dist
 
 func _process(delta: float) -> void:
+    if GameManager.paused:
+        return
     board_pos = board_pos + movement * (delta / speed)
     var cont = true
     while is_further(map_pos, board_pos, next_tile):
