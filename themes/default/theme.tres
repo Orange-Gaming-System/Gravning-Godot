@@ -1,0 +1,13 @@
+[gd_resource type="Theme" format=3 uid="uid://c7jrhubx5eew8"]
+
+[ext_resource type="FontFile" uid="uid://dja54g52jxax8" path="res://themes/default/font.ttf" id="1_0webv"]
+[ext_resource type="Texture2D" uid="uid://bwwpcnxyh2mg6" path="res://themes/default/parchment_alpha.png" id="1_5ubbj"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6ijll"]
+texture = ExtResource("1_5ubbj")
+
+[resource]
+default_font = ExtResource("1_0webv")
+default_font_size = 16
+Label/colors/font_color = Color(1, 1, 1, 1)
+Panel/styles/panel = SubResource("StyleBoxTexture_6ijll")

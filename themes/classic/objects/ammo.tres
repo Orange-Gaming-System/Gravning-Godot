@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://cgf27ras86mqm"]
+
+[ext_resource type="Texture2D" uid="uid://ckvasj1nn6rb4" path="res://themes/classic/objects/textures/ammo.png" id="1_8befn"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_8befn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

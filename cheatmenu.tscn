@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://bgtqalbkgwcnf"]
 
 [ext_resource type="Script" uid="uid://c34t2r3eupnbr" path="res://cheatmenu.gd" id="1_4y0sh"]
-[ext_resource type="Theme" uid="uid://buqkjov1bm061" path="res://cheat_theme.tres" id="2_e1x4t"]
-[ext_resource type="Theme" uid="uid://c7jrhubx5eew8" path="res://grvtheme.tres" id="2_fqmdt"]
+[ext_resource type="Theme" uid="uid://buqkjov1bm061" path="res://themes/default/cheat_theme.tres" id="2_e1x4t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e1x4t"]
+bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_4y0sh"]
 font_size = 10
@@ -22,7 +24,7 @@ offset_left = -32.0
 offset_top = -42.0
 offset_right = 552.0
 offset_bottom = 311.0
-theme = ExtResource("2_fqmdt")
+theme_override_styles/panel = SubResource("StyleBoxFlat_e1x4t")
 
 [node name="Panel" type="Panel" parent="." unique_id=786934596]
 offset_right = 500.0

@@ -1,10 +1,10 @@
 [gd_scene format=4 uid="uid://hk5lwnpx01ec"]
 
 [ext_resource type="Script" path="res://titlescreen.gd" id="1_8pdex"]
-[ext_resource type="Theme" uid="uid://c7jrhubx5eew8" path="res://grvtheme.tres" id="1_cjnew"]
+[ext_resource type="Theme" uid="uid://c7jrhubx5eew8" path="res://themes/default/theme.tres" id="1_cjnew"]
 [ext_resource type="Script" uid="uid://bpy5uaqqee115" path="res://playbutton.gd" id="2_goadl"]
 [ext_resource type="Script" uid="uid://bum3dpfhhwjkp" path="res://version_label.gd" id="3_2bjoa"]
-[ext_resource type="TileSet" uid="uid://y82sa4eqkhtr" path="res://ground_tiles.tres" id="5_hxypl"]
+[ext_resource type="TileSet" uid="uid://y82sa4eqkhtr" path="res://themes/default/tileset.tres" id="5_hxypl"]
 
 [node name="Control" type="Control" unique_id=1346205953]
 layout_mode = 3
@@ -60,7 +60,7 @@ theme_override_font_sizes/font_size = 24
 text = "PLAY"
 script = ExtResource("2_goadl")
 
-[node name="Label" type="Label" parent="buttons" unique_id=1431530850]
+[node name="controls" type="Label" parent="buttons" unique_id=1431530850]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5

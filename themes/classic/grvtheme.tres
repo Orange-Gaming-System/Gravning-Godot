@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="GrvTheme" format=3 uid="uid://dynhq2tcxbq7b"]
+
+[ext_resource type="Script" uid="uid://beu4bqpqej54k" path="res://grvtheme.gd" id="1_ehvw8"]
+
+[resource]
+script = ExtResource("1_ehvw8")
+name = "Default"
+metadata/_custom_type_script = "uid://beu4bqpqej54k"

@@ -1,0 +1,72 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://b7xxnx3t2xu3y"]
+
+[ext_resource type="Texture2D" uid="uid://m0whggmknpyx" path="res://themes/classic/objects/textures/ghost.png" id="1_pqbyt"]
+[ext_resource type="Texture2D" uid="uid://bhl2g4nctetxn" path="res://themes/classic/objects/textures/ghost_frozen.png" id="2_ffoj2"]
+[ext_resource type="Texture2D" uid="uid://cs0nyfgnoa5mq" path="res://themes/classic/objects/textures/ghost_thaw.png" id="3_mc4si"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_pqbyt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_pqbyt")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ffoj2")
+}],
+"loop": true,
+"name": &"freeze",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_pqbyt")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_pqbyt")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 16.0,
+"texture": ExtResource("3_mc4si")
+}],
+"loop": false,
+"name": &"thaw",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_pqbyt")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_pqbyt")
+}],
+"loop": true,
+"name": &"zero",
+"speed": 5.0
+}]

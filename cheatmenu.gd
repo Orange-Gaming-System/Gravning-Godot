@@ -9,7 +9,7 @@ func _on_visibility_changed() -> void:
         $Panel/ScrollContainer/Control/setshot_input.value = GameManager.ammo
         $Panel/ScrollContainer/Control/setpower_input.value = GameManager.power
         $Panel/ScrollContainer/Control/leveljump_input.value = GameManager.level + 1
-        $bgcolor.self_modulate = GameManager.colors[GameManager.palette[0]]
+        #$bgcolor.self_modulate = GameManager.colors[GameManager.palette[0]]
 
 func _ready():
     $Panel/ScrollContainer/Control/leveljump_input.max_value = grvFileLoader.levelcount

@@ -3,7 +3,7 @@ class_name Diamond extends Collectible
 
 func _ready():
     position = board_pos * 16
-    sprite_frames = GameManager.obj_frames[Item.Type.DIAMOND]
+    sprite_frames = GameManager.grvtheme.obj_frames[Item.Type.DIAMOND]
     z_index = -1
     update_sprite()
 

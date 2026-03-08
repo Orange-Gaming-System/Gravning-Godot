@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://dcp5i1p6uewbw"]
+
+[ext_resource type="Texture2D" uid="uid://cs3f3dckmfctw" path="res://themes/classic/objects/textures/apple.png" id="1_eb2p2"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_eb2p2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

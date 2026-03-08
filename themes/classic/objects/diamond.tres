@@ -1,0 +1,22 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://b8c0sgfgw40a2"]
+
+[ext_resource type="Texture2D" uid="uid://c7ooakgtrgt7u" path="res://themes/classic/objects/textures/diamond.png" id="1_p7mwb"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_p7mwb")
+}],
+"loop": true,
+"name": &"dirt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_p7mwb")
+}],
+"loop": true,
+"name": &"tunnel",
+"speed": 5.0
+}]

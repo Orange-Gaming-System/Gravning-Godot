@@ -32,7 +32,12 @@ const WAIT_TIME_END_OF_LEVEL : float =  2.5
 const BONUS_SPIN_TIME        : float =  1.5
 const WAIT_TIME_GAME_OVER    : float = 10.0
 
-var grvtheme : Theme
+var grvmap: GrvMap
+var map: Map
+var queue: TimerItem.Queue
+var audio: GrvAudio = GrvAudio.new()
+
+var grvtheme: GrvTheme
 
 var lives: int = 3:
     set(value):
@@ -95,10 +100,6 @@ var game_clock: Timer
 ## Holds a reference to the current active cheat menu (or null if nonexistent).
 var chmenu: Window
 
-const obj_frames: Dictionary[Item.Type, SpriteFrames] = {Item.Type.CHERRY: preload("res://themes/default/objects/cherry.tres"), Item.Type.AMMO: preload("res://themes/default/objects/ammo.tres"), Item.Type.PLAYER: preload("res://themes/default/objects/player.tres"), Item.Type.APPLE: preload("res://themes/default/objects/apple.tres"), Item.Type.DIAMOND: preload("res://themes/default/objects/diamond.tres"), Item.Type.GHOST: preload("res://themes/default/objects/ghost.tres"), Item.Type.FROZEN_CHERRY: preload("res://themes/default/objects/frozen_cherry.tres"), Item.Type.THAWED_CHERRY: preload("res://themes/default/objects/thawed_cherry.tres"), Item.Type.BONUS: preload("res://themes/default/objects/bonus_coin.tres"), Item.Type.DOOR: preload("res://themes/default/objects/doors.tres"), Item.Type.HYPER: preload("res://themes/default/objects/hyper.tres"), Item.Type.ROCK: preload("res://themes/default/objects/rock.tres"), Item.Type.BOMB: preload("res://themes/default/objects/bomb.tres"), Item.Type.MYSTERY: preload("res://themes/default/objects/mystery.tres"), Item.Type.CLUSTER: preload("res://themes/default/objects/cluster_bomb.tres")}
-
-const other_frames: Dictionary[String, SpriteFrames] = {"bullet": preload("res://themes/default/objects/bullets.tres"), "falling_apple": preload("res://themes/default/objects/apple.tres")}
-
 const bomb_actions: Dictionary[Item.Type, BombAction] = {Item.Type.CHERRY: BombAction.COLLECT, Item.Type.AMMO: BombAction.DESTROY, Item.Type.PLAYER: BombAction.OTHER, Item.Type.APPLE: BombAction.NONE, Item.Type.DIAMOND: BombAction.DESTROY, Item.Type.GHOST: BombAction.OTHER, Item.Type.FROZEN_CHERRY: BombAction.NONE, Item.Type.THAWED_CHERRY: BombAction.COLLECT, Item.Type.BONUS: BombAction.OTHER, Item.Type.DOOR: BombAction.NONE, Item.Type.HYPER: BombAction.NONE, Item.Type.ROCK: BombAction.NONE, Item.Type.BOMB: BombAction.NONE, Item.Type.WALL: BombAction.DESTROY, Item.Type.SOFTWALL: BombAction.DESTROY, Item.Type.EMPTY: BombAction.NONE, Item.Type.MYSTERY: BombAction.DESTROY, Item.Type.CLUSTER: BombAction.NONE, Item.Type.APPLE_DIAMOND: BombAction.NONE}
 
 enum BombAction {
@@ -129,11 +130,6 @@ enum GhostMod {
     SCARED,
     SLOW
 }
-
-var grvmap: GrvMap
-var map: Map
-var queue: TimerItem.Queue
-var audio: GrvAudio
 
 ## Holds a reference to the game scene's root node.
 var gamescene: Node = null
@@ -189,8 +185,7 @@ func _ready():
     chmenu = preload("res://cheatmenu.tscn").instantiate()
     add_sibling.call_deferred(chmenu)
     chmenu.hide()
-    audio = GrvAudio.new()
-    audio.load_sound_data("res://themes/default/sound/")
+    grvtheme = preload("res://themes/default/grvtheme.tres").load_theme()
 
 func _process(delta: float) -> void:
     if !chmenu.visible and gamescene:
@@ -232,9 +227,9 @@ func start_game() -> void:
     pause()
     game_clock.connect("timeout", _new_tick)
     gamescene.end_timer.timeout.connect(endscreen_timeout)
-    grvtheme = preload("res://grvtheme.tres")
+    #theme = preload("res://theme.tres")
     level           = -1
-    level_streak    =  0
+    level_streak    = -1
     ammo            =  0
     score           =  0
     lives           =  3
@@ -410,7 +405,7 @@ func load_level():
     chmenu.hide()
     palette = palettes[level % palettes.size()]
     set_background_color()
-    grvtheme.set_color("font_color", "Label", text_colors[palette[0]])
+    grvtheme.theme.set_color("font_color", "Label", text_colors[palette[0]])
     hyper = [false, false, false, false, false]
     bonus_spin_step = 0
     score = score + (bonus_spin_target - bonus_spin_ctr)

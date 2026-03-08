@@ -1,18 +1,5 @@
 [gd_scene format=3 uid="uid://bq8cdcdukfsgr"]
 
-[ext_resource type="FontFile" uid="uid://dja54g52jxax8" path="res://PressStart2P-Regular.ttf" id="1_gcvua"]
-[ext_resource type="Texture2D" uid="uid://bwwpcnxyh2mg6" path="res://themes/default/parchment_alpha.png" id="1_k7cnj"]
-[ext_resource type="Theme" uid="uid://c7jrhubx5eew8" path="res://grvtheme.tres" id="3_dlbub"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nxgh7"]
-texture = ExtResource("1_k7cnj")
-
-[sub_resource type="Theme" id="Theme_dlbub"]
-default_font = ExtResource("1_gcvua")
-default_font_size = 16
-Label/colors/font_color = Color(0, 0, 0, 1)
-Panel/styles/panel = SubResource("StyleBoxTexture_nxgh7")
-
 [node name="endscreen" type="Panel" unique_id=505433523]
 self_modulate = Color(0.5, 0.5, 0.5, 1)
 anchors_preset = 8
@@ -26,7 +13,6 @@ offset_right = 552.0
 offset_bottom = 328.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_dlbub")
 
 [node name="title" type="Label" parent="." unique_id=1716494903]
 layout_mode = 1
@@ -38,7 +24,6 @@ offset_top = 32.0
 offset_right = 184.0
 offset_bottom = 48.0
 grow_horizontal = 2
-theme = ExtResource("3_dlbub")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "LEVEL CLEARED"
 horizontal_alignment = 1

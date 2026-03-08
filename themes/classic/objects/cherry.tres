@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://dhwi06xytb3q4"]
+
+[ext_resource type="Texture2D" uid="uid://c3d0c0lgbrb2" path="res://themes/classic/objects/textures/fruit_cherry.png" id="1_do61s"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_do61s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

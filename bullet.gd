@@ -10,7 +10,7 @@ const bullets = {Vector2i.UP: "bU", Vector2i.DOWN: "bD", Vector2i.LEFT: "bL", Ve
 const cluster_bullets = {Vector2i.UP: "cU", Vector2i.DOWN: "cD", Vector2i.LEFT: "cL", Vector2i.RIGHT: "cR", Vector2i(1, 1): "cDR", Vector2i(1, -1): "cUR", Vector2i(-1, 1): "cUR", Vector2i(-1, -1): "cUL"}
 
 func _ready():
-    sprite_frames = GameManager.other_frames.bullet
+    sprite_frames = GameManager.grvtheme.other_frames.bullet
     if is_cluster:
         play(cluster_bullets[movement])
     else:
