@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://8cgtb70xyxng"]
+
+[ext_resource type="Texture2D" uid="uid://bs8yclbgbdm5u" path="res://themes/default/objects/textures/easteregg.png" id="1_tbxwi"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_tbxwi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

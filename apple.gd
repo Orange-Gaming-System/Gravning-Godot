@@ -14,7 +14,7 @@ func _ready():
         diamond = Diamond.new(map_tile)
         get_parent().add_child.call_deferred(diamond)
 
-func _process(_delta):
+func _new_tick():
     if !map_tile:
         queue_free()
         return
@@ -24,10 +24,13 @@ func _process(_delta):
             falling = true
 
 func fall(_timeritem):
-    get_parent().add_child(FallingApple.new(map_tile.map, board_pos, Vector2i.DOWN, 0.03))
+    add_sibling(FallingApple.new(map_tile.map, board_pos, Vector2i.DOWN, 0.03))
     if diamond:
         diamond.update_sprite()
-        map_tile.changetype(Item.Type.DIAMOND)
+        if map_tile.item.type == Item.Type.APPLE_EASTER:
+            map_tile.changetype(Item.Type.EASTER_EGG)
+        else:
+            map_tile.changetype(Item.Type.DIAMOND)
         map_tile.node = diamond
     else:
         map_tile.node = self

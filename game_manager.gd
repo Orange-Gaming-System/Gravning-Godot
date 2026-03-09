@@ -200,7 +200,8 @@ func _process(delta: float) -> void:
             bonus_spin_step = 0
         score += spin_bonus - bonus_spin_ctr
         bonus_spin_ctr = spin_bonus
-        bonus_spin_label.text = str(bonus_spin_ctr)
+        if bonus_spin_label:
+            bonus_spin_label.text = str(bonus_spin_ctr)
 
     if fade_message:
         var msgnode = gamescene.get_node("UI/message")

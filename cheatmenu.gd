@@ -42,5 +42,5 @@ func give_mystery() -> void:
     _on_close_requested()
     var mystery = Mystery.new(GameManager.grvmap.player)
     GameManager.gamescene.get_node("objects").add_child(mystery)
-    mystery.sprite_frames = GameManager.obj_frames[Item.Type.MYSTERY]
+    mystery.sprite_frames = GameManager.grvtheme.obj_frames[Item.Type.MYSTERY]
     mystery.collect(forced)

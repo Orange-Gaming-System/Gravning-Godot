@@ -26,6 +26,8 @@ enum Type {
     THAWED_CHERRY       = 0x102,
     APPLE_DIAMOND       = 0x103,
     DOOR                = 0x104,
+    APPLE_EASTER        = 0x105,
+    EASTER_EGG          = 0x106,
 
     # End sentinel
     TypeCount                   # One more than the highest enum value
@@ -109,7 +111,7 @@ func is_tunnel() -> bool:
     return type == Type.EMPTY and in_tunnel()
 
 static func type_is_apple(itemtype : Type) -> bool:
-    return itemtype == Type.APPLE or itemtype == Type.APPLE_DIAMOND
+    return itemtype == Type.APPLE or itemtype == Type.APPLE_DIAMOND or itemtype == Type.APPLE_EASTER
 func is_apple() -> bool:
     return type_is_apple(type)
 

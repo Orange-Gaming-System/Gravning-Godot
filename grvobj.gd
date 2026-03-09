@@ -13,6 +13,8 @@ func _ready():
     sprite_frames = GameManager.grvtheme.obj_frames[map_tile.item.type]
     if sprite_frames.has_animation("default"):
         play("default")
+    if sprite_frames.has_animation(map_tile.item.visual_str()):
+        play(map_tile.item.visual_str())
     GameManager.game_clock.timeout.connect(_maybe_new_tick)
 
 func delete() -> void:

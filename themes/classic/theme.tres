@@ -1,13 +1,13 @@
 [gd_resource type="Theme" format=3 uid="uid://bflpdf1v7dyyh"]
 
 [ext_resource type="Texture2D" uid="uid://dgkvxb8he03bh" path="res://themes/classic/parchment_alpha.png" id="1_sldh3"]
-[ext_resource type="FontFile" uid="uid://bu0ybtiwtiwxa" path="res://themes/classic/font.ttf" id="2_bqtdj"]
+[ext_resource type="FontFile" uid="uid://dhlj6xiihtmlq" path="res://themes/classic/Grv-Wide.ttf" id="2_sldh3"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6ijll"]
 texture = ExtResource("1_sldh3")
 
 [resource]
-default_font = ExtResource("2_bqtdj")
+default_font = ExtResource("2_sldh3")
 default_font_size = 16
 Label/colors/font_color = Color(1, 1, 1, 1)
 Panel/styles/panel = SubResource("StyleBoxTexture_6ijll")
