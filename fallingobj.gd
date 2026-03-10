@@ -4,7 +4,7 @@ class_name FallingObj extends MovingObj
 var validity_check: Callable = is_valid_fall
 
 func _new_tick():
-    board_pos = goal_pos
+    board_pos = goal_pos.round()
     var current_pos = board_pos
     var fall_pos = board_pos + Vector2.DOWN
     if map_tile.map.at(fall_pos).item.is_tunnel() and map_tile.item.in_tunnel():

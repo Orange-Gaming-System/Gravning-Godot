@@ -66,7 +66,7 @@ func _new_tick() -> void:
                 GameManager.MOVE_TYPE.BLOCKED:
                     new_pos = board_pos
                 GameManager.MOVE_TYPE.ROCK:
-                    GameManager.push_rock(map_tile.map.at(new_pos), new_pos + (new_pos-board_pos))
+                    GameManager.push_rock.call_deferred(map_tile.map.at(new_pos), new_pos + (new_pos-board_pos))
                     new_pos = board_pos
         else:
             if GameManager.level >= grvFileLoader.escape_lvl:
