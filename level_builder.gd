@@ -31,18 +31,6 @@ func generate_objs(objs: Array):
     for obj in objs:
         obj.spawn_obj()
 
-# Temporary Constants for test level.
-@warning_ignore("int_as_enum_without_cast")
-var ent = Tile.new(0, 0)
-@warning_ignore("int_as_enum_without_cast")
-var swp = Tile.new(3, 0)
-@warning_ignore("int_as_enum_without_cast")
-var sws = Tile.new(3, 1)
-@warning_ignore("int_as_enum_without_cast")
-var wwp = Tile.new(2, 0)
-@warning_ignore("int_as_enum_without_cast")
-var wws = Tile.new(2, 1)
-
 ## Builds the level from [param map], which is a [Map].
 func build_level(map: Map):
     var gameboard_rect : Rect2i = Rect2i(0, 0, map.grvmap.size.x, map.grvmap.size.y)
