@@ -5,10 +5,30 @@ var is_dead = false
 
 # Only applies when slow ghosts is on.
 var is_second_tick = false
+# Is true if the current movement is a slow ghost movement.
+var slow_ghost_movement = false
+
+var has_moved_maptile = false
 
 func _ready():
     super._ready()
     process_priority = map_tile.prio
+
+func _process(_delta):
+    super._process(_delta)
+    if slow_ghost_movement:
+        return
+    if has_moved_maptile:
+        return
+    if GameManager.game_clock.time_ratio > 0.5:
+        if map_tile.item.type == Item.Type.PAST_GHOST or map_tile.item.type == Item.Type.PAST_FUTURE_GHOST:
+            map_tile = map_tile.moveto(goal_pos)
+            map_tile.changetype(Item.Type.GHOST)
+        elif map_tile.item.type == Item.Type.GHOST:
+            map_tile = map_tile.map.at(goal_pos)
+            map_tile.changetype(Item.Type.GHOST)
+            map_tile.node = self
+        has_moved_maptile = true
 
 func sort_closer_player(a, b):
     var player_pos = map_tile.map.player.xy
@@ -57,7 +77,7 @@ func alternate_ai() -> void:
     for m in moves:
         m = m * GameManager.ghost_speed_mods[GameManager.ghost_modifier]
         var to : MapTile = map_tile.dv(m)
-        if to.item.is_tunnel() or to.item.type == Item.Type.PLAYER:
+        if to.item.is_tunnel() or to.item.type == Item.Type.PLAYER or to.item.type == Item.Type.PAST_GHOST:
             if to.item.type != Item.Type.PLAYER or !GameManager.has_won_level:
                 goal_pos = Vector2(to.xy)
                 break
@@ -66,13 +86,30 @@ func alternate_ai() -> void:
 func _new_tick():
     if !map_tile:       # Ghost object pending deletion
         return
+    if !has_moved_maptile and !slow_ghost_movement:
+        if map_tile.item.type == Item.Type.PAST_GHOST or map_tile.item.type == Item.Type.PAST_FUTURE_GHOST:
+            map_tile = map_tile.moveto(goal_pos)
+            map_tile.changetype(Item.Type.GHOST)
+        elif map_tile.item.type == Item.Type.GHOST:
+            map_tile = map_tile.map.at(goal_pos)
+            map_tile.changetype(Item.Type.GHOST)
+            map_tile.node = self
     if GameManager.ghost_modifier == GameManager.GhostMod.SLOW or is_second_tick:
+        slow_ghost_movement = true
         slow_ghost_behavior()
         return
     board_pos = goal_pos.round()
     start_pos = board_pos
     if !is_dead:
+        has_moved_maptile = false
+        slow_ghost_movement = false
         alternate_ai()
+        map_tile.changetype(Item.Type.PAST_GHOST)
+        var goal_tile: MapTile = map_tile.map.at(goal_pos)
+        if goal_tile.item.type == Item.Type.PAST_GHOST:
+            goal_tile.changetype(Item.Type.PAST_FUTURE_GHOST)
+        else:
+            goal_tile.changetype(Item.Type.FUTURE_GHOST)
         if GameManager.ghost_modifier != GameManager.GhostMod.FREEZE:
             if GameManager.ghost_modifier != GameManager.GhostMod.THAW:
                 var dir_name = OGSLib.get_dir_name(goal_pos - start_pos)
@@ -87,7 +124,6 @@ func _new_tick():
             mtile.changetype(Item.Type.GHOST)
             mtile.spawn_obj()
             queue_free()
-    super._new_tick()
 
 func slow_ghost_behavior():
     if is_second_tick:
@@ -120,7 +156,6 @@ func _collided(area):
                 kill_ghost()
 
 func kill_ghost():
-    print(GameManager.level + 1 < grvFileLoader.levelcount)
     if GameManager.level + 1 < grvFileLoader.levelcount:
         GameManager.power += randi_range(0, 3) + 2
         map_tile.rmv_obj()

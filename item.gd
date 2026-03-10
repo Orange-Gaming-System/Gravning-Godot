@@ -28,6 +28,9 @@ enum Type {
     DOOR                = 0x104,
     APPLE_EASTER        = 0x105,
     EASTER_EGG          = 0x106,
+    PAST_GHOST          = 0x107,
+    FUTURE_GHOST        = 0x108,
+    PAST_FUTURE_GHOST   = 0x109,
 
     # End sentinel
     TypeCount                   # One more than the highest enum value
