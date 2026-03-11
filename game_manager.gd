@@ -418,6 +418,7 @@ func load_level():
     lives = lives
     message_timer = null
     fade_message = false
+    gamescene.get_node("UI/message").text = ""
     ghost_modifier = GhostMod.NONE
     if level >= grvFileLoader.levelcount - 1:
         jumpto = grvFileLoader.levelcount
@@ -481,6 +482,13 @@ func kill_endscreen() -> bool:
 
 func _new_tick():
     var gtime : float = GameTime.now()
+
+    for past_ghost in grvmap.items[Item.Type.PAST_GHOST].values():
+        if !past_ghost.node:
+            past_ghost.changetype(Item.Type.EMPTY)
+    for future_ghost in grvmap.items[Item.Type.FUTURE_GHOST].values():
+        if !future_ghost.node:
+            future_ghost.changetype(Item.Type.EMPTY)
 
     if has_won_level:
         win_level(gtime)
