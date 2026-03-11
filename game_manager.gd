@@ -327,6 +327,7 @@ func push_rock(rock: MapTile, to: Vector2i) -> bool:
         return false
     rock.node.start_pos = rock.xy
     rock.node.goal_pos = to
+    rock.node.was_just_pushed = true
     remove_dirt(rock)
     return true
 
