@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://c81ay70qsislf" path="res://game_clock.gd" id="4_fc0e3"]
 [ext_resource type="Script" uid="uid://bosyfs04pxwa1" path="res://global_sound.gd" id="5_hb5m1"]
 [ext_resource type="SpriteFrames" uid="uid://bpvppce2gvltj" path="res://themes/default/objects/hyper.tres" id="6_ryrav"]
+[ext_resource type="SpriteFrames" uid="uid://8cgtb70xyxng" path="res://themes/default/objects/easter_egg.tres" id="6_x5p1p"]
 [ext_resource type="PackedScene" uid="uid://bq8cdcdukfsgr" path="res://endscreen.tscn" id="7_eow3j"]
 [ext_resource type="Texture2D" uid="uid://qwxxmko02d1h" path="res://themes/default/lives_sprite.png" id="8_j5wjh"]
 [ext_resource type="SpriteFrames" uid="uid://b50up4dqgkbgd" path="res://themes/default/objects/bonus_anim.tres" id="8_vef74"]
@@ -21,6 +22,9 @@
 [ext_resource type="Texture2D" uid="uid://bdjypxfawt0jg" path="res://themes/default/controls/active/button_diamond.svg" id="19_5b14r"]
 [ext_resource type="PackedScene" uid="uid://chk3w7xy4xdem" path="res://endtreas.tscn" id="22_f1jbl"]
 [ext_resource type="Texture2D" uid="uid://dkx3eyx5x57u0" path="res://themes/default/status_frame.png" id="23_qhcbd"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_x5p1p"]
+line_spacing = 0.0
 
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_qhcbd"]
 points = PackedVector2Array(-32, -32, 32, -32, 32, 4, 0, 32, -32, 4)
@@ -168,6 +172,36 @@ offset_left = 161.0
 offset_top = 416.0
 offset_right = 201.0
 offset_bottom = 432.0
+
+[node name="scrt_crdts" type="Label" parent="UI" unique_id=628465385]
+z_index = -3
+layout_mode = 0
+offset_left = 16.0
+offset_top = 32.0
+offset_right = 656.0
+offset_bottom = 384.0
+text = "
+
+
+
+
+
+
+Concept - Fredrick Anvin
+
+
+Original - Peter Anvin
+
+
+Godot Version - Erik Anvin"
+label_settings = SubResource("LabelSettings_x5p1p")
+horizontal_alignment = 1
+
+[node name="lvlctr_egg" type="AnimatedSprite2D" parent="UI" unique_id=1033792844]
+visible = false
+position = Vector2(608, 0)
+sprite_frames = ExtResource("6_x5p1p")
+centered = false
 
 [node name="lives" type="Sprite2D" parent="UI" unique_id=1848589272]
 texture_repeat = 2

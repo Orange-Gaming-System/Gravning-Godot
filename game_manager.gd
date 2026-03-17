@@ -75,6 +75,8 @@ var bonus: bool = false
 
 var hyper: Array[bool] = [false, false, false, false, false]
 
+var is_easter_egg_level: bool = false
+
 ## Holds the current number of projectiles active on screen. If greater than 0, time is paused.
 var projectiles: int = 0:
     set(value):
@@ -231,13 +233,13 @@ func start_game() -> void:
     game_clock.connect("timeout", _new_tick)
     gamescene.end_timer.timeout.connect(endscreen_timeout)
     #theme = preload("res://theme.tres")
-    level           = -1
-    level_streak    = -1
+    level           =  0
+    level_streak    =  0
     ammo            =  0
     score           =  0
     lives           =  3
     power           =  0
-    load_next_level()
+    load_next_level(0)
 
 func end_game() -> void:
     kill_endscreen()            # Just in case
@@ -274,12 +276,11 @@ func win_level(gtime : float) -> void:
 func lose_level() -> void:
     pause()
     lives -= 1
-    level_streak = -1
+    level_streak = 0
     if lives < 0:
         game_over()
     else:
-        level -= 1
-        load_next_level()
+        load_next_level(0)
 
 func get_tile_atlas(tile: Tile) -> int:
     match tile.type:
@@ -393,9 +394,9 @@ func fire_bullet(from: Vector2i, movement: Vector2i):
             print("bullet landed at ", from)
             break
 
-func load_next_level():
-    level += hyper.count(true) + 1
-    level_streak += 1
+func load_next_level(level_offset: int = 1):
+    level += hyper.count(true) + level_offset
+    level_streak += level_offset
     if level >= grvFileLoader.levelcount:
         level = jumpto
     for shot in ammo:
@@ -410,7 +411,15 @@ func load_level():
     palette = palettes[level % palettes.size()]
     set_background_color()
     grvtheme.theme.set_color("font_color", "Label", text_colors[palette[0]])
-    hyper = [false, false, false, false, false]
+    if is_easter_egg_level:
+        if hyper.has(true):
+            gamescene.get_node("UI/hyper_H").visible = true
+            gamescene.get_node("UI/hyper_Y").visible = true
+            gamescene.get_node("UI/hyper_P").visible = true
+            gamescene.get_node("UI/hyper_E").visible = true
+            gamescene.get_node("UI/hyper_R").visible = true
+    else:
+        hyper = [false, false, false, false, false]
     bonus_spin_step = 0
     score = score + (bonus_spin_target - bonus_spin_ctr)
     bonus_spin_target = 0
@@ -419,6 +428,8 @@ func load_level():
     ammo = ammo
     power = power
     lives = lives
+    gamescene.get_node("UI/scrt_crdts").visible = is_easter_egg_level
+    gamescene.get_node("UI/lvlctr_egg").visible = is_easter_egg_level
     message_timer = null
     fade_message = false
     gamescene.get_node("UI/message").text = ""
@@ -435,18 +446,26 @@ func load_level():
     for old_obj in gamescene.objects.get_children():
         old_obj.delete()
 
-    for letter in Item.visuals[Item.Type.HYPER]:
-        var node : AnimatedSprite2D = gamescene.get_node("UI/hyper_" + letter)
-        node.visible = false
-        node.play(letter)
+    if !is_easter_egg_level:
+        for letter in Item.visuals[Item.Type.HYPER]:
+            var node : AnimatedSprite2D = gamescene.get_node("UI/hyper_" + letter)
+            node.visible = false
+            node.play(letter)
 
     game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
     queue = TimerItem.Queue.new()
     var lvl_path = grvFileLoader.get_level_path(level)
 
+    if is_easter_egg_level:
+        gamescene.get_node("UI/level").text = ""
+        lvl_path = "res://levels/test/secret.grvmap"
+
     map = Map.new(lvl_path)
     grvmap = map.grvmap
     LevelBuilder.build_level(map)
+
+    is_easter_egg_level = false
+
     bonus_dot_off()
     level_loaded = true
     GameTime.start()
