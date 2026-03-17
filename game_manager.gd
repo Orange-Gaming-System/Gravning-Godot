@@ -30,7 +30,7 @@ var paused: bool = false:
 var endscreen : Control = null
 const WAIT_TIME_END_OF_LEVEL : float =  2.5
 const BONUS_SPIN_TIME        : float =  1.5
-const WAIT_TIME_GAME_OVER    : float = 10.0
+const WAIT_TIME_GAME_OVER    : float = 15.0
 
 var grvmap: GrvMap
 var map: Map
@@ -219,6 +219,7 @@ func game_over() -> void:
     endscreen = gamescene.get_node("ending/gameover")
     endscreen.visible = true
     gamescene.end_timer.wait_time = WAIT_TIME_GAME_OVER
+    global_sound.play_sound(preload("res://themes/default/sound/files/gameovertest.mp3"))
     gamescene.end_timer.start()
 
 # Called from titlescreen/buttons/play
