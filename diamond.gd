@@ -1,7 +1,7 @@
 @icon("res://Node Icons/node_2D/icon_gem.png")
 class_name Diamond extends Collectible
 
-const EASTER_EGG_CHANCE = 1 # 0.003
+const EASTER_EGG_CHANCE = 0.003
 
 func _ready():
     position = board_pos * 16
