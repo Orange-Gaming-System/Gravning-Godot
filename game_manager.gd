@@ -97,6 +97,8 @@ var jumpto: int = -1:
 
 var game_clock: Timer
 
+var global_sound: AudioStreamPlayer
+
 ## Holds a reference to the current active cheat menu (or null if nonexistent).
 var chmenu: Window
 
@@ -449,6 +451,8 @@ func load_level():
     level_loaded = true
     GameTime.start()
     game_clock.start()
+
+    global_sound.play_sound(audio.sound_data.startup)
 
 func bonus_dot_on(_timeritem = null) -> bool:
     if !grvmap.itemcount[Item.Type.BONUS]:

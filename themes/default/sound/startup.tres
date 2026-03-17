@@ -1,0 +1,8 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://imb5vuuuh6bf"]
+
+[ext_resource type="AudioStream" uid="uid://b56gm0ji23oep" path="res://themes/default/sound/files/startup.mp3" id="1_onu1j"]
+
+[resource]
+random_pitch = 1.0145453
+streams_count = 1
+stream_0/stream = ExtResource("1_onu1j")

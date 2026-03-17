@@ -4,6 +4,7 @@
 [ext_resource type="TileSet" uid="uid://y82sa4eqkhtr" path="res://themes/default/tileset.tres" id="2_e2o6t"]
 [ext_resource type="Texture2D" uid="uid://c23t7foj83xto" path="res://themes/default/cave_bg.png" id="4_7jktm"]
 [ext_resource type="Script" uid="uid://c81ay70qsislf" path="res://game_clock.gd" id="4_fc0e3"]
+[ext_resource type="Script" uid="uid://bosyfs04pxwa1" path="res://global_sound.gd" id="5_hb5m1"]
 [ext_resource type="SpriteFrames" uid="uid://bpvppce2gvltj" path="res://themes/default/objects/hyper.tres" id="6_ryrav"]
 [ext_resource type="PackedScene" uid="uid://bq8cdcdukfsgr" path="res://endscreen.tscn" id="7_eow3j"]
 [ext_resource type="Texture2D" uid="uid://qwxxmko02d1h" path="res://themes/default/lives_sprite.png" id="8_j5wjh"]
@@ -63,6 +64,10 @@ texture = ExtResource("4_7jktm")
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 640, 352)
+
+[node name="global_sound" type="AudioStreamPlayer" parent="." unique_id=693193778]
+mix_target = 1
+script = ExtResource("5_hb5m1")
 
 [node name="UI" type="Control" parent="." unique_id=1716014596]
 layout_mode = 3

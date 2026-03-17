@@ -35,5 +35,5 @@ func event(_timeritem, smash = false):
         add_sibling(explode_audio)
         explode_audio.position = position
         explode_audio.finished.connect(explode_audio.queue_free)
-        explode_audio.playing = true
+        explode_audio.play()
     return true
