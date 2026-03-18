@@ -1,0 +1,7 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://d272m0y2r38q2"]
+
+[ext_resource type="AudioStream" uid="uid://chl12gu3w43cq" path="res://themes/default/sound/files/game_over.mp3" id="1_tjbua"]
+
+[resource]
+streams_count = 1
+stream_0/stream = ExtResource("1_tjbua")

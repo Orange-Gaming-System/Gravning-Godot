@@ -219,7 +219,7 @@ func game_over() -> void:
     endscreen = gamescene.get_node("ending/gameover")
     endscreen.visible = true
     gamescene.end_timer.wait_time = WAIT_TIME_GAME_OVER
-    global_sound.play_sound(preload("res://themes/default/sound/files/gameovertest.mp3"))
+    global_sound.play_sound(audio.sound_data.game_over)
     gamescene.end_timer.start()
 
 # Called from titlescreen/buttons/play

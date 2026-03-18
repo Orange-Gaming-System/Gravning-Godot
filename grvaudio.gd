@@ -6,6 +6,7 @@ var sound_data: Dictionary[String, AudioStream] = {}
 func load_sound_data(path: String):
     sound_data.bomb_explode = load_sound_file(path, "bomb_explode.tres")
     sound_data.startup = load_sound_file(path, "startup.tres")
+    sound_data.game_over = load_sound_file(path, "game_over.tres")
 
 func load_sound_file(folder: String, file: String) -> AudioStream:
     var full_path = folder + file
