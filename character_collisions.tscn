@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://vtr7ni7dggb8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wdtl7"]
-size = Vector2(8, 8)
+size = Vector2(7, 7)
 
 [node name="CharacterCollisions" type="Area2D" unique_id=1577661153]
 
