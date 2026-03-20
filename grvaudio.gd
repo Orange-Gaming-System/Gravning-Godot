@@ -7,6 +7,8 @@ func load_sound_data(path: String):
     sound_data.bomb_explode = load_sound_file(path, "bomb_explode.tres")
     sound_data.startup = load_sound_file(path, "startup.tres")
     sound_data.game_over = load_sound_file(path, "game_over.tres")
+    sound_data.title = load_sound_file(path, "title.tres")
+    sound_data.title_intro = load_sound_file(path, "title_intro.tres")
 
 func load_sound_file(folder: String, file: String) -> AudioStream:
     var full_path = folder + file

@@ -1,0 +1,9 @@
+[gd_resource type="AudioStreamPlaylist" format=3 uid="uid://u20uwvv7de7y"]
+
+[ext_resource type="AudioStream" uid="uid://b7qwouoqb38b0" path="res://themes/default/sound/files/title_intro.mp3" id="1_wsq30"]
+
+[resource]
+loop = false
+fade_time = 0.0
+stream_count = 1
+stream_0 = ExtResource("1_wsq30")
