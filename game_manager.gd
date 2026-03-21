@@ -410,6 +410,8 @@ func load_level():
     kill_endscreen()            # Just in case
     chmenu.hide()
     palette = palettes[level % palettes.size()]
+    if is_easter_egg_level:
+        palette = ["gray", "brown"]
     set_background_color()
     grvtheme.theme.set_color("font_color", "Label", text_colors[palette[0]])
     if is_easter_egg_level:
