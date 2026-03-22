@@ -1,0 +1,8 @@
+[gd_resource type="AudioStreamPlaylist" format=3 uid="uid://bqsiowi0fno81"]
+
+[ext_resource type="AudioStream" uid="uid://tfr5qweqc3x6" path="res://themes/default/sound/files/scorecounter.ogg" id="1_302sv"]
+
+[resource]
+fade_time = 0.0
+stream_count = 1
+stream_0 = ExtResource("1_302sv")

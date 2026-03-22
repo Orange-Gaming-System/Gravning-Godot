@@ -322,6 +322,7 @@ texture_pressed = ExtResource("11_e36ub")
 shape = SubResource("ConvexPolygonShape2D_qhcbd")
 passby_press = true
 action = "shoot_up"
+visibility_mode = 1
 
 [node name="Shoot_Down" type="TouchScreenButton" parent="Touch_Player" unique_id=682052433]
 position = Vector2(1002, 94)
@@ -330,6 +331,7 @@ texture_pressed = ExtResource("13_x5p1p")
 shape = SubResource("ConvexPolygonShape2D_f1jbl")
 passby_press = true
 action = "shoot_down"
+visibility_mode = 1
 
 [node name="Shoot_Right" type="TouchScreenButton" parent="Touch_Player" unique_id=1510687491]
 position = Vector2(1042, 54)
@@ -338,6 +340,7 @@ texture_pressed = ExtResource("15_f1jbl")
 shape = SubResource("ConvexPolygonShape2D_vaj68")
 passby_press = true
 action = "shoot_right"
+visibility_mode = 1
 
 [node name="Shoot_Left" type="TouchScreenButton" parent="Touch_Player" unique_id=1968269908]
 position = Vector2(962, 54)
@@ -346,6 +349,7 @@ texture_pressed = ExtResource("17_i2p71")
 shape = SubResource("ConvexPolygonShape2D_i2p71")
 passby_press = true
 action = "shoot_left"
+visibility_mode = 1
 
 [node name="ending" type="Control" parent="." unique_id=1121105184]
 layout_mode = 3

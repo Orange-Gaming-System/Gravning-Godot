@@ -202,6 +202,9 @@ func _process(delta: float) -> void:
         if spin_bonus >= bonus_spin_target:
             spin_bonus = bonus_spin_target
             bonus_spin_step = 0
+            global_sound.stop()
+        elif global_sound.stream != audio.sound_data.score_counter or !global_sound.playing:
+            global_sound.play_sound(audio.sound_data.score_counter)
         score += spin_bonus - bonus_spin_ctr
         bonus_spin_ctr = spin_bonus
         if bonus_spin_label:
@@ -249,6 +252,7 @@ func end_game() -> void:
 
 func win_level(gtime : float) -> void:
     # Setup end screen.
+
     pause(gtime)
 
     var cherries_left  : int = grvmap.cherries()

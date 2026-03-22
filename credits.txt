@@ -1,3 +1,5 @@
+-- Art Credits --
+
 Soft Wall Tileset:
     itch.io - https://adrian8w.itch.io/top-down-tileset
     license - https://creativecommons.org/licenses/by/4.0/
@@ -26,3 +28,5 @@ Doors:
     https://opengameart.org/content/gauntness
 Lives:
     https://nakinogasai.itch.io/10-free-gems
+
+-- Sound Credits --
