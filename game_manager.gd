@@ -28,9 +28,11 @@ var paused: bool = false:
                 resume()
 
 var endscreen : Control = null
-const WAIT_TIME_END_OF_LEVEL : float =  2.5
-const BONUS_SPIN_TIME        : float =  1.5
-const WAIT_TIME_GAME_OVER    : float = 15.0
+const WAIT_TIME_END_OF_LEVEL    : float =  2.5
+const BONUS_SPIN_TIME           : float =  1.5
+const WAIT_TIME_GAME_OVER       : float =  15.0
+const SUPER_BONUS_SPIN_TIME     : float =  5.0
+const WAIT_TIME_WRAPAROUND      : float =  10.0
 
 var grvmap: GrvMap
 var map: Map
@@ -51,6 +53,9 @@ var score: int = 0:
     set(value):
         score = value
         gamescene.get_node("UI/score").text = str(score)
+
+## The total amount of the player's score that has come from Super Bonuses.
+var super_bonus_total: int = 0
 
 ## The amount of ammo the player has.
 var ammo: int = 0:
@@ -231,18 +236,21 @@ func prepare_game() -> void:
     gamescene = preload("res://game.tscn").instantiate()
     get_tree().get_root().add_child.call_deferred(gamescene)
 
+var is_wraparound = false
+
 # Called from gamescene._ready()
 func start_game() -> void:
     pause()
     game_clock.connect("timeout", _new_tick)
     gamescene.end_timer.timeout.connect(endscreen_timeout)
-    #theme = preload("res://theme.tres")
-    level           =  0
-    level_streak    =  0
-    ammo            =  0
-    score           =  0
-    lives           =  3
-    power           =  0
+    if !is_wraparound:
+        level           =  0
+        level_streak    =  0
+        ammo            =  0
+        score           =  0
+        lives           =  3
+        power           =  0
+        is_wraparound = false
     load_next_level(0)
 
 func end_game() -> void:
@@ -402,12 +410,47 @@ func fire_bullet(from: Vector2i, movement: Vector2i):
 func load_next_level(level_offset: int = 1):
     level += hyper.count(true) + level_offset
     level_streak += level_offset
-    if level >= grvFileLoader.levelcount:
-        level = jumpto
+    if jumpto > -1:
+        super_bonus()
+        return
     for shot in ammo:
         if randf() > 0.1:
             ammo -= 1 # 10% chance to keep unused shots. (Really a 90% chance to lose each shot)
     load_level()
+
+func super_bonus():
+    level = jumpto
+    jumpto = -1
+    gamescene.queue_free()
+    gamescene = preload("res://super_bonus.tscn").instantiate()
+    add_sibling(gamescene)
+
+    global_sound = gamescene.get_node("global_sound")
+
+    gamescene.get_node("score").text = str(score)
+
+    # Calculate Super Bonus
+
+    @warning_ignore("integer_division")
+    bonus_spin_target = 3 * (score - super_bonus_total) / 2
+    super_bonus_total += bonus_spin_target
+    bonus_spin_label = gamescene.get_node("superbonus")
+    bonus_spin_label.text = "0"
+    bonus_spin_ctr    = 0
+    bonus_spin_step   = roundi(bonus_spin_target / SUPER_BONUS_SPIN_TIME)
+
+    gamescene.get_node("next_level").text = "Now you get to try again, starting\nfrom level " + str(level + 1) + "."
+
+    # Handle ending.
+
+    is_wraparound = true
+
+    gamescene.get_node("wait").timeout.connect(wraparound)
+    gamescene.get_node("wait").start(WAIT_TIME_WRAPAROUND)
+
+func wraparound():
+    gamescene.queue_free()
+    prepare_game()
 
 func load_level():
     level_loaded = false
@@ -536,6 +579,9 @@ func _input(_event):
     if Input.is_action_just_pressed("skip_end_screen") and endscreen:
         gamescene.end_timer.stop()
         endscreen_timeout()
+    if Input.is_action_just_pressed("skip_end_screen") and is_wraparound:
+        gamescene.get_node("wait").stop()
+        wraparound()
 
 func load_cheat_menu() -> Window:
     pause()

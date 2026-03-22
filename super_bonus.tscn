@@ -1,0 +1,155 @@
+[gd_scene format=3 uid="uid://oxgh87c1jw3e"]
+
+[ext_resource type="Script" uid="uid://bosyfs04pxwa1" path="res://global_sound.gd" id="1_2st8x"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dlgsp"]
+line_spacing = 0.0
+font_size = 24
+
+[node name="Super Bonus" type="Control" unique_id=794360648]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="bg" type="Panel" parent="." unique_id=505433523]
+self_modulate = Color(0.5, 0.5, 0.5, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -336.0
+offset_top = -232.0
+offset_right = 336.0
+offset_bottom = 232.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="title" type="Label" parent="." unique_id=1910482827]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -336.0
+offset_top = -180.0
+offset_right = 336.0
+offset_bottom = -156.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "You completed the game!"
+label_settings = SubResource("LabelSettings_dlgsp")
+horizontal_alignment = 1
+
+[node name="score_text" type="Label" parent="." unique_id=433454780]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -336.0
+offset_top = -136.0
+offset_bottom = -120.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Score: "
+horizontal_alignment = 2
+
+[node name="score" type="Label" parent="." unique_id=1072678416]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -136.0
+offset_right = 336.0
+offset_bottom = -120.0
+
+[node name="sb_text" type="Label" parent="." unique_id=1247922837]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -336.0
+offset_top = -88.0
+offset_bottom = -72.0
+grow_vertical = 2
+text = "Super Bonus: "
+horizontal_alignment = 2
+
+[node name="superbonus" type="Label" parent="." unique_id=174697904]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -88.0
+offset_right = 336.0
+offset_bottom = -72.0
+
+[node name="UI" type="Control" parent="." unique_id=1334970925]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="total_text" type="Label" parent="UI" unique_id=931866932]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -336.0
+offset_top = -40.0
+offset_bottom = -24.0
+grow_vertical = 2
+text = "Total Score: "
+horizontal_alignment = 2
+
+[node name="score" type="Label" parent="UI" unique_id=904882757]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -40.0
+offset_right = 336.0
+offset_bottom = -24.0
+
+[node name="next_level" type="Label" parent="." unique_id=80793076]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -336.0
+offset_top = 56.0
+offset_right = 336.0
+offset_bottom = 72.0
+grow_vertical = 2
+text = "Now you get to try again, starting
+from level 00."
+horizontal_alignment = 1
+
+[node name="wait" type="Timer" parent="." unique_id=1598430834]
+
+[node name="global_sound" type="AudioStreamPlayer" parent="." unique_id=951094148]
+script = ExtResource("1_2st8x")
