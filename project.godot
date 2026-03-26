@@ -34,6 +34,10 @@ window/size/viewport_height=464
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[dotnet]
+
+project/assembly_name="Gravning Godot A2"
+
 [editor]
 
 movie_writer/movie_file="res://movies/movie.png"
