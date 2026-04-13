@@ -510,6 +510,13 @@ func load_level():
         gamescene.get_node("UI/level").text = ""
         lvl_path = "res://levels/test/secret.grvmap"
 
+    var startup_sound = "startup"
+
+    if is_easter_egg_level:
+        startup_sound = "startup_reward"
+    elif GameManager.level >= grvFileLoader.levelcount - 1:
+        startup_sound = "startup_boss"
+
     map = Map.new(lvl_path)
     grvmap = map.grvmap
     LevelBuilder.build_level(map)
@@ -521,7 +528,7 @@ func load_level():
     GameTime.start()
     game_clock.start()
 
-    global_sound.play_sound(audio.sound_data.startup)
+    global_sound.play_sound(audio.sound_data[startup_sound])
 
 func bonus_dot_on(_timeritem = null) -> bool:
     if !grvmap.itemcount[Item.Type.BONUS]:

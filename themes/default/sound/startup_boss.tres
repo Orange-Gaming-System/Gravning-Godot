@@ -1,0 +1,7 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://cx5xmvgx1cmfk"]
+
+[ext_resource type="AudioStream" uid="uid://d3fmokwhd4e4q" path="res://themes/default/sound/files/startup-boss.mp3" id="1_hv3hs"]
+
+[resource]
+streams_count = 1
+stream_0/stream = ExtResource("1_hv3hs")
