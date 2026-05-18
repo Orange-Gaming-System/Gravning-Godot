@@ -12,9 +12,20 @@ var input_from_tick: bool = false
 const accepted_actions: Array[StringName] = ["left", "right", "up", "down", "escape"]
 
 ## The list of cheat actions and the corresponding action to execute.
-var cheats: Dictionary[StringName, Callable] = {"instant_win": GameManager.load_next_level, "getammo": func(): GameManager.ammo += 1, "cheatmenu": GameManager.load_cheat_menu, "normal_win": func(): GameManager.has_won_level = true, "get_power": func(): GameManager.power += 1000, "death": func(): GameManager.has_lost_level = true}
+var cheats: Dictionary[StringName, Callable] = {"instant_win": cheat_insta_win, "getammo": func(): GameManager.ammo += 1, "cheatmenu": GameManager.load_cheat_menu, "normal_win": func(): GameManager.has_won_level = true, "get_power": func(): GameManager.power += 1000, "death": func(): GameManager.has_lost_level = true}
 
 var bullet_dir: Dictionary[StringName, Vector2i] = {"shoot_left": Vector2i(-1, 0), "shoot_right": Vector2i(1, 0), "shoot_up": Vector2i(0, -1), "shoot_down": Vector2i(0, 1)}
+
+func cheat_insta_win():
+    GameManager.level += GameManager.hyper.count(true) + 1
+    GameManager.level_streak += 1
+    if GameManager.jumpto > -1:
+        GameManager.super_bonus()
+        return
+    for shot in GameManager.ammo:
+        if randf() > 0.1:
+            GameManager.ammo -= 1 # 10% chance to keep unused shots. (Really a 90% chance to lose each shot)
+    GameManager.load_level()
 
 # Input handler
 func _input(event):

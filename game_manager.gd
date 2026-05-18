@@ -250,8 +250,8 @@ func start_game() -> void:
         score           =  0
         lives           =  3
         power           =  0
-        is_wraparound = false
-    load_next_level(0)
+    is_wraparound = false
+    load_level()
 
 func end_game() -> void:
     kill_endscreen()            # Just in case
@@ -290,10 +290,14 @@ func lose_level() -> void:
     pause()
     lives -= 1
     level_streak = 0
+    jumpto = -1
     if lives < 0:
         game_over()
     else:
-        load_next_level(0)
+        for shot in ammo:
+            if randf() > 0.1:
+                ammo -= 1 # 10% chance to keep unused shots. (Really a 90% chance to lose each shot)
+        load_level()
 
 func get_tile_atlas(tile: Tile) -> int:
     match tile.type:
@@ -406,17 +410,6 @@ func fire_bullet(from: Vector2i, movement: Vector2i):
         if !shoot_tile(from, movement):
             print("bullet landed at ", from)
             break
-
-func load_next_level(level_offset: int = 1):
-    level += hyper.count(true) + level_offset
-    level_streak += level_offset
-    if jumpto > -1:
-        super_bonus()
-        return
-    for shot in ammo:
-        if randf() > 0.1:
-            ammo -= 1 # 10% chance to keep unused shots. (Really a 90% chance to lose each shot)
-    load_level()
 
 func super_bonus():
     level = jumpto
@@ -551,7 +544,15 @@ func endscreen_timeout() -> void:
         if lives < 0:
             end_game()
         else:
-            load_next_level()
+            level += hyper.count(true) + 1
+            level_streak += 1
+            if jumpto > -1:
+                super_bonus()
+                return
+            for shot in ammo:
+                if randf() > 0.1:
+                    ammo -= 1 # 10% chance to keep unused shots. (Really a 90% chance to lose each shot)
+            load_level()
 
 func kill_endscreen() -> bool:
     if endscreen:

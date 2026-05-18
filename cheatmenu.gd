@@ -19,12 +19,23 @@ func _on_size_changed() -> void:
     $Panel/ScrollContainer.size = size
 
 func instant_win():
-    GameManager.load_next_level()
+    GameManager.level += GameManager.hyper.count(true) + 1
+    GameManager.level_streak += 1
+    if GameManager.jumpto > -1:
+        GameManager.super_bonus()
+        return
+    for shot in GameManager.ammo:
+        if randf() > 0.1:
+            GameManager.ammo -= 1 # 10% chance to keep unused shots. (Really a 90% chance to lose each shot)
+    GameManager.load_level()
 
 
 func level_jump() -> void:
-    GameManager.level = $Panel/ScrollContainer/Control/leveljump_input.value - 2
-    GameManager.load_next_level()
+    GameManager.level = $Panel/ScrollContainer/Control/leveljump_input.value - 1
+    for shot in GameManager.ammo:
+        if randf() > 0.1:
+            GameManager.ammo -= 1 # 10% chance to keep unused shots. (Really a 90% chance to lose each shot)
+    GameManager.load_level()
 
 
 func set_shots() -> void:
