@@ -34,11 +34,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_hxypl")
-current_tab = 2
+current_tab = 0
 tabs_visible = false
 
 [node name="Main" type="Control" parent="tabs" unique_id=1988960909]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -100,10 +99,8 @@ anchor_right = 1.0
 offset_top = 96.0
 offset_bottom = 128.0
 grow_horizontal = 2
-tooltip_text = "Coming Soon!"
 theme = ExtResource("1_cjnew")
 theme_override_font_sizes/font_size = 24
-disabled = true
 text = "GAMES"
 
 [node name="themes" type="Button" parent="tabs/Main/buttons" unique_id=6798294]
@@ -265,6 +262,7 @@ Pause - P / Start / Menu"
 horizontal_alignment = 1
 
 [node name="Games" type="Control" parent="tabs" unique_id=1137845429]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
@@ -347,6 +345,7 @@ filters = PackedStringArray("*.grv")
 [connection signal="finished" from="title_music_intro" to="." method="_on_title_music_finished"]
 [connection signal="pressed" from="tabs/Main/buttons/play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="tabs/Main/buttons/settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="tabs/Main/buttons/games" to="." method="_on_games_pressed"]
 [connection signal="pressed" from="tabs/Settings/settings_area/back" to="." method="_on_settings_back"]
 [connection signal="value_changed" from="tabs/Settings/settings_area/volume/slider" to="." method="volume_slider_changed"]
 [connection signal="pressed" from="tabs/Games/Panel/back" to="." method="_on_games_back"]
