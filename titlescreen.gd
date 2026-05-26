@@ -10,6 +10,9 @@ func _ready():
     $tabs/Settings/settings_area/volume/slider.value = SettingsManager.volume
     volume_slider_changed(SettingsManager.volume)
     update_games_list()
+    if OS.has_feature("web"):
+        $tabs/Main/buttons/games.disabled = true
+        $tabs/Main/buttons/games.tooltip_text = "Not available on web version."
 
 
 func _on_title_music_finished() -> void:
@@ -46,8 +49,6 @@ func _on_games_back():
     $tabs.current_tab = 0
 
 func _on_load_game():
-    if OS.has_feature("web"):
-        $tabs/Games/open_grv_file.use_native_dialog = true
     $tabs/Games/open_grv_file.popup_file_dialog()
 
 func _on_game_loaded(path: String):
