@@ -46,6 +46,8 @@ func _on_games_back():
     $tabs.current_tab = 0
 
 func _on_load_game():
+    if OS.has_feature("web"):
+        $tabs/Games/open_grv_file.use_native_dialog = true
     $tabs/Games/open_grv_file.popup_file_dialog()
 
 func _on_game_loaded(path: String):
