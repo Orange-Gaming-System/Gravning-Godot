@@ -149,14 +149,14 @@ func slow_ghost_behavior():
 func _collided(area):
     if !is_dead:
         if area.get_parent() is Player:
-            if GameManager.level + 1 < grvFileLoader.levelcount or GameManager.power < 3:
+            if GameManager.level + 1 < GameManager.grv_file.levelcount or GameManager.power < 3:
                 GameManager.has_lost_level = true
             else:
                 GameManager.power -= 3
                 kill_ghost()
 
 func kill_ghost():
-    if GameManager.level + 1 < grvFileLoader.levelcount:
+    if GameManager.level + 1 < GameManager.grv_file.levelcount:
         GameManager.power += randi_range(0, 3) + 2
         map_tile.rmv_obj()
     else:

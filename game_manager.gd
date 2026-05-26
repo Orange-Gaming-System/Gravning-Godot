@@ -34,6 +34,8 @@ const WAIT_TIME_GAME_OVER       : float =  15.0
 const SUPER_BONUS_SPIN_TIME     : float =  5.0
 const WAIT_TIME_WRAPAROUND      : float =  10.0
 
+var grv_file: grvFile
+
 var grvmap: GrvMap
 var map: Map
 var queue: TimerItem.Queue
@@ -231,8 +233,10 @@ func game_over() -> void:
     gamescene.end_timer.start()
 
 # Called from titlescreen/buttons/play
-func prepare_game() -> void:
+func prepare_game(game_file: grvFile = null) -> void:
     level_loaded = false
+    if game_file:
+        grv_file = game_file
     gamescene = preload("res://game.tscn").instantiate()
     get_tree().get_root().add_child.call_deferred(gamescene)
 
@@ -477,8 +481,8 @@ func load_level():
     fade_message = false
     gamescene.get_node("UI/message").text = ""
     ghost_modifier = GhostMod.NONE
-    if level >= grvFileLoader.levelcount - 1:
-        jumpto = grvFileLoader.levelcount
+    if level >= grv_file.levelcount - 1:
+        jumpto = grv_file.levelcount
         reduce_jumpto(null)
         ammo = 0
     else:
@@ -495,9 +499,9 @@ func load_level():
             node.visible = false
             node.play(letter)
 
-    game_clock.wait_time = (0.15*grvFileLoader.levelcount)/(GameManager.level+grvFileLoader.levelcount)
+    game_clock.wait_time = (0.15*grv_file.levelcount)/(GameManager.level+grv_file.levelcount)
     queue = TimerItem.Queue.new()
-    var lvl_path = grvFileLoader.get_level_path(level)
+    var lvl_path = grv_file.get_level_path(level)
 
     if is_easter_egg_level:
         gamescene.get_node("UI/level").text = ""
@@ -507,7 +511,7 @@ func load_level():
 
     if is_easter_egg_level:
         startup_sound = "startup_reward"
-    elif GameManager.level >= grvFileLoader.levelcount - 1:
+    elif GameManager.level >= grv_file.levelcount - 1:
         startup_sound = "startup_boss"
 
     map = Map.new(lvl_path)

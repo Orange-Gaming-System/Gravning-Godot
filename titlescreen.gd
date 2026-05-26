@@ -18,7 +18,7 @@ func _on_title_music_finished() -> void:
 # Main Page
 
 func _on_play_pressed():
-    GameManager.prepare_game()
+    GameManager.prepare_game(grvFile.new("res://levels/grv/grv.grv"))
     queue_free()
 
 func _on_settings_pressed() -> void:

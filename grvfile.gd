@@ -1,10 +1,12 @@
 @icon("res://Node Icons/node/icon_file.png")
-class_name grv_File_Loader extends Node
+class_name grvFile extends RefCounted
 
 ## Holds the length of the current game in levels.
 var levelcount  : int = -1
 ## Holds the title, byline (subtitle) and author (creator) of the current game.
 var meta        : Dictionary[String, String]
+## Holds the icon of this game as a texture.
+var icon        : Texture
 ## Holds the paths to all the levels in the current game. Empty (null) elements are allowed, and will use the default level instead.
 var mappaths    : PackedStringArray
 ## Holds the first level (0-based) where quick escape is allowed.
@@ -61,7 +63,7 @@ func read_line(file : FileAccess, strs : PackedStringArray) -> bool:
     return true
 
 ## Parses the .grv file found at [param path], converting it into a format that the rest of the game can understand.
-func parsegrvfile(path : String): # stores all the data about a game from the .grv file into variables for easy access.
+func _init(path : String): # stores all the data about a game from the .grv file into variables for easy access.
     var file : FileAccess = FileAccess.open(path, FileAccess.READ)
     var error: Error = FileAccess.get_open_error()
     if error:
@@ -78,6 +80,8 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
     mappaths.clear()
     mappaths.resize(levelcount)
     escape_lvl = MAX_LEVELS
+
+    icon = load("res://_editor_icon.png")
 
     var next : int = 0      # For @ meaning continue after the last map number used
 
@@ -139,6 +143,11 @@ func parsegrvfile(path : String): # stores all the data about a game from the .g
                 for map in range(lo, hi):
                     mappaths[map] = mappath
                 next = hi
+            "icon": # Load the icon.
+                var ico_path = linedata[1]
+                if ico_path.is_relative_path():
+                    ico_path = dir.path_join(ico_path)
+                icon = load(ico_path)
             _:
                 if meta.has(command):
                     meta[command] = " ".join(linedata.slice(1))
@@ -148,6 +157,3 @@ func get_level_path(level):
     if mappaths[level] == "":
         return "res://levels/error.grvmap"
     return mappaths[level]
-
-func _ready():
-    parsegrvfile("res://levels/grv/grv.grv")

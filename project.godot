@@ -23,7 +23,6 @@ config/icon="res://themes/default/objects/textures/player.png"
 
 [autoload]
 
-grvFileLoader="*res://grvfileloader.gd"
 GameManager="*res://game_manager.gd"
 LevelBuilder="*res://level_builder.gd"
 SettingsManager="*uid://c2828wwj1rneg"

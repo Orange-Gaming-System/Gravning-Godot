@@ -10,6 +10,9 @@ class_name GrvTheme extends Resource
 ## A description of the theme.
 @export var description: String
 
+## The author of the theme.
+@export var author: String
+
 var theme: Theme
 
 var cheat_theme: Theme

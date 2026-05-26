@@ -80,7 +80,7 @@ func _new_tick() -> void:
                     GameManager.push_rock(map_tile.map.at(new_pos), new_pos + (new_pos-board_pos))
                     new_pos = board_pos
         else:
-            if GameManager.level >= grvFileLoader.escape_lvl:
+            if GameManager.level >= GameManager.grv_file.escape_lvl:
                 map_tile = map_tile.map.goodtile(MapTile.empty_tile)
                 board_pos = map_tile.xy
                 new_pos = board_pos
