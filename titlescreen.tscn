@@ -10,6 +10,8 @@
 streams_count = 1
 stream_0/stream = ExtResource("5_o0614")
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hxypl"]
+
 [node name="Control" type="Control" unique_id=1346205953]
 layout_mode = 3
 anchors_preset = 15
@@ -19,13 +21,33 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8pdex")
 
-[node name="title" type="RichTextLabel" parent="." unique_id=552321203]
+[node name="title_music_intro" type="AudioStreamPlayer" parent="." unique_id=1616137426]
+stream = SubResource("AudioStreamRandomizer_jtfbd")
+
+[node name="title_music_loop" type="AudioStreamPlayer" parent="." unique_id=1138482533]
+
+[node name="tabs" type="TabContainer" parent="." unique_id=1692265854]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hxypl")
+current_tab = 0
+tabs_visible = false
+
+[node name="Main" type="Control" parent="tabs" unique_id=1988960909]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="title" type="RichTextLabel" parent="tabs/Main" unique_id=552321203]
 visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 39.0
-offset_bottom = 103.0
+offset_top = 15.0
+offset_bottom = 79.0
 grow_horizontal = 2
 theme = ExtResource("1_cjnew")
 theme_override_font_sizes/normal_font_size = 64
@@ -34,7 +56,7 @@ text = "[color=#0020aa]G[color=#aa5500]R[color=#aa0f00]Ä[color=#aaaaaa]V[color=
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="buttons" type="Control" parent="." unique_id=1979484349]
+[node name="buttons" type="Control" parent="tabs/Main" unique_id=1979484349]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -42,99 +64,205 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -119.0
-offset_top = -109.0
+offset_top = -11.0
 offset_right = 119.0
-offset_bottom = 170.0
+offset_bottom = 172.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
 
-[node name="play" type="Button" parent="buttons" unique_id=261026588]
+[node name="play" type="Button" parent="tabs/Main/buttons" unique_id=261026588]
 layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -16.0
-offset_bottom = 16.0
+offset_bottom = 32.0
 grow_horizontal = 2
-grow_vertical = 2
 theme = ExtResource("1_cjnew")
 theme_override_font_sizes/font_size = 24
 text = "PLAY"
 
-[node name="controls" type="Label" parent="buttons" unique_id=1431530850]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -96.0
-offset_top = -111.0
-offset_right = 96.0
-grow_horizontal = 2
-grow_vertical = 0
-pivot_offset_ratio = Vector2(0.5, 0)
-text = "Controls:
-Move - WASD/Arrow Keys/Left Stick
-Shoot - IJLK/ABXY (Controller)
-Pause - P/Start
-Quick Escape (Lv. 16+) - Escape/Select"
-horizontal_alignment = 1
-
-[node name="subtitle" type="Label" parent="." unique_id=1472116387]
+[node name="settings" type="Button" parent="tabs/Main/buttons" unique_id=758384612]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 176.0
-offset_bottom = 208.0
+offset_top = 48.0
+offset_bottom = 80.0
 grow_horizontal = 2
 theme = ExtResource("1_cjnew")
-theme_override_font_sizes/font_size = 32
-text = "Godot Version"
-horizontal_alignment = 1
-vertical_alignment = 1
+theme_override_font_sizes/font_size = 24
+text = "SETTINGS"
 
-[node name="version_label" type="Label" parent="." unique_id=2069855504]
+[node name="games" type="Button" parent="tabs/Main/buttons" unique_id=313924493]
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -48.0
-offset_bottom = -32.0
+offset_top = 96.0
+offset_bottom = 128.0
 grow_horizontal = 2
-grow_vertical = 0
 theme = ExtResource("1_cjnew")
-text = "<version number>"
-horizontal_alignment = 1
-vertical_alignment = 1
-script = ExtResource("3_2bjoa")
+theme_override_font_sizes/font_size = 24
+disabled = true
+text = "GAMES"
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="." unique_id=486156817]
+[node name="themes" type="Button" parent="tabs/Main/buttons" unique_id=6798294]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 144.0
+offset_bottom = 176.0
+grow_horizontal = 2
+theme = ExtResource("1_cjnew")
+theme_override_font_sizes/font_size = 24
+disabled = true
+text = "THEMES"
+
+[node name="subtitle" type="Label" parent="tabs/Main" unique_id=1472116387]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -336.0
-offset_top = -232.0
-offset_right = -336.0
-offset_bottom = -232.0
+offset_left = -208.0
+offset_top = -64.0
+offset_right = 208.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+theme = ExtResource("1_cjnew")
+theme_override_font_sizes/font_size = 32
+text = "Godot Version"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="version_label" type="Label" parent="tabs/Main" unique_id=2069855504]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = 184.0
+offset_right = 128.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+theme = ExtResource("1_cjnew")
+text = "<version number>"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_2bjoa")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="tabs/Main" unique_id=486156817]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -336.5
+offset_top = -219.5
+offset_right = -336.5
+offset_bottom = -219.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="title_tiles" type="TileMapLayer" parent="AspectRatioContainer" unique_id=1730299192]
+[node name="title_tiles" type="TileMapLayer" parent="tabs/Main/AspectRatioContainer" unique_id=1730299192]
 z_index = -1
 tile_map_data = PackedByteArray("AAAEAAgAAQAAAAMAAAAFAAgAAQABAAMAAAAEAAIAAQAAAAMAAAAFAAIAAQABAAMAAAAmAAQAAQAHAAAAAAAmAAUAAQADAAEAAAAmAAYAAQADAAEAAAAmAAcAAQADAAEAAAAmAAgAAQAHAAQAAAAmAAkAAQADAAEAAAAmAAoAAQADAAIAAAAlAAsAAQACAAMAAAAkAAsAAQAAAAMAAAAjAAoAAQADAAMAAAAlAAQAAQABAAMAAAAkAAQAAQAAAAMAAAAjAAUAAQADAAAAAAAjAAYAAQADAAEAAAAjAAcAAQADAAIAAAAkAAgAAQAAAAMAAAAlAAgAAQABAAMAAAAhAAUAAAADAAAAAAAhAAYAAAADAAEAAAAhAAcAAAADAAEAAAAhAAgAAAADAAIAAAAgAAQAAAACAAMAAAAfAAQAAAABAAMAAAAeAAQAAAAEAAAAAAAeAAUAAAADAAEAAAAeAAYAAAADAAEAAAAeAAcAAAADAAEAAAAeAAgAAAADAAIAAAAcAAQABgADAAAAAAAcAAUABgADAAEAAAAcAAYABgADAAEAAAAcAAcABgADAAEAAAAcAAgABgADAAIAAAAcAAIABgADAAMAAAAaAAUAAgADAAAAAAAaAAYAAgADAAEAAAAaAAcAAgADAAEAAAAaAAgAAgADAAIAAAAZAAQAAgACAAMAAAAYAAQAAgABAAMAAAAXAAQAAgAEAAAAAAAXAAUAAgADAAEAAAAXAAYAAgADAAEAAAAXAAcAAgADAAEAAAAXAAgAAgADAAIAAAAVAAQABQADAAAAAAAVAAUABQADAAIAAAAUAAYABQADAAAAAAAUAAcABQADAAIAAAATAAgABQADAAMAAAASAAYABQADAAAAAAASAAcABQADAAIAAAARAAQABQADAAAAAAARAAUABQADAAIAAAANAAQABAAAAAMAAAAOAAQABAABAAMAAAAPAAQABAAHAAAAAAAPAAUABAADAAEAAAAPAAYABAAHAAQAAAAPAAcABAADAAEAAAAPAAgABAAHAAMAAAAOAAgABAABAAMAAAANAAgABAABAAMAAAAOAAYABAABAAMAAAANAAYABAABAAMAAAANAAIABAADAAMAAAAPAAIABAADAAMAAAADAAMAAQADAAAAAAADAAQAAQADAAEAAAADAAUAAQADAAEAAAADAAYAAQADAAEAAAADAAcAAQADAAIAAAAFAAUAAQAAAAMAAAAGAAUAAQAHAAAAAAAGAAYAAQADAAEAAAAGAAcAAQADAAEAAAAGAAgAAQAHAAMAAAAGAAIAAQACAAMAAAAIAAUAAwADAAEAAAAIAAYAAwADAAEAAAAIAAcAAwADAAEAAAAIAAgAAwADAAIAAAALAAQAAwACAAMAAAAKAAQAAwABAAMAAAAIAAQAAwAEAAAAAAAJAAQAAwABAAMAAAAMAAcABAADAAEAAAAMAAYABAAEAAAAAAAMAAgABAAEAAMAAAA=")
 tile_set = ExtResource("5_hxypl")
 
-[node name="title_music_intro" type="AudioStreamPlayer" parent="." unique_id=1616137426]
-stream = SubResource("AudioStreamRandomizer_jtfbd")
+[node name="Settings" type="ScrollContainer" parent="tabs" unique_id=1815731353]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
 
-[node name="title_music_loop" type="AudioStreamPlayer" parent="." unique_id=1138482533]
+[node name="settings_area" type="Control" parent="tabs/Settings" unique_id=2112279209]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[connection signal="pressed" from="buttons/play" to="." method="_on_play_pressed"]
+[node name="back" type="Button" parent="tabs/Settings/settings_area" unique_id=812883470]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 80.0
+offset_bottom = 32.0
+text = "Back"
+
+[node name="volume" type="Control" parent="tabs/Settings/settings_area" unique_id=1174687905]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_right = 200.0
+offset_bottom = 51.0
+grow_horizontal = 2
+
+[node name="label" type="Label" parent="tabs/Settings/settings_area/volume" unique_id=538626205]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -48.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 24.0
+grow_horizontal = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+text = "Volume"
+
+[node name="slider" type="HSlider" parent="tabs/Settings/settings_area/volume" unique_id=296901378]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 4.5
+offset_bottom = 20.5
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 1.0
+step = 0.0
+value = 1.0
+
+[node name="percent_display" type="Label" parent="tabs/Settings/settings_area/volume/slider" unique_id=528532898]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -8.0
+offset_right = 20.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="controls" type="Label" parent="tabs/Settings/settings_area" unique_id=844021545]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -272.0
+offset_top = 150.0
+offset_right = 272.0
+offset_bottom = 242.0
+grow_horizontal = 2
+text = "-- Controls --
+Move - WASD / Arrows / Left Stick
+Shoot - IJKL / ABXY
+Quick Escape - Esc / Select / Back
+Pause - P / Start / Menu"
+horizontal_alignment = 1
+
 [connection signal="finished" from="title_music_intro" to="." method="_on_title_music_finished"]
+[connection signal="pressed" from="tabs/Main/buttons/play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="tabs/Main/buttons/settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="tabs/Settings/settings_area/back" to="." method="_on_settings_back"]
+[connection signal="value_changed" from="tabs/Settings/settings_area/volume/slider" to="." method="volume_slider_changed"]
