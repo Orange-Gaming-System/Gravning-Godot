@@ -5,6 +5,8 @@
 [ext_resource type="Script" uid="uid://bum3dpfhhwjkp" path="res://version_label.gd" id="3_2bjoa"]
 [ext_resource type="TileSet" uid="uid://y82sa4eqkhtr" path="res://themes/default/tileset.tres" id="5_hxypl"]
 [ext_resource type="AudioStream" uid="uid://ft4jckq8r8ko" path="res://themes/default/sound/files/title.mp3" id="5_o0614"]
+[ext_resource type="Texture2D" uid="uid://dd51fb1amapex" path="res://_open_folder_icon.svg" id="6_jtfbd"]
+[ext_resource type="Texture2D" uid="uid://cikwfddqpsqnj" path="res://_editor_icon.png" id="7_8au8e"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_jtfbd"]
 streams_count = 1
@@ -34,10 +36,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_hxypl")
-current_tab = 0
+current_tab = 2
 tabs_visible = false
 
 [node name="Main" type="Control" parent="tabs" unique_id=1988960909]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -262,7 +265,6 @@ Pause - P / Start / Menu"
 horizontal_alignment = 1
 
 [node name="Games" type="Control" parent="tabs" unique_id=1137845429]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
@@ -310,6 +312,23 @@ offset_bottom = -168.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Load Game"
+icon = ExtResource("6_jtfbd")
+
+[node name="open_editor" type="Button" parent="tabs/Games/Panel" unique_id=282552402]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -192.0
+offset_right = 104.0
+offset_bottom = -168.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Open Editor"
+icon = ExtResource("7_8au8e")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="tabs/Games" unique_id=529043444]
 layout_mode = 1
@@ -350,4 +369,5 @@ filters = PackedStringArray("*.grv")
 [connection signal="value_changed" from="tabs/Settings/settings_area/volume/slider" to="." method="volume_slider_changed"]
 [connection signal="pressed" from="tabs/Games/Panel/back" to="." method="_on_games_back"]
 [connection signal="pressed" from="tabs/Games/Panel/load_game" to="." method="_on_load_game"]
+[connection signal="pressed" from="tabs/Games/Panel/open_editor" to="." method="_on_open_editor_pressed"]
 [connection signal="file_selected" from="tabs/Games/open_grv_file" to="." method="_on_game_loaded"]

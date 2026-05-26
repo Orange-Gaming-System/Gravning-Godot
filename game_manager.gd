@@ -84,6 +84,10 @@ var hyper: Array[bool] = [false, false, false, false, false]
 
 var is_easter_egg_level: bool = false
 
+var is_base_game: bool = false
+
+var has_seen_easter_egg: bool = false
+
 ## Holds the current number of projectiles active on screen. If greater than 0, time is paused.
 var projectiles: int = 0:
     set(value):
@@ -254,6 +258,7 @@ func start_game() -> void:
         score           =  0
         lives           =  3
         power           =  0
+        has_seen_easter_egg = false
     is_wraparound = false
     load_level()
 
@@ -465,6 +470,7 @@ func load_level():
             gamescene.get_node("UI/hyper_P").visible = true
             gamescene.get_node("UI/hyper_E").visible = true
             gamescene.get_node("UI/hyper_R").visible = true
+        has_seen_easter_egg = true
     else:
         hyper = [false, false, false, false, false]
     bonus_spin_step = 0

@@ -22,6 +22,7 @@ func _on_title_music_finished() -> void:
 # Main Page
 
 func _on_play_pressed():
+    GameManager.is_base_game = true
     GameManager.prepare_game(grvFile.new("res://levels/grv/grv.grv"))
     queue_free()
 
@@ -67,3 +68,6 @@ func update_games_list():
         gametile.game_path = game
         gametile.titlescreen = self
         %game_list.add_child(gametile)
+
+func _on_open_editor_pressed() -> void:
+    OS.create_process("grvedit", [])

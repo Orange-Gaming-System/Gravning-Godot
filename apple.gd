@@ -27,6 +27,7 @@ func fall(_timeritem):
     add_sibling(FallingApple.new(map_tile.map, board_pos, Vector2i.DOWN, 0.03))
     if diamond:
         diamond.update_sprite()
+        diamond.show()
         if map_tile.item.type == Item.Type.APPLE_EASTER:
             map_tile.changetype(Item.Type.EASTER_EGG)
         else:

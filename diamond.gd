@@ -4,8 +4,9 @@ class_name Diamond extends Collectible
 const EASTER_EGG_CHANCE = 0.003
 
 func _ready():
+    hide()
     position = board_pos * 16
-    if randf() < EASTER_EGG_CHANCE:
+    if randf() < EASTER_EGG_CHANCE and GameManager.is_base_game and !GameManager.has_seen_easter_egg:
         map_tile.changetype(Item.Type.APPLE_EASTER)
         sprite_frames = GameManager.grvtheme.obj_frames[Item.Type.EASTER_EGG]
     else:
