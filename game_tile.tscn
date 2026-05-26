@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://brymywhpkaruy"]
+
+[ext_resource type="Texture2D" uid="uid://cikwfddqpsqnj" path="res://_editor_icon.png" id="1_hlg1t"]
+[ext_resource type="Script" uid="uid://bpxwtlb2ygsmt" path="res://game_tile.gd" id="1_q1r3i"]
+[ext_resource type="Texture2D" uid="uid://bxf3a2rcnuno4" path="res://_play_icon.svg" id="2_q1r3i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1r32g"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xva07"]
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[node name="game_tile" type="Panel" unique_id=1452906932]
+custom_minimum_size = Vector2(572, 88)
+layout_direction = 2
+offset_right = 572.0
+offset_bottom = 88.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_1r32g")
+script = ExtResource("1_q1r3i")
+
+[node name="icon_bg" type="Panel" parent="." unique_id=1321196977]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 80.0
+offset_bottom = 80.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_xva07")
+
+[node name="icon" type="TextureRect" parent="icon_bg" unique_id=74223635]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 68.0
+offset_bottom = 68.0
+texture = ExtResource("1_hlg1t")
+expand_mode = 1
+
+[node name="title" type="Label" parent="." unique_id=2076056631]
+layout_mode = 1
+offset_left = 84.0
+offset_top = 8.0
+offset_right = 388.0
+offset_bottom = 24.0
+text = "*Insert Title Here*"
+
+[node name="byline" type="Label" parent="." unique_id=337864069]
+layout_mode = 1
+offset_left = 84.0
+offset_top = 32.0
+offset_right = 388.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 8
+text = "*Insert Byline Here*"
+
+[node name="author" type="Label" parent="." unique_id=254285202]
+layout_mode = 1
+offset_left = 84.0
+offset_top = 48.0
+offset_right = 388.0
+offset_bottom = 56.0
+theme_override_font_sizes/font_size = 8
+text = "by Author"
+
+[node name="play_button" type="Button" parent="." unique_id=1914788877]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -32.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 32.0
+grow_horizontal = 0
+icon = ExtResource("2_q1r3i")
+
+[connection signal="pressed" from="play_button" to="." method="_on_play_button_pressed"]

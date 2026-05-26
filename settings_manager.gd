@@ -10,6 +10,15 @@ var volume: float:
     get():
         return settings.volume
 
+var loaded_games_list: LoadedGamesList
+
+var loaded_games: Array[String]:
+    set(value):
+        loaded_games_list.loaded_games = value
+
+    get():
+        return loaded_games_list.loaded_games
+
 func _ready():
     load_settings()
 
@@ -22,7 +31,12 @@ func load_settings():
         settings = load("user://settings.tres")
     else:
         settings = GrvSettings.new()
+    if ResourceLoader.exists("user://loaded_games.tres"):
+        loaded_games_list = load("user://loaded_games.tres")
+    else:
+        loaded_games_list = LoadedGamesList.new()
     update_settings()
 
 func save_settings():
     ResourceSaver.save(settings, "user://settings.tres")
+    ResourceSaver.save(loaded_games_list, "user://loaded_games.tres")

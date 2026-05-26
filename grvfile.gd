@@ -73,9 +73,10 @@ func _init(path : String): # stores all the data about a game from the .grv file
     # Set all variables to their default value.
     levelcount = 75
     meta = {
-        "title"     : "Custom Game",
-        "byline"    : "",
-        "author"    : ""
+        "title"         : "Custom Game",
+        "byline"        : "",
+        "author"        : "",
+        "author_prefix" : "by "
     }
     mappaths.clear()
     mappaths.resize(levelcount)

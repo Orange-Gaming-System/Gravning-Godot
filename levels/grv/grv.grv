@@ -1,6 +1,7 @@
 title "Grävning"
 byline '2026 - "Slightly better this time!"'
 author "Peter Anvin"
+icon icon.png
 levels 75
 escape 16
 map 1-5 basic.grvmap

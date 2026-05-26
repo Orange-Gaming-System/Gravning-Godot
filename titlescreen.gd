@@ -9,6 +9,7 @@ func _ready():
     $title_music_intro.play()
     $tabs/Settings/settings_area/volume/slider.value = SettingsManager.volume
     volume_slider_changed(SettingsManager.volume)
+    update_games_list()
 
 
 func _on_title_music_finished() -> void:
@@ -24,6 +25,9 @@ func _on_play_pressed():
 func _on_settings_pressed() -> void:
     $tabs.current_tab = 1
 
+func _on_games_pressed() -> void:
+    $tabs.current_tab = 2
+
 
 # Settings Page
 
@@ -34,3 +38,29 @@ func volume_slider_changed(value):
     SettingsManager.volume = value
     var percent = int(value * 100)
     $tabs/Settings/settings_area/volume/slider/percent_display.text = str(percent) + "%"
+
+
+# Games Page
+
+func _on_games_back():
+    $tabs.current_tab = 0
+
+func _on_load_game():
+    $tabs/Games/open_grv_file.popup_file_dialog()
+
+func _on_game_loaded(path: String):
+    if !SettingsManager.loaded_games.has(path):
+        SettingsManager.loaded_games.append(path)
+        update_games_list()
+        SettingsManager.save_settings()
+
+func update_games_list():
+    print("Updating Games List")
+    var games_list = SettingsManager.loaded_games
+    for gametile in %game_list.get_children():
+        gametile.queue_free()
+    for game in games_list:
+        var gametile = preload("res://game_tile.tscn").instantiate()
+        gametile.game_path = game
+        gametile.titlescreen = self
+        %game_list.add_child(gametile)
