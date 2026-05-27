@@ -316,13 +316,12 @@ offset_bottom = 464.0
 
 [node name="touch_move" type="Control" parent="mobile_UI" unique_id=28883420]
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -161.0
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -273.0
 offset_right = 208.0
-offset_bottom = 81.0
-grow_vertical = 2
+grow_vertical = 0
 
 [node name="Touch_Up" type="TouchScreenButton" parent="mobile_UI/touch_move" unique_id=607666384]
 position = Vector2(72, 97)
@@ -361,7 +360,7 @@ action = "left"
 visibility_mode = 1
 
 [node name="Touch_Esc" type="TouchScreenButton" parent="mobile_UI/touch_move" unique_id=943739468]
-position = Vector2(72, 1)
+position = Vector2(176, 73)
 texture_normal = ExtResource("18_xa8c5")
 texture_pressed = ExtResource("19_5b14r")
 shape = SubResource("ConvexPolygonShape2D_xa8c5")
@@ -370,16 +369,15 @@ visibility_mode = 1
 
 [node name="touch_shoot" type="Control" parent="mobile_UI" unique_id=13245702]
 layout_mode = 1
-anchors_preset = 6
+anchors_preset = 3
 anchor_left = 1.0
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 0.5
+anchor_bottom = 1.0
 offset_left = -208.0
-offset_top = -107.0
-offset_bottom = 39.0
+offset_top = -177.0
 grow_horizontal = 0
-grow_vertical = 2
+grow_vertical = 0
 
 [node name="Shoot_Up" type="TouchScreenButton" parent="mobile_UI/touch_shoot" unique_id=284178817]
 position = Vector2(72, 1)
