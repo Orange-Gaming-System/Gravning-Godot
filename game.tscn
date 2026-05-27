@@ -41,10 +41,10 @@ points = PackedVector2Array(-32, -32, -32, 32, 4, 32, 32, 0, 4, -32)
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_xa8c5"]
 points = PackedVector2Array(32, 0, 0, 32, -32, 0, 0, -32)
 
-[node name="game" type="Node2D" unique_id=1465605954]
+[node name="game" type="Node2D" unique_id=1172447918]
 script = ExtResource("1_7jktm")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=146880771]
+[node name="camera" type="Camera2D" parent="." unique_id=146880771]
 position = Vector2(312, 176)
 
 [node name="ground_tiles" type="TileMapLayer" parent="." unique_id=613136749]
@@ -257,100 +257,6 @@ centered = false
 wait_time = 2.0
 one_shot = true
 
-[node name="Touch_Player" type="Control" parent="." unique_id=330889576]
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -304.0
-offset_top = 112.0
-offset_right = -64.0
-offset_bottom = 352.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Touch_Up" type="TouchScreenButton" parent="Touch_Player" unique_id=607666384]
-position = Vector2(168, 56)
-texture_normal = ExtResource("10_boyg6")
-texture_pressed = ExtResource("11_e36ub")
-shape = SubResource("ConvexPolygonShape2D_qhcbd")
-passby_press = true
-action = "up"
-visibility_mode = 1
-
-[node name="Touch_Down" type="TouchScreenButton" parent="Touch_Player" unique_id=570343204]
-position = Vector2(168, 136)
-texture_normal = ExtResource("12_hb5m1")
-texture_pressed = ExtResource("13_x5p1p")
-shape = SubResource("ConvexPolygonShape2D_f1jbl")
-passby_press = true
-action = "down"
-visibility_mode = 1
-
-[node name="Touch_Right" type="TouchScreenButton" parent="Touch_Player" unique_id=1705187967]
-position = Vector2(208, 96)
-texture_normal = ExtResource("14_qhcbd")
-texture_pressed = ExtResource("15_f1jbl")
-shape = SubResource("ConvexPolygonShape2D_vaj68")
-passby_press = true
-action = "right"
-visibility_mode = 1
-
-[node name="Touch_Left" type="TouchScreenButton" parent="Touch_Player" unique_id=545562428]
-position = Vector2(128, 96)
-texture_normal = ExtResource("16_vaj68")
-texture_pressed = ExtResource("17_i2p71")
-shape = SubResource("ConvexPolygonShape2D_i2p71")
-passby_press = true
-action = "left"
-visibility_mode = 1
-
-[node name="Touch_Esc" type="TouchScreenButton" parent="Touch_Player" unique_id=943739468]
-position = Vector2(168, -40)
-texture_normal = ExtResource("18_xa8c5")
-texture_pressed = ExtResource("19_5b14r")
-shape = SubResource("ConvexPolygonShape2D_xa8c5")
-action = "escape"
-visibility_mode = 1
-
-[node name="Shoot_Up" type="TouchScreenButton" parent="Touch_Player" unique_id=284178817]
-position = Vector2(1002, 14)
-texture_normal = ExtResource("10_boyg6")
-texture_pressed = ExtResource("11_e36ub")
-shape = SubResource("ConvexPolygonShape2D_qhcbd")
-passby_press = true
-action = "shoot_up"
-visibility_mode = 1
-
-[node name="Shoot_Down" type="TouchScreenButton" parent="Touch_Player" unique_id=682052433]
-position = Vector2(1002, 94)
-texture_normal = ExtResource("12_hb5m1")
-texture_pressed = ExtResource("13_x5p1p")
-shape = SubResource("ConvexPolygonShape2D_f1jbl")
-passby_press = true
-action = "shoot_down"
-visibility_mode = 1
-
-[node name="Shoot_Right" type="TouchScreenButton" parent="Touch_Player" unique_id=1510687491]
-position = Vector2(1042, 54)
-texture_normal = ExtResource("14_qhcbd")
-texture_pressed = ExtResource("15_f1jbl")
-shape = SubResource("ConvexPolygonShape2D_vaj68")
-passby_press = true
-action = "shoot_right"
-visibility_mode = 1
-
-[node name="Shoot_Left" type="TouchScreenButton" parent="Touch_Player" unique_id=1968269908]
-position = Vector2(962, 54)
-texture_normal = ExtResource("16_vaj68")
-texture_pressed = ExtResource("17_i2p71")
-shape = SubResource("ConvexPolygonShape2D_i2p71")
-passby_press = true
-action = "shoot_left"
-visibility_mode = 1
-
 [node name="ending" type="Control" parent="." unique_id=1121105184]
 layout_mode = 3
 anchors_preset = 0
@@ -401,3 +307,112 @@ offset_bottom = 32.0
 text = "GAME OVER"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="mobile_UI" type="Control" parent="." unique_id=561341944]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 672.0
+offset_bottom = 464.0
+
+[node name="touch_move" type="Control" parent="mobile_UI" unique_id=28883420]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -161.0
+offset_right = 208.0
+offset_bottom = 81.0
+grow_vertical = 2
+
+[node name="Touch_Up" type="TouchScreenButton" parent="mobile_UI/touch_move" unique_id=607666384]
+position = Vector2(72, 97)
+texture_normal = ExtResource("10_boyg6")
+texture_pressed = ExtResource("11_e36ub")
+shape = SubResource("ConvexPolygonShape2D_qhcbd")
+passby_press = true
+action = "up"
+visibility_mode = 1
+
+[node name="Touch_Down" type="TouchScreenButton" parent="mobile_UI/touch_move" unique_id=570343204]
+position = Vector2(72, 177)
+texture_normal = ExtResource("12_hb5m1")
+texture_pressed = ExtResource("13_x5p1p")
+shape = SubResource("ConvexPolygonShape2D_f1jbl")
+passby_press = true
+action = "down"
+visibility_mode = 1
+
+[node name="Touch_Right" type="TouchScreenButton" parent="mobile_UI/touch_move" unique_id=1705187967]
+position = Vector2(112, 137)
+texture_normal = ExtResource("14_qhcbd")
+texture_pressed = ExtResource("15_f1jbl")
+shape = SubResource("ConvexPolygonShape2D_vaj68")
+passby_press = true
+action = "right"
+visibility_mode = 1
+
+[node name="Touch_Left" type="TouchScreenButton" parent="mobile_UI/touch_move" unique_id=545562428]
+position = Vector2(32, 137)
+texture_normal = ExtResource("16_vaj68")
+texture_pressed = ExtResource("17_i2p71")
+shape = SubResource("ConvexPolygonShape2D_i2p71")
+passby_press = true
+action = "left"
+visibility_mode = 1
+
+[node name="Touch_Esc" type="TouchScreenButton" parent="mobile_UI/touch_move" unique_id=943739468]
+position = Vector2(72, 1)
+texture_normal = ExtResource("18_xa8c5")
+texture_pressed = ExtResource("19_5b14r")
+shape = SubResource("ConvexPolygonShape2D_xa8c5")
+action = "escape"
+visibility_mode = 1
+
+[node name="touch_shoot" type="Control" parent="mobile_UI" unique_id=13245702]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -208.0
+offset_top = -107.0
+offset_bottom = 39.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Shoot_Up" type="TouchScreenButton" parent="mobile_UI/touch_shoot" unique_id=284178817]
+position = Vector2(72, 1)
+texture_normal = ExtResource("10_boyg6")
+texture_pressed = ExtResource("11_e36ub")
+shape = SubResource("ConvexPolygonShape2D_qhcbd")
+passby_press = true
+action = "shoot_up"
+visibility_mode = 1
+
+[node name="Shoot_Down" type="TouchScreenButton" parent="mobile_UI/touch_shoot" unique_id=682052433]
+position = Vector2(72, 81)
+texture_normal = ExtResource("12_hb5m1")
+texture_pressed = ExtResource("13_x5p1p")
+shape = SubResource("ConvexPolygonShape2D_f1jbl")
+passby_press = true
+action = "shoot_down"
+visibility_mode = 1
+
+[node name="Shoot_Right" type="TouchScreenButton" parent="mobile_UI/touch_shoot" unique_id=1510687491]
+position = Vector2(112, 41)
+texture_normal = ExtResource("14_qhcbd")
+texture_pressed = ExtResource("15_f1jbl")
+shape = SubResource("ConvexPolygonShape2D_vaj68")
+passby_press = true
+action = "shoot_right"
+visibility_mode = 1
+
+[node name="Shoot_Left" type="TouchScreenButton" parent="mobile_UI/touch_shoot" unique_id=1968269908]
+position = Vector2(32, 41)
+texture_normal = ExtResource("16_vaj68")
+texture_pressed = ExtResource("17_i2p71")
+shape = SubResource("ConvexPolygonShape2D_i2p71")
+passby_press = true
+action = "shoot_left"
+visibility_mode = 1

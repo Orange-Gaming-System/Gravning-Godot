@@ -18,3 +18,10 @@ func _ready():
     $UI/hyper_E.sprite_frames = GameManager.grvtheme.obj_frames[Item.Type.HYPER]
     $UI/hyper_R.sprite_frames = GameManager.grvtheme.obj_frames[Item.Type.HYPER]
     $ending/gameover.texture = GameManager.grvtheme.status_frame
+
+func _process(_delta: float) -> void:
+    var screen_size = get_viewport().get_visible_rect().size
+    var screen_pos = $camera.get_screen_center_position()
+    screen_pos = screen_pos - (screen_size / 2)
+    $mobile_UI.position = screen_pos
+    $mobile_UI.size = screen_size
