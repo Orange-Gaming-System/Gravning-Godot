@@ -36,11 +36,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_hxypl")
-current_tab = 2
+current_tab = 0
 tabs_visible = false
 
 [node name="Main" type="Control" parent="tabs" unique_id=1988960909]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -265,6 +264,7 @@ Pause - P / Start / Menu"
 horizontal_alignment = 1
 
 [node name="Games" type="Control" parent="tabs" unique_id=1137845429]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
