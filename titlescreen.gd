@@ -53,10 +53,32 @@ func _on_load_game():
     $tabs/Games/open_grv_file.popup_file_dialog()
 
 func _on_game_loaded(path: String):
+    if path.ends_with(".grv"):
+       add_game(path)
+    #elif path.ends_with(".zip"): # Commented out zip support.
+        #var zip_reader = ZIPReader.new()
+        #zip_reader.open(path)
+        #var files = Array(zip_reader.get_files())
+        #print(files)
+        #files = files.filter(_is_grv_file)
+        #print(files)
+        #if files.size() == 0:
+            #$tabs/Games/error.dialog_text = "This zip does not contain any grv files!\nThey must be in the root directory of the zip."
+            #$tabs/Games/error.show()
+        #for file in files:
+            #add_game(path + "/" + file)
+    else:
+        $tabs/Games/error.dialog_text = "Not a valid file!\nAllowed are: .grv"
+        $tabs/Games/error.show()
+
+func _is_grv_file(path):
+    return path.ends_with(".grv")
+
+func add_game(path: String):
     if !SettingsManager.loaded_games.has(path):
-        SettingsManager.loaded_games.append(path)
-        update_games_list()
-        SettingsManager.save_settings()
+            SettingsManager.loaded_games.append(path)
+            update_games_list()
+            SettingsManager.save_settings()
 
 func update_games_list():
     print("Updating Games List")

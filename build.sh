@@ -24,3 +24,5 @@ mkdir -p builds/macos
 godot --headless --export-release macOS "builds/macos/$name.app" &
 
 wait
+
+sed -i -e '/\bOFFLINE_URL\b/s/\.offline\.html/.html/' "builds/web/$name.service.worker.js"

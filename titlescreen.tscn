@@ -360,6 +360,15 @@ ok_button_text = "Load"
 file_mode = 0
 access = 2
 filters = PackedStringArray("*.grv")
+use_native_dialog = true
+
+[node name="error" type="AcceptDialog" parent="tabs/Games" unique_id=1664216692]
+oversampling_override = 1.0
+title = "Error"
+position = Vector2i(100, 120)
+size = Vector2i(500, 100)
+dialog_text = "Error"
+dialog_autowrap = true
 
 [connection signal="finished" from="title_music_intro" to="." method="_on_title_music_finished"]
 [connection signal="pressed" from="tabs/Main/buttons/play" to="." method="_on_play_pressed"]
