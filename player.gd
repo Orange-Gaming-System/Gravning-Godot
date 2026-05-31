@@ -6,7 +6,7 @@ var last_input: String = "_null"
 ## Holds whether or not the input held in [member last_input] was sent during the current tick.
 var input_from_tick: bool = false
 
-
+var escape_origin_anim: DummyAnimPlayer
 
 ## The list of actions accepted by the player node.
 const accepted_actions: Array[StringName] = ["left", "right", "up", "down", "escape"]
@@ -26,6 +26,14 @@ func cheat_insta_win():
         if randf() > 0.1:
             GameManager.ammo -= 1 # 10% chance to keep unused shots. (Really a 90% chance to lose each shot)
     GameManager.load_level()
+
+func _ready():
+    super._ready()
+    if sprite_frames.has_animation("escape_origin"):
+        escape_origin_anim = DummyAnimPlayer.new()
+        $"..".add_child(escape_origin_anim)
+        escape_origin_anim.sprite_frames = sprite_frames
+        escape_origin_anim.hide()
 
 # Input handler
 func _input(event):
@@ -51,10 +59,14 @@ func _input(event):
         GameManager.paused = !GameManager.paused
 
 func _new_tick() -> void:
+    escape_origin_anim.hide()
     board_pos = goal_pos
     var new_pos = board_pos
     if input_from_tick or Input.is_action_pressed(last_input):
         if last_input != "escape":
+
+            set_player_animation(last_input + "_walk")
+
             # code for standard movement.
 
             # move new_pos in the input direction.
@@ -81,16 +93,40 @@ func _new_tick() -> void:
                     new_pos = board_pos
         else:
             if GameManager.level >= GameManager.grv_file.escape_lvl:
+                # Setup animations
+                set_player_animation("escape_dest")
+
+                if escape_origin_anim:
+                    var speed = 1.0
+                    if sprite_frames.get_animation_loop("escape_origin"):
+                        speed = 0.15 / GameManager.game_clock.wait_time
+                    escape_origin_anim.play("escape_origin", speed)
+                    escape_origin_anim.show()
+                    escape_origin_anim.position = position
+
                 map_tile = map_tile.map.goodtile(MapTile.empty_tile)
                 board_pos = map_tile.xy
                 new_pos = board_pos
                 GameManager.dig(board_pos)
+            else:
+                set_player_animation("escape_fail")
+    else:
+        # Play idle animation
+        set_player_animation(last_input + "_idle")
     start_pos = board_pos
     goal_pos = new_pos
     map_tile = map_tile.map.move_player(goal_pos)
     if map_tile.item.type != Item.Type.PLAYER:
         map_tile.changetype(Item.Type.PLAYER)
     input_from_tick = false
+
+func set_player_animation(anim: StringName):
+    if sprite_frames.has_animation(anim):
+        if animation != anim or !sprite_frames.get_animation_loop(anim):
+            var speed = 1.0
+            if sprite_frames.get_animation_loop(anim):
+                speed = 0.15 / GameManager.game_clock.wait_time
+            play(anim, speed)
 
 func player_killed():
     GameManager.has_lost_level = true
