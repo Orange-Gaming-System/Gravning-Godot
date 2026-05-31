@@ -16,7 +16,7 @@ AutoExportVersion/version_config_file="res://version/autoversion.gd"
 
 [application]
 
-config/name="Gravning Godot A2"
+config/name="Grävning"
 run/main_scene="uid://hk5lwnpx01ec"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="uid://d2n8ayfjq3mgh"
