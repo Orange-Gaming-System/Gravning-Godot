@@ -32,6 +32,10 @@ func _on_settings_pressed() -> void:
 func _on_games_pressed() -> void:
     $tabs.current_tab = 2
 
+func _on_credits_button_pressed() -> void:
+    $tabs.current_tab = 3
+    $tabs/credits.scroll_vertical = 0
+
 
 # Settings Page
 
@@ -93,3 +97,12 @@ func update_games_list():
 
 func _on_open_editor_pressed() -> void:
     OS.create_process("grvedit", [])
+
+
+# Credits Page
+
+func _on_credits_text_meta_clicked(meta: Variant) -> void:
+    if meta == "back":
+        $tabs.current_tab = 0
+    else:
+        OS.shell_open(meta)
