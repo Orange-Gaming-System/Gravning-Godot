@@ -2,7 +2,8 @@
 mkdir -p builds
 touch builds/.gdignore
 
-name="$(sed -n -E -e 's/^config\/name="(.*)"$/\1/p' project.godot)"
+#name="$(sed -n -E -e 's/^config\/name="(.*)"$/\1/p' project.godot)"
+name="grv"
 
 rm -rf builds/web
 mkdir -p builds/web

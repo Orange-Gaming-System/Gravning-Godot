@@ -2,8 +2,6 @@
 
 Player Sprite:
     https://beowulf.itch.io/free-dungeon-explorer-16x16
-    Note - Not confirmed!
-
 Soft Wall Tileset:
     itch.io - https://adrian8w.itch.io/top-down-tileset
     license - https://creativecommons.org/licenses/by/4.0/
