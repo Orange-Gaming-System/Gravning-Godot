@@ -1,0 +1,8 @@
+[gd_resource type="AudioStreamSynchronized" format=3 uid="uid://dwwtcmvdau3as"]
+
+[ext_resource type="AudioStream" uid="uid://n1bfyxkuon2t" path="res://themes/default/sound/files/hyperspace_intro.mp3" id="1_b4i4v"]
+
+[resource]
+stream_count = 1
+stream_0/stream = ExtResource("1_b4i4v")
+stream_0/volume = 0.0

@@ -451,8 +451,19 @@ func super_bonus():
     gamescene.get_node("wait").start(WAIT_TIME_WRAPAROUND)
 
 func wraparound():
+    GameManager.grv_file = grvFile.new("res://levels/grv/grv.grv")
+    var hs_anim = preload("res://hyperspace_animation.tscn").instantiate()
+    hs_anim.levels = Array(range(grv_file.levelcount - 1, level, -1), Variant.Type.TYPE_INT, &"", null)
+    if hs_anim.levels == []:
+        hs_anim.levels.append(grv_file.levelcount - 1)
+    print(hs_anim.levels)
+    hs_anim.object_speed = -10
+    hs_anim.object_spawn = 0
+    hs_anim.object_destroy = -25
+    hs_anim.time = 12.7 / (5 / hs_anim.levels.size())
+
+    add_sibling(hs_anim)
     gamescene.queue_free()
-    prepare_game()
 
 func load_level():
     level_loaded = false
@@ -487,6 +498,7 @@ func load_level():
     fade_message = false
     gamescene.get_node("UI/message").text = ""
     ghost_modifier = GhostMod.NONE
+    queue = TimerItem.Queue.new()
     if level >= grv_file.levelcount - 1:
         jumpto = grv_file.levelcount
         reduce_jumpto(null)
@@ -506,7 +518,6 @@ func load_level():
             node.play(letter)
 
     game_clock.wait_time = (0.15*grv_file.levelcount)/(GameManager.level+grv_file.levelcount)
-    queue = TimerItem.Queue.new()
     var lvl_path = grv_file.get_level_path(level)
 
     if is_easter_egg_level:
@@ -554,7 +565,7 @@ func endscreen_timeout() -> void:
         if lives < 0:
             end_game()
         else:
-            level += hyper.count(true) + 1
+            level += 1
             level_streak += 1
             if jumpto > -1:
                 super_bonus()
@@ -562,6 +573,20 @@ func endscreen_timeout() -> void:
             for shot in ammo:
                 if randf() > 0.1:
                     ammo -= 1 # 10% chance to keep unused shots. (Really a 90% chance to lose each shot)
+            if hyper.has(true):
+                GameManager.grv_file = grvFile.new("res://levels/grv/grv.grv")
+                var hs_anim = preload("res://hyperspace_animation.tscn").instantiate()
+                hs_anim.levels = Array(range(level, level + hyper.count(true)), Variant.Type.TYPE_INT, &"", null)
+                print(hs_anim.levels)
+                hs_anim.object_speed = 10
+                hs_anim.object_spawn = -25
+                hs_anim.object_destroy = 0
+                hs_anim.time = 12.7 / (5 / hs_anim.levels.size())
+
+                level += hyper.count(true)
+                add_sibling(hs_anim)
+                gamescene.queue_free()
+                return
             load_level()
 
 func kill_endscreen() -> bool:
@@ -597,7 +622,7 @@ func _input(_event):
     if Input.is_action_just_pressed("skip_end_screen") and endscreen:
         gamescene.end_timer.stop()
         endscreen_timeout()
-    if Input.is_action_just_pressed("skip_end_screen") and is_wraparound:
+    if Input.is_action_just_pressed("skip_end_screen") and is_wraparound and gamescene:
         gamescene.get_node("wait").stop()
         wraparound()
 

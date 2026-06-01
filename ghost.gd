@@ -150,7 +150,7 @@ func _collided(area):
     if !is_dead:
         if area.get_parent() is Player:
             if GameManager.level + 1 < GameManager.grv_file.levelcount or GameManager.power < 3:
-                GameManager.has_lost_level = true
+                area.get_parent().collided_with_ghost()
             else:
                 GameManager.power -= 3
                 kill_ghost()

@@ -141,6 +141,9 @@ func bombed():
 func hit_by_bullet(_movement):
     player_killed()
 
+func collided_with_ghost():
+    player_killed()
+
 const smash_offset = 6
 const smash_pattern: Array[int] = [0, 2, 3, 4, 4, 5, 5, 5, 4, 4, 3, 2, 0]
 const big_smash_offset = 9

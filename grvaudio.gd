@@ -12,6 +12,9 @@ func load_sound_data(path: String):
     sound_data.title = load_sound_file(path, "title.tres")
     sound_data.title_intro = load_sound_file(path, "title_intro.tres")
     sound_data.score_counter = load_sound_file(path, "score_counter.tres")
+    sound_data.hs_start = load_sound_file(path, "hs_start.tres")
+    sound_data.hs_loop = load_sound_file(path, "hs_loop.tres")
+    sound_data.hs_end = load_sound_file(path, "hs_end.tres")
 
 func load_sound_file(folder: String, file: String) -> AudioStream:
     var full_path = folder + file
