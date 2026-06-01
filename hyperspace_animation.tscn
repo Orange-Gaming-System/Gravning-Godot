@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://5n0sf73girla" path="res://themes/default/hyperspace_texture.svg" id="1_g82lr"]
 [ext_resource type="Script" uid="uid://wpdlwo524ld1" path="res://hyperspace_animation.gd" id="1_njfhs"]
+[ext_resource type="Script" uid="uid://bosyfs04pxwa1" path="res://global_sound.gd" id="3_bqm6g"]
 [ext_resource type="Script" uid="uid://c81ay70qsislf" path="res://game_clock.gd" id="3_ciwid"]
 
 [sub_resource type="Environment" id="Environment_njfhs"]
@@ -41,14 +42,30 @@ mesh = SubResource("BoxMesh_bqm6g")
 
 [node name="obj_spawn_timer" type="Timer" parent="." unique_id=289409149]
 
-[node name="fake_game_clock" type="Timer" parent="." unique_id=487323936]
-script = ExtResource("3_ciwid")
-
 [node name="audio_start" type="AudioStreamPlayer" parent="." unique_id=1713445376]
 
 [node name="audio_loop" type="AudioStreamPlayer" parent="." unique_id=1690661464]
 
 [node name="audio_end" type="AudioStreamPlayer" parent="." unique_id=47562786]
+
+[node name="lvl_counter" type="Label" parent="." unique_id=1145181352]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -48.0
+offset_top = 32.0
+offset_right = 48.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 48
+text = "75"
+horizontal_alignment = 1
+
+[node name="fake_global_sound" type="AudioStreamPlayer" parent="." unique_id=502538018]
+script = ExtResource("3_bqm6g")
+
+[node name="fake_game_clock" type="Timer" parent="." unique_id=487323936]
+script = ExtResource("3_ciwid")
 
 [connection signal="timeout" from="obj_spawn_timer" to="." method="_on_obj_spawn_timer_timeout"]
 [connection signal="finished" from="audio_start" to="audio_loop" method="play"]

@@ -21,9 +21,16 @@ const blacklisted_objects = [Item.Type.PLAYER, Item.Type.EMPTY, Item.Type.WALL, 
 
 var last_level_grvmap: GrvMap = null
 
+## The number of objs needed to change the level counter.
+var level_counter_objs: int
+## The current index of the level counter.
+var level_counter_index: int
+## The number of objects since the last level counter change.
+var current_level_counter_obj_count: int
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-    GameManager.game_clock = $fake_game_clock
+    $fake_global_sound.volume_linear = 0
     objects = []
     levels.reverse()
     for level in levels:
@@ -37,6 +44,12 @@ func _ready() -> void:
         lvl_objs.shuffle()
         objects.append_array(lvl_objs)
     var spawn_rate = time / objects.size()
+
+    levels.reverse()
+    @warning_ignore("integer_division")
+    level_counter_objs = objects.size() / levels.size()
+    level_counter_index = 0
+    $lvl_counter.text = "Level: " + str(levels[0] + 1)
 
     # Setup Audio
 
@@ -56,6 +69,12 @@ func _ready() -> void:
 
 
 func _on_obj_spawn_timer_timeout() -> void:
+    current_level_counter_obj_count += 1
+    if current_level_counter_obj_count >= level_counter_objs:
+        if level_counter_index < levels.size() - 1:
+            level_counter_index += 1
+            $lvl_counter.text = "Level: " + str(levels[level_counter_index] + 1)
+        current_level_counter_obj_count = 0
     var object = objects.pop_back()
     if !object:
         object = last_level_grvmap.player

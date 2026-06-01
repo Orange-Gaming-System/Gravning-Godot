@@ -54,7 +54,8 @@ var lives: int = 3:
 var score: int = 0:
     set(value):
         score = value
-        gamescene.get_node("UI/score").text = str(score)
+        if gamescene:
+            gamescene.get_node("UI/score").text = str(score)
 
 ## The total amount of the player's score that has come from Super Bonuses.
 var super_bonus_total: int = 0
@@ -622,6 +623,7 @@ func _input(_event):
     if Input.is_action_just_pressed("skip_end_screen") and endscreen:
         gamescene.end_timer.stop()
         endscreen_timeout()
+        return
     if Input.is_action_just_pressed("skip_end_screen") and is_wraparound and gamescene:
         gamescene.get_node("wait").stop()
         wraparound()
