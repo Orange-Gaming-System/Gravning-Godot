@@ -70,10 +70,14 @@ func collect(forced: int = forced_sentinal):
             for bombpos in map_tile.map.items[Item.Type.BOMB]:
                 map_tile.map.items[Item.Type.BOMB][bombpos].node.instant_detonate(GameTime.now() + 4)
             GameManager.print_message("Treasure: Bomb detonation... OOPS!", 4)
+            GameManager.global_sound.stream = GameManager.audio.sound_data.bomb_detonation_countdown
+            GameManager.global_sound.play()
             break
         if myst < 1060:
             GameManager.print_message("Treasure: *** SMASH ***", 5)
             GameManager.queue.add(map_tile.map.player.node.smash, GameTime.now() + 5)
+            GameManager.global_sound.stream = GameManager.audio.sound_data.smash_countdown
+            GameManager.global_sound.play()
             break
         if myst < 1230:
             if GameManager.ghost_modifier == GameManager.GhostMod.SCARED:

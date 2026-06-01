@@ -1,0 +1,7 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://cytl0k7ykaox8"]
+
+[ext_resource type="AudioStream" uid="uid://dwaoayi2dp8uq" path="res://themes/default/sound/files/bomb_detonation_countdown.mp3" id="1_vtfws"]
+
+[resource]
+streams_count = 1
+stream_0/stream = ExtResource("1_vtfws")

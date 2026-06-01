@@ -49,3 +49,10 @@ func create_audio_player(sound_name: String) -> AudioStreamPlayer2D:
     audio.stream = GameManager.audio.sound_data[sound_name]
     add_child(audio)
     return audio
+
+## Makes an audio player stick around until it is done, even if this object is deleted.
+func separate_audio_player(player: AudioStreamPlayer2D):
+    remove_child(player)
+    add_sibling(player)
+    player.position = position
+    player.finished.connect(player.queue_free)

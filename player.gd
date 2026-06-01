@@ -16,6 +16,8 @@ var cheats: Dictionary[StringName, Callable] = {"instant_win": cheat_insta_win, 
 
 var bullet_dir: Dictionary[StringName, Vector2i] = {"shoot_left": Vector2i(-1, 0), "shoot_right": Vector2i(1, 0), "shoot_up": Vector2i(0, -1), "shoot_down": Vector2i(0, 1)}
 
+var smash_audio: AudioStreamPlayer2D
+
 func cheat_insta_win():
     GameManager.level += GameManager.hyper.count(true) + 1
     GameManager.level_streak += 1
@@ -29,6 +31,7 @@ func cheat_insta_win():
 
 func _ready():
     super._ready()
+    smash_audio = create_audio_player("bomb_explode")
     if sprite_frames.has_animation("escape_origin"):
         escape_origin_anim = DummyAnimPlayer.new()
         $"..".add_child(escape_origin_anim)
@@ -159,3 +162,4 @@ func smash(_timeritem):
     bomb.bomb_pattern = pattern
     bomb.pattern_offset = pattern_offset
     bomb.event(_timeritem, true)
+    smash_audio.play()

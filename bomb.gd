@@ -31,9 +31,6 @@ func event(_timeritem, smash = false):
         queue_free()
     else:
         map_tile.rmv_obj()
-        remove_child(explode_audio)
-        add_sibling(explode_audio)
-        explode_audio.position = position
-        explode_audio.finished.connect(explode_audio.queue_free)
+        separate_audio_player(explode_audio)
         explode_audio.play()
     return true
